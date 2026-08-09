@@ -163,6 +163,7 @@ def _status_icon(status: str, size: int = 14) -> QIcon:
     colors = {
         "healthy": "#23f5a9",
         "testing": "#36d3ff",
+        "retrying": "#fbbf24",
         "converting": "#a78bfa",
         "converted": "#67e8f9",
         "ready": "#67e8f9",
@@ -347,6 +348,7 @@ class MakerResultsModel(QAbstractTableModel):
             status_colors = {
                 "healthy": "#45f3b4",
                 "testing": "#62dcff",
+                "retrying": "#ffd166",
                 "converting": "#c4b5fd",
                 "failed": "#ff8798",
                 "invalid": "#ff8798",
@@ -387,14 +389,15 @@ class MakerResultsModel(QAbstractTableModel):
                 order = {
                     "healthy": 0,
                     "testing": 1,
-                    "converting": 2,
-                    "converted": 3,
-                    "ready": 3,
-                    "queued": 4,
-                    "skipped": 5,
-                    "invalid": 6,
-                    "failed": 7,
-                }
+                    "retrying": 2,
+                    "converting": 3,
+                    "converted": 4,
+                    "ready": 4,
+                    "queued": 5,
+                    "skipped": 6,
+                    "invalid": 7,
+                    "failed": 8,
+                    }
                 return order.get(result.status, 8)
             if column == MakerColumns.PING:
                 return result.ping_ms if result.ping_ms is not None else float("inf")
@@ -588,7 +591,11 @@ class MakerResultsModel(QAbstractTableModel):
             counts["total"] += 1
             if result.status == "healthy":
                 counts["healthy"] += 1
-            elif result.status in {"testing", "converting"}:
+            elif result.status in {
+                "testing",
+                "retrying",
+                "converting",
+            }:
                 counts["testing"] += 1
         return summary
 

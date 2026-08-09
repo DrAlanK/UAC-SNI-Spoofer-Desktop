@@ -3041,6 +3041,14 @@ class MainWindow(QMainWindow):
         self.assistant_warnings_toggle.toggled.connect(self._assistant_warnings_changed)
         self.assistant_replay_button.clicked.connect(self._replay_assistant_guide)
         self.bridge.log.connect(self._append_log); self.bridge.state.connect(self._set_state); self.bridge.traffic.connect(self._set_traffic); self.bridge.latency.connect(self._set_latency); self.bridge.target_latency.connect(self._target_latency_finished); self.bridge.maker_imported.connect(self._maker_import_finished); self.bridge.maker_batch.connect(self._maker_test_batch); self.bridge.maker_done.connect(self._maker_test_done); self.bridge.maker_failed.connect(self._maker_failed); self.bridge.scan_progress.connect(self._scan_progress); self.bridge.scan_done.connect(self._scan_done); self.bridge.scan_failed.connect(self._scan_failed); self.bridge.error.connect(self._handle_error); self.bridge.profiles_changed.connect(self.refresh_profiles); self.bridge.profile_pings_done.connect(self._profile_pings_finished); self.bridge.ip.connect(self._ip_checked); self.bridge.hint.connect(self.connection_hint.setText); self.bridge.activity.connect(self.activity_bar.set_activity); self.bridge.processes.connect(self._populate_processes); self.bridge.update_checked.connect(self._update_checked); self.bridge.update_failed.connect(self._update_failed); self.bridge.proxy_mode_applied.connect(self._proxy_mode_apply_finished); self.bridge.tun_mode_applied.connect(self._tun_mode_apply_finished); self.bridge.gateway_mode_applied.connect(self._gateway_mode_apply_finished); self.bridge.gateway_runtime_state.connect(self._gateway_runtime_state_changed); self.bridge.gateway_devices_changed.connect(self._gateway_devices_updated); self.bridge.gateway_device_names_changed.connect(self._gateway_device_names_updated)
+        self._traffic_interface = None
+        self._traffic_base_up = None
+        self._traffic_base_down = None
+
+        self._traffic_timer = QTimer(self)
+        self._traffic_timer.setInterval(500)
+        self._traffic_timer.timeout.connect(self._poll_windows_traffic)
+        self._traffic_timer.start()   
         self.connect_button.clicked.connect(self.toggle_connection); self.add_btn.clicked.connect(self.add_profile); self.clear_user_btn.clicked.connect(self.delete_all_user_configs); self.clip_btn.clicked.connect(self.import_clipboard); self.sync_btn.clicked.connect(self.sync_profiles); self.scan_button.clicked.connect(self.toggle_scan); self.bookmark_btn.clicked.connect(self.bookmark_selected); self.apply_sni_btn.clicked.connect(self.apply_selected_sni); self.apply_all_sni_btn.clicked.connect(self.apply_sni_to_all_suggested); self.undo_apply_btn.clicked.connect(self.undo_sni_apply); self.copy_result_btn.clicked.connect(self.copy_selected_result); self.carrier.currentTextChanged.connect(self._carrier_changed); self.country_combo.activated.connect(self._country_activated); self.auto_mode.toggled.connect(self._auto_mode_changed); self.pick_best.toggled.connect(lambda v: self._save_flag("pick_best", v)); self.proxy_mode.toggled.connect(self._proxy_mode_changed); self.tun_mode.toggled.connect(self._tun_mode_changed); self.gateway_mode.toggled.connect(self._gateway_mode_changed)
         self.scan_tabs.currentChanged.connect(self._update_scan_selection)
         self.route_source_tabs.currentChanged.connect(self._route_source_changed)
@@ -4553,27 +4561,32 @@ class MainWindow(QMainWindow):
 
     def _gateway_mode_changed(self, enabled):
         enabled = bool(enabled)
+
         if not enabled:
             self._reset_gateway_mode(reason="user", stop=True)
             return
         self._gateway_requested = True
         self._cancel_gateway_apply()
+        self._set_gateway_toggle(True)
         self._sync_gateway_controls()
-        if (self.engine.running and getattr(self, "_ui_running", False)
-                and not self.connecting):
-            self._queue_gateway_mode_apply(True, reason="user")
+
+        if (
+            self.engine.running
+            and getattr(self, "_ui_running", False)
+            and not self.connecting
+        ):
+            self._queue_gateway_mode_apply(
+                True,
+                reason="user",
+            )
             return
+
         self._set_activity(
-            "درگاه موبایل درخواست شد؛ ابتدا اتصال امن بررسی می‌شود…",
-            "Mobile Gateway requested; verifying the secure connection first…",
+            "درگاه موبایل آماده است؛ منتظر اتصال VPN…",
+            "Mobile Gateway is armed; waiting for VPN connection…",
+            "warning",
+            False,
         )
-        if not self.connecting:
-            self.toggle_connection()
-            if (not self.connecting
-                    and not getattr(self, "_ui_running", False)):
-                self._reset_gateway_mode(
-                    reason="connection-failed", stop=True
-                )
 
     def _gateway_mode_apply_finished(self, enabled, success, error,
                                      generation=None, run_id=None):
@@ -4610,12 +4623,23 @@ class MainWindow(QMainWindow):
             return
         if success or not active:
             self._sync_gateway_controls()
-            if reason == "user" and getattr(self, "_ui_running", False):
-                self._set_activity(
-                    "درگاه موبایل خاموش شد؛ اتصال ویندوز فعال ماند.",
-                    "Mobile Gateway disabled; the Windows connection stayed active.",
-                    "success", False,
-                )
+
+            if reason == "user":
+                if getattr(self, "_ui_running", False):
+                    self._set_activity(
+                        "درگاه موبایل خاموش شد؛ اتصال VPN فعال ماند.",
+                        "Mobile Gateway disabled; the VPN connection stayed active.",
+                        "success",
+                        False,
+                    )
+                else:
+                    self._set_activity(
+                        "درگاه موبایل خاموش شد.",
+                        "Mobile Gateway disabled.",
+                        "success",
+                        False,
+                    )
+
             return
         if reason == "user":
             self._gateway_requested = True
@@ -5836,31 +5860,62 @@ class MainWindow(QMainWindow):
                     "label": profile.name,
                     "error": f"{result.exit_ip} · {result.source}",
                 })
+            elif result.carrier_mode or result.strategy:
+
+                attempt = "/".join(
+                    value
+                    for value in (
+                        result.carrier_mode,
+                        result.strategy,
+                    )
+                    if value
+                )
+
+                updates.append({
+                    "key": key,
+                    "status": "retrying",
+                    "country_code": "XX",
+                    "ping_ms": None,
+                    "error": (
+                        f"{attempt}: "
+                        f"{result.error or 'route failed'}"
+                    ),
+                })
+
             else:
+
                 profile.last_ping_ok = False
                 profile.last_ping_ms = 0.0
                 profile.verified_spoof = False
                 profile.verified_route = False
+
                 profile.country_code = ""
                 profile.observed_country_code = ""
                 profile.observed_country_name = ""
                 profile.observed_exit_ip = ""
                 profile.country_verified_at = 0.0
                 profile.country_source = ""
+
                 route_label = (
                     "Reality"
-                    if profile.route_mode == "reality-direct" else "SNI"
+                    if profile.route_mode == "reality-direct"
+                    else "SNI"
                 )
+
                 profile.name = (
                     f"{self._maker_base_names.get(key, profile.name)}"
                     f" · {route_label}"
                 )
+
                 updates.append({
                     "key": key,
                     "status": "failed",
                     "country_code": "XX",
                     "ping_ms": None,
-                    "error": result.error or "Live route test failed",
+                    "error": (
+                        result.error
+                        or "All route modes failed"
+                    ),
                 })
         self.maker_model.update_batch(updates)
         self.maker_progress.setValue(done)
@@ -7679,8 +7734,81 @@ class MainWindow(QMainWindow):
             if was_running: self._set_activity("تونل متوقف و پروکسی سیستم بازگردانی شد.", "Tunnel stopped and system proxy restored.", "success", False)
         QTimer.singleShot(0, self._queue_target_latency_probe)
 
-    def _set_traffic(self, up, down): self.up_label.setText(format_bytes(up)); self.down_label.setText(format_bytes(down))
+    def _set_traffic(self, up, down):
+        pass
 
+    ####################
+    def _windows_traffic_counters(self):
+        """Return traffic counters for the interface Windows is currently routing through."""
+        try:
+            # UDP connect does not actually send data
+            probe = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+            try:
+                probe.connect(("8.8.8.8", 53))
+                local_ip = probe.getsockname()[0]
+            finally:
+                probe.close()
+
+            per_nic = psutil.net_io_counters(pernic=True)
+
+            for interface_name, addresses in psutil.net_if_addrs().items():
+                for address in addresses:
+                    if (
+                        address.family == socket.AF_INET
+                        and address.address == local_ip
+                    ):
+                        counters = per_nic.get(interface_name)
+                        if counters is not None:
+                            return (
+                                interface_name,
+                                counters.bytes_sent,
+                                counters.bytes_recv,
+                            )
+
+            # Fallback
+            counters = psutil.net_io_counters()
+            return (
+                "__all__",
+                counters.bytes_sent,
+                counters.bytes_recv,
+            )
+
+        except Exception:
+            return None
+    def _poll_windows_traffic(self):
+   
+        if not self.engine.running:
+            self._traffic_interface = None
+            self._traffic_base_up = None
+            self._traffic_base_down = None
+
+            self.up_label.setText("0 B")
+            self.down_label.setText("0 B")
+            return
+
+        counters = self._windows_traffic_counters()
+        if counters is None:
+            return
+
+        interface_name, sent, received = counters
+
+
+        if (
+            self._traffic_interface != interface_name
+            or self._traffic_base_up is None
+            or self._traffic_base_down is None
+        ):
+            self._traffic_interface = interface_name
+            self._traffic_base_up = sent
+            self._traffic_base_down = received
+            return
+
+        upload = max(0, sent - self._traffic_base_up)
+        download = max(0, received - self._traffic_base_down)
+
+        self.up_label.setText(format_bytes(upload))
+        self.down_label.setText(format_bytes(download))
+    ####################
     def _set_latency(self, milliseconds, source="tunnel"):
         if source == "testing":
             self.ping_label.setText("…")

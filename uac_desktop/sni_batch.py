@@ -346,17 +346,43 @@ class SniBatchTester:
             def mode_progress(
                     mode_batch, mode_done, mode_total, index=plan_index,
                     mode_carrier=carrier, mode_strategy=strategy):
-                phase = min(1.0, max(0.0, mode_done / max(1, mode_total)))
+
+                phase = min(
+                    1.0,
+                    max(0.0, mode_done / max(1, mode_total))
+                )
+
                 overall = ((index + phase) / len(plans)) * total
-                live_healthy = []
+
+                live_updates = []
+
                 for result in mode_batch:
                     profile_id = id(result.profile)
-                    if not result.ok or profile_id in live_emitted:
+
+                    
+                    if profile_id in live_emitted:
                         continue
-                    prepare_healthy(result, mode_carrier, mode_strategy)
-                    live_emitted.add(profile_id)
-                    live_healthy.append(result)
-                emit_progress(live_healthy, overall)
+
+                    
+                    result.carrier_mode = mode_carrier
+                    result.strategy = mode_strategy
+
+                    if result.ok:
+                        prepare_healthy(
+                            result,
+                            mode_carrier,
+                            mode_strategy,
+                        )
+
+                        live_emitted.add(profile_id)
+
+                    
+                    live_updates.append(result)
+
+                emit_progress(
+                    live_updates,
+                    overall,
+                )
 
             try:
                 mode_results = self.run(
