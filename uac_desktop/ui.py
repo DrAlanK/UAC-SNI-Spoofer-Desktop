@@ -81,7 +81,7 @@ from .verified_configs import COUNTRIES, VERIFIED_SPOOF_EDGE, VERIFIED_SPOOF_FAK
 
 
 DEFAULT_UPDATE_REPO_URL = UPDATE_REPOSITORY_URL
-DEFAULT_SNI_MAKER_URL = "https://mifa.world/vless"
+DEFAULT_SNI_MAKER_URL = "https://gitverse.ru/api/repos/flaafix/AetrisVPN_Black_list/raw/branch/master/configs.txt"
 LEGACY_SNI_MAKER_URLS = frozenset({
     "https://raw.githubusercontent.com/Delta-Kronecker/Sub/refs/heads/main/config/sni/all_configs_sni.txt",
 })

@@ -72,8 +72,8 @@ target="_blank">
 مراحل اجرا:
 
 1. فایل زیر را از بخش GitHub Releases دانلود کنید:
-<a href="https://github.com/Floxu1/UAC-SNI-Spoofer-Windows/releases/download/1.0.7/UAC-Spoofer-Desktop-v1.0.7-Windows-x64-portable.zip" target="_blank">
-UAC-Spoofer-Desktop-v1.0.7-Windows-x64-portable.zip
+<a href="https://github.com/Floxu1/UAC-SNI-Spoofer-Windows/releases/download/1.0.8/UAC-Spoofer-Desktop-v1.0.8-Windows-x64-portable.zip" target="_blank">
+UAC-Spoofer-Desktop-v1.0.8-Windows-x64-portable.zip
 </a>
 
 

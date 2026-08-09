@@ -21,7 +21,7 @@ from .network import GeoLocation, profile_ping
 from .verified_configs import COUNTRIES, VERIFIED_SPOOF_EDGE, VERIFIED_SPOOF_FAKE_SNI
 
 
-DEFAULT_REPOSITORY_URL = "https://mifa.world/vless"
+DEFAULT_REPOSITORY_URL = "https://gitverse.ru/api/repos/flaafix/AetrisVPN_Black_list/raw/branch/master/configs.txt"
 SUPPORTED_PROTOCOLS = frozenset({"vless", "trojan"})
 KNOWN_UNSUPPORTED_PROTOCOLS = frozenset(
     {"ss", "ssr", "hysteria", "hysteria2", "hy2", "tuic", "wireguard"}

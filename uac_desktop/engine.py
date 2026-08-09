@@ -909,9 +909,9 @@ def build_xray_config(profile: ProxyProfile, bypass_processes: list[str] | None 
                 "type": "fragment",
                 "settings": {
                     "packets": "tlshello",
-                    "lengths": ["5"],
-                    "delays": ["0"],
-                    "maxSplit": "2",
+                    "length": "5-5",
+                    "delay": "0-0",
+                    "maxSplit": "2-2",
                 },
             }]
         }
