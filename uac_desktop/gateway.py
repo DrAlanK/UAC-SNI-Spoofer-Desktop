@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-import base64
+
 import concurrent.futures
 import ctypes
 import inspect
@@ -93,16 +93,20 @@ def _json_rows(value: str) -> list[dict[str, Any]]:
     return []
 
 
-def _encoded_payload(value: dict[str, Any]) -> str:
-    raw = json.dumps(value, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
-    return base64.b64encode(raw).decode("ascii")
-
-
 def _payload_script(value: dict[str, Any], body: str) -> str:
-    encoded = _encoded_payload(value)
+    raw = json.dumps(
+        value,
+        ensure_ascii=False,
+        separators=(",", ":"),
+    )
+
+    # Safe PowerShell single-quoted literal.
+    # A single quote inside a PowerShell single-quoted string is escaped as ''.
+    escaped = raw.replace("'", "''")
+
     return (
         "$ErrorActionPreference='Stop';"
-        f"$raw=[Text.Encoding]::UTF8.GetString([Convert]::FromBase64String('{encoded}'));"
+        f"$raw='{escaped}';"
         "$payload=$raw|ConvertFrom-Json;"
         + body
     )
@@ -149,13 +153,11 @@ class PowerShellRunner:
             creationflags = subprocess.CREATE_NO_WINDOW
         result = subprocess.run(
             [
-                "powershell.exe",
-                "-NoProfile",
-                "-NonInteractive",
-                "-ExecutionPolicy",
-                "Bypass",
-                "-Command",
-                script,
+            "powershell.exe",
+            "-NoProfile",
+            "-NonInteractive",
+            "-Command",
+            script,
             ],
             capture_output=True,
             text=True,

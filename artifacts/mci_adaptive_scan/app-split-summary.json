@@ -1,0 +1,2319 @@
+{
+  "attempts": 80,
+  "workers": 8,
+  "duration_s": 78.48,
+  "railway_used": false,
+  "winners": [],
+  "results": [
+    {
+      "profile": "uacSpoofer 1",
+      "edge": "104.19.230.21",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "app_cut": 1,
+      "app_delay_ms": 1,
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 4507.6,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=4.5)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:03:59.153308 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-1-0.json Format:json}\n2026/08/01 21:03:59.155384 [Warning] common/errors: The feature WebSocket transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:03:59.155384 [Warning] common/errors: This feature \"host\" in \"headers\" is deprecated, will be removed soon and being migrated to independent \"host\". Please update your config(s) according to release note and documentation before removal.\n2026/08/01 21:03:59.155384 [Warning] common/errors: The feature Trojan (with no Flow, etc.) is deprecated, not recommended for using and might be removed. Please migrate to VLESS with Flow & Seed as soon as possible.\n2026/08/01 21:03:59.156935 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:03:59.319988 from 127.0.0.1:52681 accepted //www.gstatic.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.19.230.21",
+      "duration_ms": 5855.6,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43043 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.19.230.21",
+        "PATTERN EDGE active 104.19.230.21:443 mode=full20"
+      ],
+      "worker_exit": 2
+    },
+    {
+      "profile": "uacSpoofer 1",
+      "edge": "104.19.230.21",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "app_cut": 1,
+      "app_delay_ms": 8,
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 4507.4,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=4.5)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:03:59.152786 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-1-2.json Format:json}\n2026/08/01 21:03:59.163165 [Warning] common/errors: The feature WebSocket transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:03:59.163165 [Warning] common/errors: This feature \"host\" in \"headers\" is deprecated, will be removed soon and being migrated to independent \"host\". Please update your config(s) according to release note and documentation before removal.\n2026/08/01 21:03:59.163165 [Warning] common/errors: The feature Trojan (with no Flow, etc.) is deprecated, not recommended for using and might be removed. Please migrate to VLESS with Flow & Seed as soon as possible.\n2026/08/01 21:03:59.164717 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:03:59.319988 from 127.0.0.1:52683 accepted //www.gstatic.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.19.230.21",
+      "duration_ms": 5352.6,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43045 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.19.230.21",
+        "PATTERN EDGE active 104.19.230.21:443 mode=full20"
+      ],
+      "worker_exit": 2
+    },
+    {
+      "profile": "uacSpoofer 1",
+      "edge": "104.19.230.21",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "app_cut": 5,
+      "app_delay_ms": 1,
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 4522.9,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=4.5)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:03:59.153830 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-1-4.json Format:json}\n2026/08/01 21:03:59.164717 [Warning] common/errors: The feature WebSocket transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:03:59.164717 [Warning] common/errors: This feature \"host\" in \"headers\" is deprecated, will be removed soon and being migrated to independent \"host\". Please update your config(s) according to release note and documentation before removal.\n2026/08/01 21:03:59.164717 [Warning] common/errors: The feature Trojan (with no Flow, etc.) is deprecated, not recommended for using and might be removed. Please migrate to VLESS with Flow & Seed as soon as possible.\n2026/08/01 21:03:59.166290 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:03:59.337867 from 127.0.0.1:52682 accepted //www.gstatic.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.19.230.21",
+      "duration_ms": 5870.6,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43047 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.19.230.21",
+        "PATTERN EDGE active 104.19.230.21:443 mode=full20"
+      ],
+      "worker_exit": 2
+    },
+    {
+      "profile": "uacSpoofer 1",
+      "edge": "104.19.230.21",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "app_cut": 1,
+      "app_delay_ms": 15,
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 4509.2,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=4.5)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:03:59.707987 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-1-3.json Format:json}\n2026/08/01 21:03:59.717874 [Warning] common/errors: The feature WebSocket transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:03:59.717874 [Warning] common/errors: This feature \"host\" in \"headers\" is deprecated, will be removed soon and being migrated to independent \"host\". Please update your config(s) according to release note and documentation before removal.\n2026/08/01 21:03:59.717874 [Warning] common/errors: The feature Trojan (with no Flow, etc.) is deprecated, not recommended for using and might be removed. Please migrate to VLESS with Flow & Seed as soon as possible.\n2026/08/01 21:03:59.718900 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:03:59.878566 from 127.0.0.1:52712 accepted //www.gstatic.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.19.230.21",
+      "duration_ms": 4720.2,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43046 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.19.230.21",
+        "PATTERN EDGE active 104.19.230.21:443 mode=full20"
+      ],
+      "worker_exit": 2
+    },
+    {
+      "profile": "uacSpoofer 1",
+      "edge": "104.19.230.21",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "app_cut": 5,
+      "app_delay_ms": 15,
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 4508.3,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=4.5)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:03:59.719930 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-1-7.json Format:json}\n2026/08/01 21:03:59.729228 [Warning] common/errors: The feature WebSocket transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:03:59.729228 [Warning] common/errors: This feature \"host\" in \"headers\" is deprecated, will be removed soon and being migrated to independent \"host\". Please update your config(s) according to release note and documentation before removal.\n2026/08/01 21:03:59.729228 [Warning] common/errors: The feature Trojan (with no Flow, etc.) is deprecated, not recommended for using and might be removed. Please migrate to VLESS with Flow & Seed as soon as possible.\n2026/08/01 21:03:59.730773 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:03:59.895120 from 127.0.0.1:52719 accepted //www.gstatic.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.19.230.21",
+      "duration_ms": 4721.0,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43050 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.19.230.21",
+        "PATTERN EDGE active 104.19.230.21:443 mode=full20"
+      ],
+      "worker_exit": 2
+    },
+    {
+      "profile": "uacSpoofer 1",
+      "edge": "104.19.230.21",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "app_cut": 5,
+      "app_delay_ms": 3,
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 4517.6,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=4.5)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:03:59.719930 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-1-5.json Format:json}\n2026/08/01 21:03:59.729228 [Warning] common/errors: The feature WebSocket transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:03:59.729228 [Warning] common/errors: This feature \"host\" in \"headers\" is deprecated, will be removed soon and being migrated to independent \"host\". Please update your config(s) according to release note and documentation before removal.\n2026/08/01 21:03:59.729228 [Warning] common/errors: The feature Trojan (with no Flow, etc.) is deprecated, not recommended for using and might be removed. Please migrate to VLESS with Flow & Seed as soon as possible.\n2026/08/01 21:03:59.730773 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:03:59.930513 from 127.0.0.1:52724 accepted //www.gstatic.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.19.230.21",
+      "duration_ms": 4753.4,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43048 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.19.230.21",
+        "PATTERN EDGE active 104.19.230.21:443 mode=full20"
+      ],
+      "worker_exit": 2
+    },
+    {
+      "profile": "uacSpoofer 1",
+      "edge": "104.19.230.21",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "app_cut": 1,
+      "app_delay_ms": 3,
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 4501.9,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=4.5)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:03:59.710566 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-1-1.json Format:json}\n2026/08/01 21:03:59.720444 [Warning] common/errors: The feature WebSocket transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:03:59.720960 [Warning] common/errors: This feature \"host\" in \"headers\" is deprecated, will be removed soon and being migrated to independent \"host\". Please update your config(s) according to release note and documentation before removal.\n2026/08/01 21:03:59.720960 [Warning] common/errors: The feature Trojan (with no Flow, etc.) is deprecated, not recommended for using and might be removed. Please migrate to VLESS with Flow & Seed as soon as possible.\n2026/08/01 21:03:59.721989 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:03:59.917126 from 127.0.0.1:52722 accepted //www.gstatic.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.19.230.21",
+      "duration_ms": 4752.0,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43044 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.19.230.21",
+        "PATTERN EDGE active 104.19.230.21:443 mode=full20"
+      ],
+      "worker_exit": 2
+    },
+    {
+      "profile": "uacSpoofer 1",
+      "edge": "104.19.230.21",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "app_cut": 5,
+      "app_delay_ms": 8,
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 4501.9,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=4.5)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:03:59.723023 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-1-6.json Format:json}\n2026/08/01 21:03:59.732313 [Warning] common/errors: The feature WebSocket transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:03:59.732313 [Warning] common/errors: This feature \"host\" in \"headers\" is deprecated, will be removed soon and being migrated to independent \"host\". Please update your config(s) according to release note and documentation before removal.\n2026/08/01 21:03:59.732313 [Warning] common/errors: The feature Trojan (with no Flow, etc.) is deprecated, not recommended for using and might be removed. Please migrate to VLESS with Flow & Seed as soon as possible.\n2026/08/01 21:03:59.733845 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:03:59.917126 from 127.0.0.1:52723 accepted //www.gstatic.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.19.230.21",
+      "duration_ms": 4735.0,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43049 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.19.230.21",
+        "PATTERN EDGE active 104.19.230.21:443 mode=full20"
+      ],
+      "worker_exit": 2
+    },
+    {
+      "profile": "uacSpoofer 1",
+      "edge": "104.19.230.21",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "app_cut": 17,
+      "app_delay_ms": 3,
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 4504.7,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=4.5)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:04:04.349246 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-1-9.json Format:json}\n2026/08/01 21:04:04.357915 [Warning] common/errors: The feature WebSocket transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:04:04.357915 [Warning] common/errors: This feature \"host\" in \"headers\" is deprecated, will be removed soon and being migrated to independent \"host\". Please update your config(s) according to release note and documentation before removal.\n2026/08/01 21:04:04.357915 [Warning] common/errors: The feature Trojan (with no Flow, etc.) is deprecated, not recommended for using and might be removed. Please migrate to VLESS with Flow & Seed as soon as possible.\n2026/08/01 21:04:04.359452 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:04:04.557855 from 127.0.0.1:52779 accepted //www.gstatic.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.19.230.21",
+      "duration_ms": 4747.2,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43052 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.19.230.21",
+        "PATTERN EDGE active 104.19.230.21:443 mode=full20"
+      ],
+      "worker_exit": 2
+    },
+    {
+      "profile": "uacSpoofer 1",
+      "edge": "104.19.230.21",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "app_cut": 17,
+      "app_delay_ms": 8,
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 4520.8,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=4.5)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:04:04.353314 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-1-10.json Format:json}\n2026/08/01 21:04:04.362023 [Warning] common/errors: The feature WebSocket transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:04:04.362023 [Warning] common/errors: This feature \"host\" in \"headers\" is deprecated, will be removed soon and being migrated to independent \"host\". Please update your config(s) according to release note and documentation before removal.\n2026/08/01 21:04:04.362023 [Warning] common/errors: The feature Trojan (with no Flow, etc.) is deprecated, not recommended for using and might be removed. Please migrate to VLESS with Flow & Seed as soon as possible.\n2026/08/01 21:04:04.363069 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:04:04.572799 from 127.0.0.1:52777 accepted //www.gstatic.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.19.230.21",
+      "duration_ms": 4759.1,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43053 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.19.230.21",
+        "PATTERN EDGE active 104.19.230.21:443 mode=full20"
+      ],
+      "worker_exit": 2
+    },
+    {
+      "profile": "uacSpoofer 1",
+      "edge": "104.19.230.21",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "app_cut": 17,
+      "app_delay_ms": 1,
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 4520.7,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=4.5)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:04:04.349246 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-1-8.json Format:json}\n2026/08/01 21:04:04.357915 [Warning] common/errors: The feature WebSocket transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:04:04.357915 [Warning] common/errors: This feature \"host\" in \"headers\" is deprecated, will be removed soon and being migrated to independent \"host\". Please update your config(s) according to release note and documentation before removal.\n2026/08/01 21:04:04.357915 [Warning] common/errors: The feature Trojan (with no Flow, etc.) is deprecated, not recommended for using and might be removed. Please migrate to VLESS with Flow & Seed as soon as possible.\n2026/08/01 21:04:04.359452 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:04:04.572799 from 127.0.0.1:52778 accepted //www.gstatic.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.19.230.21",
+      "duration_ms": 4768.2,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43051 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.19.230.21",
+        "PATTERN EDGE active 104.19.230.21:443 mode=full20"
+      ],
+      "worker_exit": 2
+    },
+    {
+      "profile": "uacSpoofer 1",
+      "edge": "104.19.230.21",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "app_cut": 17,
+      "app_delay_ms": 15,
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 4511.4,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=4.5)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:04:07.173750 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-1-11.json Format:json}\n2026/08/01 21:04:07.184024 [Warning] common/errors: The feature WebSocket transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:04:07.184024 [Warning] common/errors: This feature \"host\" in \"headers\" is deprecated, will be removed soon and being migrated to independent \"host\". Please update your config(s) according to release note and documentation before removal.\n2026/08/01 21:04:07.184024 [Warning] common/errors: The feature Trojan (with no Flow, etc.) is deprecated, not recommended for using and might be removed. Please migrate to VLESS with Flow & Seed as soon as possible.\n2026/08/01 21:04:07.185041 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:04:07.260572 from 127.0.0.1:52839 accepted //www.gstatic.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.19.230.21",
+      "duration_ms": 7763.5,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43054 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.19.230.21",
+        "PATTERN EDGE active 104.19.230.21:443 mode=full20"
+      ],
+      "worker_exit": 2
+    },
+    {
+      "profile": "uacSpoofer 1",
+      "edge": "104.19.230.21",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "app_cut": 37,
+      "app_delay_ms": 1,
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 4532.9,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=4.5)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:04:07.727045 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-1-12.json Format:json}\n2026/08/01 21:04:07.734696 [Warning] common/errors: The feature WebSocket transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:04:07.734696 [Warning] common/errors: This feature \"host\" in \"headers\" is deprecated, will be removed soon and being migrated to independent \"host\". Please update your config(s) according to release note and documentation before removal.\n2026/08/01 21:04:07.734696 [Warning] common/errors: The feature Trojan (with no Flow, etc.) is deprecated, not recommended for using and might be removed. Please migrate to VLESS with Flow & Seed as soon as possible.\n2026/08/01 21:04:07.736322 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:04:07.803915 from 127.0.0.1:52859 accepted //www.gstatic.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.19.230.21",
+      "duration_ms": 8699.4,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43055 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.19.230.21",
+        "PATTERN EDGE active 104.19.230.21:443 mode=full20"
+      ],
+      "worker_exit": 2
+    },
+    {
+      "profile": "uacSpoofer 1",
+      "edge": "104.19.230.21",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "app_cut": 37,
+      "app_delay_ms": 15,
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 4503.9,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=4.5)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:04:08.285388 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-1-15.json Format:json}\n2026/08/01 21:04:08.293536 [Warning] common/errors: The feature WebSocket transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:04:08.293536 [Warning] common/errors: This feature \"host\" in \"headers\" is deprecated, will be removed soon and being migrated to independent \"host\". Please update your config(s) according to release note and documentation before removal.\n2026/08/01 21:04:08.294185 [Warning] common/errors: The feature Trojan (with no Flow, etc.) is deprecated, not recommended for using and might be removed. Please migrate to VLESS with Flow & Seed as soon as possible.\n2026/08/01 21:04:08.295202 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:04:08.373741 from 127.0.0.1:52876 accepted //www.gstatic.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.19.230.21",
+      "duration_ms": 8554.2,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43058 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.19.230.21",
+        "PATTERN EDGE active 104.19.230.21:443 mode=full20"
+      ],
+      "worker_exit": 2
+    },
+    {
+      "profile": "uacSpoofer 1",
+      "edge": "104.19.230.21",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "app_cut": 37,
+      "app_delay_ms": 3,
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 4502.8,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=4.5)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:04:08.566473 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-1-13.json Format:json}\n2026/08/01 21:04:08.577047 [Warning] common/errors: The feature WebSocket transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:04:08.577047 [Warning] common/errors: This feature \"host\" in \"headers\" is deprecated, will be removed soon and being migrated to independent \"host\". Please update your config(s) according to release note and documentation before removal.\n2026/08/01 21:04:08.577047 [Warning] common/errors: The feature Trojan (with no Flow, etc.) is deprecated, not recommended for using and might be removed. Please migrate to VLESS with Flow & Seed as soon as possible.\n2026/08/01 21:04:08.578092 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:04:08.638689 from 127.0.0.1:52883 accepted //www.gstatic.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.19.230.21",
+      "duration_ms": 7919.9,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43056 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.19.230.21",
+        "PATTERN EDGE active 104.19.230.21:443 mode=full20"
+      ],
+      "worker_exit": 2
+    },
+    {
+      "profile": "uacSpoofer 1",
+      "edge": "104.19.230.21",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "app_cut": 37,
+      "app_delay_ms": 8,
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 4502.3,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=4.5)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:04:08.014613 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-1-14.json Format:json}\n2026/08/01 21:04:08.037705 [Warning] common/errors: The feature WebSocket transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:04:08.038214 [Warning] common/errors: This feature \"host\" in \"headers\" is deprecated, will be removed soon and being migrated to independent \"host\". Please update your config(s) according to release note and documentation before removal.\n2026/08/01 21:04:08.038214 [Warning] common/errors: The feature Trojan (with no Flow, etc.) is deprecated, not recommended for using and might be removed. Please migrate to VLESS with Flow & Seed as soon as possible.\n2026/08/01 21:04:08.039231 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:04:08.079746 from 127.0.0.1:52870 accepted //www.gstatic.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.19.230.21",
+      "duration_ms": 9062.8,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43057 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.19.230.21",
+        "PATTERN EDGE active 104.19.230.21:443 mode=full20"
+      ],
+      "worker_exit": 2
+    },
+    {
+      "profile": "uacSpoofer 1",
+      "edge": "104.19.230.21",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "app_cut": 73,
+      "app_delay_ms": 1,
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 4505.6,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=4.5)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:04:12.981093 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-1-16.json Format:json}\n2026/08/01 21:04:12.990850 [Warning] common/errors: The feature WebSocket transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:04:12.990850 [Warning] common/errors: This feature \"host\" in \"headers\" is deprecated, will be removed soon and being migrated to independent \"host\". Please update your config(s) according to release note and documentation before removal.\n2026/08/01 21:04:12.990850 [Warning] common/errors: The feature Trojan (with no Flow, etc.) is deprecated, not recommended for using and might be removed. Please migrate to VLESS with Flow & Seed as soon as possible.\n2026/08/01 21:04:12.991905 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:04:13.204706 from 127.0.0.1:52939 accepted //www.gstatic.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.19.230.21",
+      "duration_ms": 8240.3,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43059 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.19.230.21",
+        "PATTERN EDGE active 104.19.230.21:443 mode=full20"
+      ],
+      "worker_exit": 2
+    },
+    {
+      "profile": "uacSpoofer 1",
+      "edge": "104.19.230.21",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "app_cut": 73,
+      "app_delay_ms": 3,
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 4511.5,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=4.5)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:04:13.354210 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-1-17.json Format:json}\n2026/08/01 21:04:13.362452 [Warning] common/errors: The feature WebSocket transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:04:13.362452 [Warning] common/errors: This feature \"host\" in \"headers\" is deprecated, will be removed soon and being migrated to independent \"host\". Please update your config(s) according to release note and documentation before removal.\n2026/08/01 21:04:13.362452 [Warning] common/errors: The feature Trojan (with no Flow, etc.) is deprecated, not recommended for using and might be removed. Please migrate to VLESS with Flow & Seed as soon as possible.\n2026/08/01 21:04:13.363467 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:04:13.385621 from 127.0.0.1:52944 accepted //www.gstatic.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.19.230.21",
+      "duration_ms": 7813.3,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43060 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.19.230.21",
+        "PATTERN EDGE active 104.19.230.21:443 mode=full20"
+      ],
+      "worker_exit": 2
+    },
+    {
+      "profile": "uacSpoofer 1",
+      "edge": "104.19.230.21",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "app_cut": 73,
+      "app_delay_ms": 8,
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 4512.4,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=4.5)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:04:13.742061 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-1-18.json Format:json}\n2026/08/01 21:04:13.749799 [Warning] common/errors: The feature WebSocket transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:04:13.749799 [Warning] common/errors: This feature \"host\" in \"headers\" is deprecated, will be removed soon and being migrated to independent \"host\". Please update your config(s) according to release note and documentation before removal.\n2026/08/01 21:04:13.749799 [Warning] common/errors: The feature Trojan (with no Flow, etc.) is deprecated, not recommended for using and might be removed. Please migrate to VLESS with Flow & Seed as soon as possible.\n2026/08/01 21:04:13.750844 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:04:13.775330 from 127.0.0.1:52955 accepted //www.gstatic.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.19.230.21",
+      "duration_ms": 7257.5,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43061 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.19.230.21",
+        "PATTERN EDGE active 104.19.230.21:443 mode=full20"
+      ],
+      "worker_exit": 2
+    },
+    {
+      "profile": "uacSpoofer 2",
+      "edge": "104.24.133.30",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "app_cut": 1,
+      "app_delay_ms": 3,
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 4511.4,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=4.5)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:04:15.767018 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-2-21.json Format:json}\n2026/08/01 21:04:15.775702 [Warning] common/errors: The feature WebSocket transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:04:15.775702 [Warning] common/errors: This feature \"host\" in \"headers\" is deprecated, will be removed soon and being migrated to independent \"host\". Please update your config(s) according to release note and documentation before removal.\n2026/08/01 21:04:15.775702 [Warning] common/errors: The feature Trojan (with no Flow, etc.) is deprecated, not recommended for using and might be removed. Please migrate to VLESS with Flow & Seed as soon as possible.\n2026/08/01 21:04:15.777244 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:04:15.968481 from 127.0.0.1:53029 accepted //www.gstatic.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.24.133.30",
+      "duration_ms": 4917.4,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43064 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.24.133.30",
+        "PATTERN EDGE active 104.24.133.30:443 mode=full20"
+      ],
+      "worker_exit": 2
+    },
+    {
+      "profile": "uacSpoofer 2",
+      "edge": "104.24.133.30",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "app_cut": 1,
+      "app_delay_ms": 8,
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 4511.4,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=4.5)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:04:15.766507 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-2-22.json Format:json}\n2026/08/01 21:04:15.775194 [Warning] common/errors: The feature WebSocket transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:04:15.775194 [Warning] common/errors: This feature \"host\" in \"headers\" is deprecated, will be removed soon and being migrated to independent \"host\". Please update your config(s) according to release note and documentation before removal.\n2026/08/01 21:04:15.775194 [Warning] common/errors: The feature Trojan (with no Flow, etc.) is deprecated, not recommended for using and might be removed. Please migrate to VLESS with Flow & Seed as soon as possible.\n2026/08/01 21:04:15.776729 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:04:15.968481 from 127.0.0.1:53028 accepted //www.gstatic.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.24.133.30",
+      "duration_ms": 4913.3,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43065 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.24.133.30",
+        "PATTERN EDGE active 104.24.133.30:443 mode=full20"
+      ],
+      "worker_exit": 2
+    },
+    {
+      "profile": "uacSpoofer 2",
+      "edge": "104.24.133.30",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "app_cut": 1,
+      "app_delay_ms": 15,
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 4502.2,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=4.5)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:04:15.775194 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-2-23.json Format:json}\n2026/08/01 21:04:15.784946 [Warning] common/errors: The feature WebSocket transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:04:15.784946 [Warning] common/errors: This feature \"host\" in \"headers\" is deprecated, will be removed soon and being migrated to independent \"host\". Please update your config(s) according to release note and documentation before removal.\n2026/08/01 21:04:15.784946 [Warning] common/errors: The feature Trojan (with no Flow, etc.) is deprecated, not recommended for using and might be removed. Please migrate to VLESS with Flow & Seed as soon as possible.\n2026/08/01 21:04:15.785958 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:04:15.962487 from 127.0.0.1:53025 accepted //www.gstatic.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.24.133.30",
+      "duration_ms": 4897.2,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43066 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.24.133.30",
+        "PATTERN EDGE active 104.24.133.30:443 mode=full20"
+      ],
+      "worker_exit": 2
+    },
+    {
+      "profile": "uacSpoofer 1",
+      "edge": "104.19.230.21",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "app_cut": 73,
+      "app_delay_ms": 15,
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 4517.3,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=4.5)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:04:15.156948 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-1-19.json Format:json}\n2026/08/01 21:04:15.168644 [Warning] common/errors: The feature WebSocket transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:04:15.168644 [Warning] common/errors: This feature \"host\" in \"headers\" is deprecated, will be removed soon and being migrated to independent \"host\". Please update your config(s) according to release note and documentation before removal.\n2026/08/01 21:04:15.168644 [Warning] common/errors: The feature Trojan (with no Flow, etc.) is deprecated, not recommended for using and might be removed. Please migrate to VLESS with Flow & Seed as soon as possible.\n2026/08/01 21:04:15.171161 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:04:15.325820 from 127.0.0.1:52991 accepted //www.gstatic.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.19.230.21",
+      "duration_ms": 6142.8,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43062 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.19.230.21",
+        "PATTERN EDGE active 104.19.230.21:443 mode=full20"
+      ],
+      "worker_exit": 2
+    },
+    {
+      "profile": "uacSpoofer 2",
+      "edge": "104.24.133.30",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "app_cut": 1,
+      "app_delay_ms": 1,
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 4502.5,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=4.5)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:04:15.758233 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-2-20.json Format:json}\n2026/08/01 21:04:15.768047 [Warning] common/errors: The feature WebSocket transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:04:15.768047 [Warning] common/errors: This feature \"host\" in \"headers\" is deprecated, will be removed soon and being migrated to independent \"host\". Please update your config(s) according to release note and documentation before removal.\n2026/08/01 21:04:15.768047 [Warning] common/errors: The feature Trojan (with no Flow, etc.) is deprecated, not recommended for using and might be removed. Please migrate to VLESS with Flow & Seed as soon as possible.\n2026/08/01 21:04:15.769072 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:04:15.931316 from 127.0.0.1:53019 accepted //www.gstatic.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.24.133.30",
+      "duration_ms": 4912.3,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43063 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.24.133.30",
+        "PATTERN EDGE active 104.24.133.30:443 mode=full20"
+      ],
+      "worker_exit": 2
+    },
+    {
+      "profile": "uacSpoofer 2",
+      "edge": "104.24.133.30",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "app_cut": 5,
+      "app_delay_ms": 1,
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 4503.4,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=4.5)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:04:18.963475 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-2-24.json Format:json}\n2026/08/01 21:04:18.972698 [Warning] common/errors: The feature WebSocket transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:04:18.972698 [Warning] common/errors: This feature \"host\" in \"headers\" is deprecated, will be removed soon and being migrated to independent \"host\". Please update your config(s) according to release note and documentation before removal.\n2026/08/01 21:04:18.972698 [Warning] common/errors: The feature Trojan (with no Flow, etc.) is deprecated, not recommended for using and might be removed. Please migrate to VLESS with Flow & Seed as soon as possible.\n2026/08/01 21:04:18.973711 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:04:19.050730 from 127.0.0.1:53074 accepted //www.gstatic.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.24.133.30",
+      "duration_ms": 5147.1,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43067 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.24.133.30",
+        "PATTERN EDGE active 104.24.133.30:443 mode=full20"
+      ],
+      "worker_exit": 2
+    },
+    {
+      "profile": "uacSpoofer 2",
+      "edge": "104.24.133.30",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "app_cut": 5,
+      "app_delay_ms": 3,
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 4511.2,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=4.5)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:04:20.301606 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-2-25.json Format:json}\n2026/08/01 21:04:20.311825 [Warning] common/errors: The feature WebSocket transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:04:20.311825 [Warning] common/errors: This feature \"host\" in \"headers\" is deprecated, will be removed soon and being migrated to independent \"host\". Please update your config(s) according to release note and documentation before removal.\n2026/08/01 21:04:20.311825 [Warning] common/errors: The feature Trojan (with no Flow, etc.) is deprecated, not recommended for using and might be removed. Please migrate to VLESS with Flow & Seed as soon as possible.\n2026/08/01 21:04:20.312844 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:04:20.506118 from 127.0.0.1:53093 accepted //www.gstatic.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.24.133.30",
+      "duration_ms": 6240.8,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43068 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.24.133.30",
+        "PATTERN EDGE active 104.24.133.30:443 mode=full20"
+      ],
+      "worker_exit": 2
+    },
+    {
+      "profile": "uacSpoofer 2",
+      "edge": "104.24.133.30",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "app_cut": 5,
+      "app_delay_ms": 8,
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 4513.2,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=4.5)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:04:21.678021 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-2-26.json Format:json}\n2026/08/01 21:04:21.690023 [Warning] common/errors: The feature WebSocket transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:04:21.690537 [Warning] common/errors: This feature \"host\" in \"headers\" is deprecated, will be removed soon and being migrated to independent \"host\". Please update your config(s) according to release note and documentation before removal.\n2026/08/01 21:04:21.690537 [Warning] common/errors: The feature Trojan (with no Flow, etc.) is deprecated, not recommended for using and might be removed. Please migrate to VLESS with Flow & Seed as soon as possible.\n2026/08/01 21:04:21.692073 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:04:21.869477 from 127.0.0.1:53120 accepted //www.gstatic.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.24.133.30",
+      "duration_ms": 6738.3,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43069 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.24.133.30",
+        "PATTERN EDGE active 104.24.133.30:443 mode=full20"
+      ],
+      "worker_exit": 2
+    },
+    {
+      "profile": "uacSpoofer 2",
+      "edge": "104.24.133.30",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "app_cut": 5,
+      "app_delay_ms": 15,
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 4501.8,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=4.5)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:04:22.328383 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-2-27.json Format:json}\n2026/08/01 21:04:22.337724 [Warning] common/errors: The feature WebSocket transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:04:22.337724 [Warning] common/errors: This feature \"host\" in \"headers\" is deprecated, will be removed soon and being migrated to independent \"host\". Please update your config(s) according to release note and documentation before removal.\n2026/08/01 21:04:22.337724 [Warning] common/errors: The feature Trojan (with no Flow, etc.) is deprecated, not recommended for using and might be removed. Please migrate to VLESS with Flow & Seed as soon as possible.\n2026/08/01 21:04:22.339270 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:04:22.501335 from 127.0.0.1:53158 accepted //www.gstatic.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.24.133.30",
+      "duration_ms": 4710.5,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43070 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.24.133.30",
+        "PATTERN EDGE active 104.24.133.30:443 mode=full20"
+      ],
+      "worker_exit": 2
+    },
+    {
+      "profile": "uacSpoofer 2",
+      "edge": "104.24.133.30",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "app_cut": 17,
+      "app_delay_ms": 8,
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 4512.0,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=4.5)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:04:22.338242 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-2-30.json Format:json}\n2026/08/01 21:04:22.346463 [Warning] common/errors: The feature WebSocket transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:04:22.346463 [Warning] common/errors: This feature \"host\" in \"headers\" is deprecated, will be removed soon and being migrated to independent \"host\". Please update your config(s) according to release note and documentation before removal.\n2026/08/01 21:04:22.346976 [Warning] common/errors: The feature Trojan (with no Flow, etc.) is deprecated, not recommended for using and might be removed. Please migrate to VLESS with Flow & Seed as soon as possible.\n2026/08/01 21:04:22.348003 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:04:22.538157 from 127.0.0.1:53168 accepted //www.gstatic.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.24.133.30",
+      "duration_ms": 4747.2,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43073 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.24.133.30",
+        "PATTERN EDGE active 104.24.133.30:443 mode=full20"
+      ],
+      "worker_exit": 2
+    },
+    {
+      "profile": "uacSpoofer 2",
+      "edge": "104.24.133.30",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "app_cut": 17,
+      "app_delay_ms": 1,
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 4512.3,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=4.5)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:04:22.336689 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-2-28.json Format:json}\n2026/08/01 21:04:22.345445 [Warning] common/errors: The feature WebSocket transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:04:22.345445 [Warning] common/errors: This feature \"host\" in \"headers\" is deprecated, will be removed soon and being migrated to independent \"host\". Please update your config(s) according to release note and documentation before removal.\n2026/08/01 21:04:22.345445 [Warning] common/errors: The feature Trojan (with no Flow, etc.) is deprecated, not recommended for using and might be removed. Please migrate to VLESS with Flow & Seed as soon as possible.\n2026/08/01 21:04:22.346463 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:04:22.538157 from 127.0.0.1:53165 accepted //www.gstatic.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.24.133.30",
+      "duration_ms": 4759.6,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43071 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.24.133.30",
+        "PATTERN EDGE active 104.24.133.30:443 mode=full20"
+      ],
+      "worker_exit": 2
+    },
+    {
+      "profile": "uacSpoofer 2",
+      "edge": "104.24.133.30",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "app_cut": 17,
+      "app_delay_ms": 15,
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 4512.3,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=4.5)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:04:22.337203 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-2-31.json Format:json}\n2026/08/01 21:04:22.345445 [Warning] common/errors: The feature WebSocket transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:04:22.345445 [Warning] common/errors: This feature \"host\" in \"headers\" is deprecated, will be removed soon and being migrated to independent \"host\". Please update your config(s) according to release note and documentation before removal.\n2026/08/01 21:04:22.345445 [Warning] common/errors: The feature Trojan (with no Flow, etc.) is deprecated, not recommended for using and might be removed. Please migrate to VLESS with Flow & Seed as soon as possible.\n2026/08/01 21:04:22.346976 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:04:22.538157 from 127.0.0.1:53167 accepted //www.gstatic.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.24.133.30",
+      "duration_ms": 4762.7,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43074 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.24.133.30",
+        "PATTERN EDGE active 104.24.133.30:443 mode=full20"
+      ],
+      "worker_exit": 2
+    },
+    {
+      "profile": "uacSpoofer 2",
+      "edge": "104.24.133.30",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "app_cut": 17,
+      "app_delay_ms": 3,
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 4512.3,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=4.5)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:04:22.331987 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-2-29.json Format:json}\n2026/08/01 21:04:22.340816 [Warning] common/errors: The feature WebSocket transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:04:22.341330 [Warning] common/errors: This feature \"host\" in \"headers\" is deprecated, will be removed soon and being migrated to independent \"host\". Please update your config(s) according to release note and documentation before removal.\n2026/08/01 21:04:22.341330 [Warning] common/errors: The feature Trojan (with no Flow, etc.) is deprecated, not recommended for using and might be removed. Please migrate to VLESS with Flow & Seed as soon as possible.\n2026/08/01 21:04:22.342367 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:04:22.538157 from 127.0.0.1:53166 accepted //www.gstatic.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.24.133.30",
+      "duration_ms": 4759.7,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43072 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.24.133.30",
+        "PATTERN EDGE active 104.24.133.30:443 mode=full20"
+      ],
+      "worker_exit": 2
+    },
+    {
+      "profile": "uacSpoofer 2",
+      "edge": "104.24.133.30",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "app_cut": 37,
+      "app_delay_ms": 15,
+      "verified": false,
+      "targets": [],
+      "error": "RuntimeError: Xray listener failed; exit=None",
+      "xray_tail": "",
+      "active_edge": "",
+      "duration_ms": 4828.2,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43078 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.24.133.30"
+      ],
+      "worker_exit": 2
+    },
+    {
+      "profile": "uacSpoofer 2",
+      "edge": "104.24.133.30",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "app_cut": 37,
+      "app_delay_ms": 1,
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 4515.4,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=4.5)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:04:24.508633 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-2-32.json Format:json}\n2026/08/01 21:04:24.517797 [Warning] common/errors: The feature WebSocket transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:04:24.517797 [Warning] common/errors: This feature \"host\" in \"headers\" is deprecated, will be removed soon and being migrated to independent \"host\". Please update your config(s) according to release note and documentation before removal.\n2026/08/01 21:04:24.517797 [Warning] common/errors: The feature Trojan (with no Flow, etc.) is deprecated, not recommended for using and might be removed. Please migrate to VLESS with Flow & Seed as soon as possible.\n2026/08/01 21:04:24.519381 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:04:24.639138 from 127.0.0.1:53201 accepted //www.gstatic.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.24.133.30",
+      "duration_ms": 8289.6,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43075 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.24.133.30",
+        "PATTERN EDGE active 104.24.133.30:443 mode=full20"
+      ],
+      "worker_exit": 2
+    },
+    {
+      "profile": "uacSpoofer 2",
+      "edge": "104.24.133.30",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "app_cut": 37,
+      "app_delay_ms": 3,
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 4513.4,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=4.5)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:04:26.089535 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-2-33.json Format:json}\n2026/08/01 21:04:26.100813 [Warning] common/errors: The feature WebSocket transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:04:26.100813 [Warning] common/errors: This feature \"host\" in \"headers\" is deprecated, will be removed soon and being migrated to independent \"host\". Please update your config(s) according to release note and documentation before removal.\n2026/08/01 21:04:26.100813 [Warning] common/errors: The feature Trojan (with no Flow, etc.) is deprecated, not recommended for using and might be removed. Please migrate to VLESS with Flow & Seed as soon as possible.\n2026/08/01 21:04:26.101829 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:04:26.160891 from 127.0.0.1:53230 accepted //www.gstatic.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.24.133.30",
+      "duration_ms": 6838.1,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43076 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.24.133.30",
+        "PATTERN EDGE active 104.24.133.30:443 mode=full20"
+      ],
+      "worker_exit": 2
+    },
+    {
+      "profile": "uacSpoofer 2",
+      "edge": "104.24.133.30",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "app_cut": 37,
+      "app_delay_ms": 8,
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 4515.2,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=4.5)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:04:28.347029 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-2-34.json Format:json}\n2026/08/01 21:04:28.355765 [Warning] common/errors: The feature WebSocket transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:04:28.355765 [Warning] common/errors: This feature \"host\" in \"headers\" is deprecated, will be removed soon and being migrated to independent \"host\". Please update your config(s) according to release note and documentation before removal.\n2026/08/01 21:04:28.355765 [Warning] common/errors: The feature Trojan (with no Flow, etc.) is deprecated, not recommended for using and might be removed. Please migrate to VLESS with Flow & Seed as soon as possible.\n2026/08/01 21:04:28.356790 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:04:28.384894 from 127.0.0.1:53254 accepted //www.gstatic.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.24.133.30",
+      "duration_ms": 5856.2,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43077 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.24.133.30",
+        "PATTERN EDGE active 104.24.133.30:443 mode=full20"
+      ],
+      "worker_exit": 2
+    },
+    {
+      "profile": "uacSpoofer 2",
+      "edge": "104.24.133.30",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "app_cut": 73,
+      "app_delay_ms": 3,
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 4511.6,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=4.5)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:04:32.280162 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-2-37.json Format:json}\n2026/08/01 21:04:32.292172 [Warning] common/errors: The feature WebSocket transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:04:32.292172 [Warning] common/errors: This feature \"host\" in \"headers\" is deprecated, will be removed soon and being migrated to independent \"host\". Please update your config(s) according to release note and documentation before removal.\n2026/08/01 21:04:32.292172 [Warning] common/errors: The feature Trojan (with no Flow, etc.) is deprecated, not recommended for using and might be removed. Please migrate to VLESS with Flow & Seed as soon as possible.\n2026/08/01 21:04:32.293731 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:04:32.442102 from 127.0.0.1:53336 accepted //www.gstatic.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.24.133.30",
+      "duration_ms": 8001.4,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43080 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.24.133.30",
+        "PATTERN EDGE active 104.24.133.30:443 mode=full20"
+      ],
+      "worker_exit": 2
+    },
+    {
+      "profile": "uacSpoofer 2",
+      "edge": "104.24.133.30",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "app_cut": 73,
+      "app_delay_ms": 1,
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 4511.5,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=4.5)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:04:32.282230 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-2-36.json Format:json}\n2026/08/01 21:04:32.293213 [Warning] common/errors: The feature WebSocket transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:04:32.293213 [Warning] common/errors: This feature \"host\" in \"headers\" is deprecated, will be removed soon and being migrated to independent \"host\". Please update your config(s) according to release note and documentation before removal.\n2026/08/01 21:04:32.293213 [Warning] common/errors: The feature Trojan (with no Flow, etc.) is deprecated, not recommended for using and might be removed. Please migrate to VLESS with Flow & Seed as soon as possible.\n2026/08/01 21:04:32.295753 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:04:32.442102 from 127.0.0.1:53337 accepted //www.gstatic.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.24.133.30",
+      "duration_ms": 6347.6,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43079 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.24.133.30",
+        "PATTERN EDGE active 104.24.133.30:443 mode=full20"
+      ],
+      "worker_exit": 2
+    },
+    {
+      "profile": "uacSpoofer 2",
+      "edge": "104.24.133.30",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "app_cut": 73,
+      "app_delay_ms": 8,
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 4511.6,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=4.5)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:04:32.281712 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-2-38.json Format:json}\n2026/08/01 21:04:32.293213 [Warning] common/errors: The feature WebSocket transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:04:32.293213 [Warning] common/errors: This feature \"host\" in \"headers\" is deprecated, will be removed soon and being migrated to independent \"host\". Please update your config(s) according to release note and documentation before removal.\n2026/08/01 21:04:32.293213 [Warning] common/errors: The feature Trojan (with no Flow, etc.) is deprecated, not recommended for using and might be removed. Please migrate to VLESS with Flow & Seed as soon as possible.\n2026/08/01 21:04:32.295753 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:04:32.442102 from 127.0.0.1:53335 accepted //www.gstatic.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.24.133.30",
+      "duration_ms": 5373.8,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43081 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.24.133.30",
+        "PATTERN EDGE active 104.24.133.30:443 mode=full20"
+      ],
+      "worker_exit": 2
+    },
+    {
+      "profile": "uacSpoofer 2",
+      "edge": "104.24.133.30",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "app_cut": 73,
+      "app_delay_ms": 15,
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 4511.2,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=4.5)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:04:32.279645 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-2-39.json Format:json}\n2026/08/01 21:04:32.292172 [Warning] common/errors: The feature WebSocket transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:04:32.292172 [Warning] common/errors: This feature \"host\" in \"headers\" is deprecated, will be removed soon and being migrated to independent \"host\". Please update your config(s) according to release note and documentation before removal.\n2026/08/01 21:04:32.292172 [Warning] common/errors: The feature Trojan (with no Flow, etc.) is deprecated, not recommended for using and might be removed. Please migrate to VLESS with Flow & Seed as soon as possible.\n2026/08/01 21:04:32.294242 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:04:32.442607 from 127.0.0.1:53338 accepted //www.gstatic.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.24.133.30",
+      "duration_ms": 7213.7,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43082 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.24.133.30",
+        "PATTERN EDGE active 104.24.133.30:443 mode=full20"
+      ],
+      "worker_exit": 2
+    },
+    {
+      "profile": "uacSpoofer 3",
+      "edge": "104.18.9.83",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "app_cut": 1,
+      "app_delay_ms": 3,
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 4504.1,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=4.5)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:04:32.842667 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-3-41.json Format:json}\n2026/08/01 21:04:32.851343 [Warning] common/errors: The feature WebSocket transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:04:32.851343 [Warning] common/errors: This feature \"host\" in \"headers\" is deprecated, will be removed soon and being migrated to independent \"host\". Please update your config(s) according to release note and documentation before removal.\n2026/08/01 21:04:32.851343 [Warning] common/errors: The feature Trojan (with no Flow, etc.) is deprecated, not recommended for using and might be removed. Please migrate to VLESS with Flow & Seed as soon as possible.\n2026/08/01 21:04:32.852410 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:04:33.041028 from 127.0.0.1:53371 accepted //www.gstatic.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.18.9.83",
+      "duration_ms": 5362.4,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43084 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.18.9.83",
+        "PATTERN EDGE active 104.18.9.83:443 mode=full20"
+      ],
+      "worker_exit": 2
+    },
+    {
+      "profile": "uacSpoofer 3",
+      "edge": "104.18.9.83",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "app_cut": 1,
+      "app_delay_ms": 8,
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 4510.3,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=4.5)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:04:32.848288 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-3-42.json Format:json}\n2026/08/01 21:04:32.857016 [Warning] common/errors: The feature WebSocket transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:04:32.857016 [Warning] common/errors: This feature \"host\" in \"headers\" is deprecated, will be removed soon and being migrated to independent \"host\". Please update your config(s) according to release note and documentation before removal.\n2026/08/01 21:04:32.857587 [Warning] common/errors: The feature Trojan (with no Flow, etc.) is deprecated, not recommended for using and might be removed. Please migrate to VLESS with Flow & Seed as soon as possible.\n2026/08/01 21:04:32.858604 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:04:33.034819 from 127.0.0.1:53368 accepted //www.gstatic.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.18.9.83",
+      "duration_ms": 5346.9,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43085 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.18.9.83",
+        "PATTERN EDGE active 104.18.9.83:443 mode=full20"
+      ],
+      "worker_exit": 2
+    },
+    {
+      "profile": "uacSpoofer 3",
+      "edge": "104.18.9.83",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "app_cut": 1,
+      "app_delay_ms": 1,
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 4511.2,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=4.5)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:04:32.842667 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-3-40.json Format:json}\n2026/08/01 21:04:32.851343 [Warning] common/errors: The feature WebSocket transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:04:32.851343 [Warning] common/errors: This feature \"host\" in \"headers\" is deprecated, will be removed soon and being migrated to independent \"host\". Please update your config(s) according to release note and documentation before removal.\n2026/08/01 21:04:32.851343 [Warning] common/errors: The feature Trojan (with no Flow, etc.) is deprecated, not recommended for using and might be removed. Please migrate to VLESS with Flow & Seed as soon as possible.\n2026/08/01 21:04:32.852410 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:04:33.018951 from 127.0.0.1:53364 accepted //www.gstatic.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.18.9.83",
+      "duration_ms": 5359.5,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43083 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.18.9.83",
+        "PATTERN EDGE active 104.18.9.83:443 mode=full20"
+      ],
+      "worker_exit": 2
+    },
+    {
+      "profile": "uacSpoofer 3",
+      "edge": "104.18.9.83",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "app_cut": 1,
+      "app_delay_ms": 15,
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 4508.6,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=4.5)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:04:33.330802 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-3-43.json Format:json}\n2026/08/01 21:04:33.339025 [Warning] common/errors: The feature WebSocket transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:04:33.339025 [Warning] common/errors: This feature \"host\" in \"headers\" is deprecated, will be removed soon and being migrated to independent \"host\". Please update your config(s) according to release note and documentation before removal.\n2026/08/01 21:04:33.339025 [Warning] common/errors: The feature Trojan (with no Flow, etc.) is deprecated, not recommended for using and might be removed. Please migrate to VLESS with Flow & Seed as soon as possible.\n2026/08/01 21:04:33.340556 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:04:33.519442 from 127.0.0.1:53388 accepted //www.gstatic.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.18.9.83",
+      "duration_ms": 5046.5,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43086 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.18.9.83",
+        "PATTERN EDGE active 104.18.9.83:443 mode=full20"
+      ],
+      "worker_exit": 2
+    },
+    {
+      "profile": "uacSpoofer 3",
+      "edge": "104.18.9.83",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "app_cut": 5,
+      "app_delay_ms": 3,
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 4507.3,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=4.5)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:04:39.561156 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-3-45.json Format:json}\n2026/08/01 21:04:39.570496 [Warning] common/errors: The feature WebSocket transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:04:39.570496 [Warning] common/errors: This feature \"host\" in \"headers\" is deprecated, will be removed soon and being migrated to independent \"host\". Please update your config(s) according to release note and documentation before removal.\n2026/08/01 21:04:39.570496 [Warning] common/errors: The feature Trojan (with no Flow, etc.) is deprecated, not recommended for using and might be removed. Please migrate to VLESS with Flow & Seed as soon as possible.\n2026/08/01 21:04:39.572044 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:04:39.755015 from 127.0.0.1:53472 accepted //www.gstatic.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.18.9.83",
+      "duration_ms": 5947.3,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43088 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.18.9.83",
+        "PATTERN EDGE active 104.18.9.83:443 mode=full20"
+      ],
+      "worker_exit": 2
+    },
+    {
+      "profile": "uacSpoofer 3",
+      "edge": "104.18.9.83",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "app_cut": 5,
+      "app_delay_ms": 15,
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 4507.6,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=4.5)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:04:39.563269 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-3-47.json Format:json}\n2026/08/01 21:04:39.573100 [Warning] common/errors: The feature WebSocket transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:04:39.573100 [Warning] common/errors: This feature \"host\" in \"headers\" is deprecated, will be removed soon and being migrated to independent \"host\". Please update your config(s) according to release note and documentation before removal.\n2026/08/01 21:04:39.573100 [Warning] common/errors: The feature Trojan (with no Flow, etc.) is deprecated, not recommended for using and might be removed. Please migrate to VLESS with Flow & Seed as soon as possible.\n2026/08/01 21:04:39.574126 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:04:39.755015 from 127.0.0.1:53471 accepted //www.gstatic.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.18.9.83",
+      "duration_ms": 5735.4,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43090 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.18.9.83",
+        "PATTERN EDGE active 104.18.9.83:443 mode=full20"
+      ],
+      "worker_exit": 2
+    },
+    {
+      "profile": "uacSpoofer 3",
+      "edge": "104.18.9.83",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "app_cut": 5,
+      "app_delay_ms": 8,
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 4514.6,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=4.5)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:04:39.560119 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-3-46.json Format:json}\n2026/08/01 21:04:39.569456 [Warning] common/errors: The feature WebSocket transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:04:39.569456 [Warning] common/errors: This feature \"host\" in \"headers\" is deprecated, will be removed soon and being migrated to independent \"host\". Please update your config(s) according to release note and documentation before removal.\n2026/08/01 21:04:39.569456 [Warning] common/errors: The feature Trojan (with no Flow, etc.) is deprecated, not recommended for using and might be removed. Please migrate to VLESS with Flow & Seed as soon as possible.\n2026/08/01 21:04:39.571012 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:04:39.763486 from 127.0.0.1:53479 accepted //www.gstatic.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.18.9.83",
+      "duration_ms": 6242.6,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43089 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.18.9.83",
+        "PATTERN EDGE active 104.18.9.83:443 mode=full20"
+      ],
+      "worker_exit": 2
+    },
+    {
+      "profile": "uacSpoofer 3",
+      "edge": "104.18.9.83",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "app_cut": 5,
+      "app_delay_ms": 1,
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 4507.3,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=4.5)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:04:39.561156 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-3-44.json Format:json}\n2026/08/01 21:04:39.570496 [Warning] common/errors: The feature WebSocket transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:04:39.570496 [Warning] common/errors: This feature \"host\" in \"headers\" is deprecated, will be removed soon and being migrated to independent \"host\". Please update your config(s) according to release note and documentation before removal.\n2026/08/01 21:04:39.570496 [Warning] common/errors: The feature Trojan (with no Flow, etc.) is deprecated, not recommended for using and might be removed. Please migrate to VLESS with Flow & Seed as soon as possible.\n2026/08/01 21:04:39.572044 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:04:39.785681 from 127.0.0.1:53482 accepted //www.gstatic.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.18.9.83",
+      "duration_ms": 6615.2,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43087 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.18.9.83",
+        "PATTERN EDGE active 104.18.9.83:443 mode=full20"
+      ],
+      "worker_exit": 2
+    },
+    {
+      "profile": "uacSpoofer 3",
+      "edge": "104.18.9.83",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "app_cut": 17,
+      "app_delay_ms": 15,
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 4501.7,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=4.5)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:04:40.996145 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-3-51.json Format:json}\n2026/08/01 21:04:41.007010 [Warning] common/errors: The feature WebSocket transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:04:41.007521 [Warning] common/errors: This feature \"host\" in \"headers\" is deprecated, will be removed soon and being migrated to independent \"host\". Please update your config(s) according to release note and documentation before removal.\n2026/08/01 21:04:41.007521 [Warning] common/errors: The feature Trojan (with no Flow, etc.) is deprecated, not recommended for using and might be removed. Please migrate to VLESS with Flow & Seed as soon as possible.\n2026/08/01 21:04:41.008550 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:04:41.178656 from 127.0.0.1:53520 accepted //www.gstatic.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.18.9.83",
+      "duration_ms": 6467.0,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43094 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.18.9.83",
+        "PATTERN EDGE active 104.18.9.83:443 mode=full20"
+      ],
+      "worker_exit": 2
+    },
+    {
+      "profile": "uacSpoofer 3",
+      "edge": "104.18.9.83",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "app_cut": 17,
+      "app_delay_ms": 8,
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 4512.5,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=4.5)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:04:40.593214 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-3-50.json Format:json}\n2026/08/01 21:04:40.615197 [Warning] common/errors: The feature WebSocket transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:04:40.615197 [Warning] common/errors: This feature \"host\" in \"headers\" is deprecated, will be removed soon and being migrated to independent \"host\". Please update your config(s) according to release note and documentation before removal.\n2026/08/01 21:04:40.615197 [Warning] common/errors: The feature Trojan (with no Flow, etc.) is deprecated, not recommended for using and might be removed. Please migrate to VLESS with Flow & Seed as soon as possible.\n2026/08/01 21:04:40.616473 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:04:40.760619 from 127.0.0.1:53504 accepted //www.gstatic.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.18.9.83",
+      "duration_ms": 7433.2,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43093 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.18.9.83",
+        "PATTERN EDGE active 104.18.9.83:443 mode=full20"
+      ],
+      "worker_exit": 2
+    },
+    {
+      "profile": "uacSpoofer 3",
+      "edge": "104.18.9.83",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "app_cut": 17,
+      "app_delay_ms": 3,
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 4512.6,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=4.5)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:04:40.593214 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-3-49.json Format:json}\n2026/08/01 21:04:40.602971 [Warning] common/errors: The feature WebSocket transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:04:40.602971 [Warning] common/errors: This feature \"host\" in \"headers\" is deprecated, will be removed soon and being migrated to independent \"host\". Please update your config(s) according to release note and documentation before removal.\n2026/08/01 21:04:40.602971 [Warning] common/errors: The feature Trojan (with no Flow, etc.) is deprecated, not recommended for using and might be removed. Please migrate to VLESS with Flow & Seed as soon as possible.\n2026/08/01 21:04:40.603997 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:04:40.760619 from 127.0.0.1:53505 accepted //www.gstatic.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.18.9.83",
+      "duration_ms": 7448.6,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43092 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.18.9.83",
+        "PATTERN EDGE active 104.18.9.83:443 mode=full20"
+      ],
+      "worker_exit": 2
+    },
+    {
+      "profile": "uacSpoofer 3",
+      "edge": "104.18.9.83",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "app_cut": 17,
+      "app_delay_ms": 1,
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 4512.5,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=4.5)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:04:40.593725 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-3-48.json Format:json}\n2026/08/01 21:04:40.603480 [Warning] common/errors: The feature WebSocket transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:04:40.603480 [Warning] common/errors: This feature \"host\" in \"headers\" is deprecated, will be removed soon and being migrated to independent \"host\". Please update your config(s) according to release note and documentation before removal.\n2026/08/01 21:04:40.603480 [Warning] common/errors: The feature Trojan (with no Flow, etc.) is deprecated, not recommended for using and might be removed. Please migrate to VLESS with Flow & Seed as soon as possible.\n2026/08/01 21:04:40.605024 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:04:40.760619 from 127.0.0.1:53506 accepted //www.gstatic.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.18.9.83",
+      "duration_ms": 7439.7,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43091 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.18.9.83",
+        "PATTERN EDGE active 104.18.9.83:443 mode=full20"
+      ],
+      "worker_exit": 2
+    },
+    {
+      "profile": "uacSpoofer 3",
+      "edge": "104.18.9.83",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "app_cut": 37,
+      "app_delay_ms": 1,
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 4502.3,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=4.5)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:04:48.394887 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-3-52.json Format:json}\n2026/08/01 21:04:48.404162 [Warning] common/errors: The feature WebSocket transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:04:48.404162 [Warning] common/errors: This feature \"host\" in \"headers\" is deprecated, will be removed soon and being migrated to independent \"host\". Please update your config(s) according to release note and documentation before removal.\n2026/08/01 21:04:48.404162 [Warning] common/errors: The feature Trojan (with no Flow, etc.) is deprecated, not recommended for using and might be removed. Please migrate to VLESS with Flow & Seed as soon as possible.\n2026/08/01 21:04:48.405212 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:04:48.529945 from 127.0.0.1:53610 accepted //www.gstatic.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.18.9.83",
+      "duration_ms": 8356.2,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43095 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.18.9.83",
+        "PATTERN EDGE active 104.18.9.83:443 mode=full20"
+      ],
+      "worker_exit": 2
+    },
+    {
+      "profile": "uacSpoofer 3",
+      "edge": "104.18.9.83",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "app_cut": 37,
+      "app_delay_ms": 3,
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 4511.2,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=4.5)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:04:48.720544 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-3-53.json Format:json}\n2026/08/01 21:04:48.728735 [Warning] common/errors: The feature WebSocket transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:04:48.728735 [Warning] common/errors: This feature \"host\" in \"headers\" is deprecated, will be removed soon and being migrated to independent \"host\". Please update your config(s) according to release note and documentation before removal.\n2026/08/01 21:04:48.728735 [Warning] common/errors: The feature Trojan (with no Flow, etc.) is deprecated, not recommended for using and might be removed. Please migrate to VLESS with Flow & Seed as soon as possible.\n2026/08/01 21:04:48.730289 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:04:48.831773 from 127.0.0.1:53620 accepted //www.gstatic.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.18.9.83",
+      "duration_ms": 8117.2,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43096 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.18.9.83",
+        "PATTERN EDGE active 104.18.9.83:443 mode=full20"
+      ],
+      "worker_exit": 2
+    },
+    {
+      "profile": "uacSpoofer 3",
+      "edge": "104.18.9.83",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "app_cut": 37,
+      "app_delay_ms": 8,
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 4505.7,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=4.5)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:04:49.044085 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-3-54.json Format:json}\n2026/08/01 21:04:49.055877 [Warning] common/errors: The feature WebSocket transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:04:49.056378 [Warning] common/errors: This feature \"host\" in \"headers\" is deprecated, will be removed soon and being migrated to independent \"host\". Please update your config(s) according to release note and documentation before removal.\n2026/08/01 21:04:49.056378 [Warning] common/errors: The feature Trojan (with no Flow, etc.) is deprecated, not recommended for using and might be removed. Please migrate to VLESS with Flow & Seed as soon as possible.\n2026/08/01 21:04:49.056885 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:04:49.180533 from 127.0.0.1:53631 accepted //www.gstatic.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.18.9.83",
+      "duration_ms": 7800.5,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43097 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.18.9.83",
+        "PATTERN EDGE active 104.18.9.83:443 mode=full20"
+      ],
+      "worker_exit": 2
+    },
+    {
+      "profile": "uacSpoofer 3",
+      "edge": "104.18.9.83",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "app_cut": 37,
+      "app_delay_ms": 15,
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 4511.5,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=4.5)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:04:49.345763 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-3-55.json Format:json}\n2026/08/01 21:04:49.354509 [Warning] common/errors: The feature WebSocket transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:04:49.354509 [Warning] common/errors: This feature \"host\" in \"headers\" is deprecated, will be removed soon and being migrated to independent \"host\". Please update your config(s) according to release note and documentation before removal.\n2026/08/01 21:04:49.354509 [Warning] common/errors: The feature Trojan (with no Flow, etc.) is deprecated, not recommended for using and might be removed. Please migrate to VLESS with Flow & Seed as soon as possible.\n2026/08/01 21:04:49.356075 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:04:49.485951 from 127.0.0.1:53642 accepted //www.gstatic.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.18.9.83",
+      "duration_ms": 7350.9,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43098 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.18.9.83",
+        "PATTERN EDGE active 104.18.9.83:443 mode=full20"
+      ],
+      "worker_exit": 2
+    },
+    {
+      "profile": "uacSpoofer 3",
+      "edge": "104.18.9.83",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "app_cut": 73,
+      "app_delay_ms": 15,
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 4514.6,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=4.5)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:04:52.564420 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-3-59.json Format:json}\n2026/08/01 21:04:52.573278 [Warning] common/errors: The feature WebSocket transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:04:52.573278 [Warning] common/errors: This feature \"host\" in \"headers\" is deprecated, will be removed soon and being migrated to independent \"host\". Please update your config(s) according to release note and documentation before removal.\n2026/08/01 21:04:52.573278 [Warning] common/errors: The feature Trojan (with no Flow, etc.) is deprecated, not recommended for using and might be removed. Please migrate to VLESS with Flow & Seed as soon as possible.\n2026/08/01 21:04:52.574309 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:04:52.733076 from 127.0.0.1:53676 accepted //www.gstatic.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.18.9.83",
+      "duration_ms": 6332.4,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43102 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.18.9.83",
+        "PATTERN EDGE active 104.18.9.83:443 mode=full20"
+      ],
+      "worker_exit": 2
+    },
+    {
+      "profile": "uacSpoofer 3",
+      "edge": "104.18.9.83",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "app_cut": 73,
+      "app_delay_ms": 1,
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 4514.3,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=4.5)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:04:52.564420 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-3-56.json Format:json}\n2026/08/01 21:04:52.588102 [Warning] common/errors: The feature WebSocket transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:04:52.588102 [Warning] common/errors: This feature \"host\" in \"headers\" is deprecated, will be removed soon and being migrated to independent \"host\". Please update your config(s) according to release note and documentation before removal.\n2026/08/01 21:04:52.588102 [Warning] common/errors: The feature Trojan (with no Flow, etc.) is deprecated, not recommended for using and might be removed. Please migrate to VLESS with Flow & Seed as soon as possible.\n2026/08/01 21:04:52.589656 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:04:52.733076 from 127.0.0.1:53677 accepted //www.gstatic.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.18.9.83",
+      "duration_ms": 7243.7,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43099 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.18.9.83",
+        "PATTERN EDGE active 104.18.9.83:443 mode=full20"
+      ],
+      "worker_exit": 2
+    },
+    {
+      "profile": "uacSpoofer 3",
+      "edge": "104.18.9.83",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "app_cut": 73,
+      "app_delay_ms": 8,
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 4509.2,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=4.5)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:04:52.565471 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-3-58.json Format:json}\n2026/08/01 21:04:52.574817 [Warning] common/errors: The feature WebSocket transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:04:52.574817 [Warning] common/errors: This feature \"host\" in \"headers\" is deprecated, will be removed soon and being migrated to independent \"host\". Please update your config(s) according to release note and documentation before removal.\n2026/08/01 21:04:52.574817 [Warning] common/errors: The feature Trojan (with no Flow, etc.) is deprecated, not recommended for using and might be removed. Please migrate to VLESS with Flow & Seed as soon as possible.\n2026/08/01 21:04:52.576356 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:04:52.754488 from 127.0.0.1:53682 accepted //www.gstatic.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.18.9.83",
+      "duration_ms": 5375.1,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43101 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.18.9.83",
+        "PATTERN EDGE active 104.18.9.83:443 mode=full20"
+      ],
+      "worker_exit": 2
+    },
+    {
+      "profile": "uacSpoofer 3",
+      "edge": "104.18.9.83",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "app_cut": 73,
+      "app_delay_ms": 3,
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 4503.5,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=4.5)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:04:52.991974 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-3-57.json Format:json}\n2026/08/01 21:04:53.000686 [Warning] common/errors: The feature WebSocket transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:04:53.000686 [Warning] common/errors: This feature \"host\" in \"headers\" is deprecated, will be removed soon and being migrated to independent \"host\". Please update your config(s) according to release note and documentation before removal.\n2026/08/01 21:04:53.000686 [Warning] common/errors: The feature Trojan (with no Flow, etc.) is deprecated, not recommended for using and might be removed. Please migrate to VLESS with Flow & Seed as soon as possible.\n2026/08/01 21:04:53.002279 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:04:53.165743 from 127.0.0.1:53689 accepted //www.gstatic.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.18.9.83",
+      "duration_ms": 5175.3,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43100 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.18.9.83",
+        "PATTERN EDGE active 104.18.9.83:443 mode=full20"
+      ],
+      "worker_exit": 2
+    },
+    {
+      "profile": "uacSpoofer 6",
+      "edge": "104.16.1.1",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "app_cut": 1,
+      "app_delay_ms": 1,
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 4501.6,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=4.5)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:04:53.466323 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-6-60.json Format:json}\n2026/08/01 21:04:53.475609 [Warning] common/errors: The feature HTTPUpgrade transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:04:53.477173 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:04:53.649821 from 127.0.0.1:53704 accepted //www.gstatic.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.16.1.1",
+      "duration_ms": 4893.0,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43103 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.16.1.1",
+        "PATTERN EDGE active 104.16.1.1:443 mode=full20"
+      ],
+      "worker_exit": 2
+    },
+    {
+      "profile": "uacSpoofer 6",
+      "edge": "104.16.1.1",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "app_cut": 1,
+      "app_delay_ms": 3,
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 4501.8,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=4.5)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:04:53.779798 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-6-61.json Format:json}\n2026/08/01 21:04:53.788536 [Warning] common/errors: The feature HTTPUpgrade transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:04:53.790074 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:04:53.961422 from 127.0.0.1:53712 accepted //www.gstatic.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.16.1.1",
+      "duration_ms": 5779.5,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43104 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.16.1.1",
+        "PATTERN EDGE active 104.16.1.1:443 mode=full20"
+      ],
+      "worker_exit": 2
+    },
+    {
+      "profile": "uacSpoofer 6",
+      "edge": "104.16.1.1",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "app_cut": 1,
+      "app_delay_ms": 8,
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 4502.7,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=4.5)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:04:54.226269 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-6-62.json Format:json}\n2026/08/01 21:04:54.236558 [Warning] common/errors: The feature HTTPUpgrade transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:04:54.238113 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:04:54.413658 from 127.0.0.1:53736 accepted //www.gstatic.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.16.1.1",
+      "duration_ms": 5415.9,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43105 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.16.1.1",
+        "PATTERN EDGE active 104.16.1.1:443 mode=full20"
+      ],
+      "worker_exit": 2
+    },
+    {
+      "profile": "uacSpoofer 6",
+      "edge": "104.16.1.1",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "app_cut": 1,
+      "app_delay_ms": 15,
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 4517.4,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=4.5)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:04:55.143302 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-6-63.json Format:json}\n2026/08/01 21:04:55.152072 [Warning] common/errors: The feature HTTPUpgrade transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:04:55.153605 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:04:55.267316 from 127.0.0.1:53752 accepted //www.gstatic.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.16.1.1",
+      "duration_ms": 5550.6,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43106 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.16.1.1",
+        "PATTERN EDGE active 104.16.1.1:443 mode=full20"
+      ],
+      "worker_exit": 2
+    },
+    {
+      "profile": "uacSpoofer 6",
+      "edge": "104.16.1.1",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "app_cut": 5,
+      "app_delay_ms": 3,
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 4487.8,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=4.5)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:04:58.527998 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-6-65.json Format:json}\n2026/08/01 21:04:58.536187 [Warning] common/errors: The feature HTTPUpgrade transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:04:58.537754 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:04:58.745215 from 127.0.0.1:53816 accepted //www.gstatic.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.16.1.1",
+      "duration_ms": 5746.5,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43108 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.16.1.1",
+        "PATTERN EDGE active 104.16.1.1:443 mode=full20"
+      ],
+      "worker_exit": 2
+    },
+    {
+      "profile": "uacSpoofer 6",
+      "edge": "104.16.1.1",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "app_cut": 5,
+      "app_delay_ms": 8,
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 4513.2,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=4.5)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:04:59.557801 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-6-66.json Format:json}\n2026/08/01 21:04:59.570303 [Warning] common/errors: The feature HTTPUpgrade transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:04:59.572355 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:04:59.718690 from 127.0.0.1:53830 accepted //www.gstatic.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.16.1.1",
+      "duration_ms": 5851.9,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43109 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.16.1.1",
+        "PATTERN EDGE active 104.16.1.1:443 mode=full20"
+      ],
+      "worker_exit": 2
+    },
+    {
+      "profile": "uacSpoofer 6",
+      "edge": "104.16.1.1",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "app_cut": 5,
+      "app_delay_ms": 1,
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 4529.9,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=4.5)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:04:59.550596 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-6-64.json Format:json}\n2026/08/01 21:04:59.560605 [Warning] common/errors: The feature HTTPUpgrade transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:04:59.563182 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:04:59.752446 from 127.0.0.1:53834 accepted //www.gstatic.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.16.1.1",
+      "duration_ms": 6432.5,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43107 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.16.1.1",
+        "PATTERN EDGE active 104.16.1.1:443 mode=full20"
+      ],
+      "worker_exit": 2
+    },
+    {
+      "profile": "uacSpoofer 6",
+      "edge": "104.16.1.1",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "app_cut": 5,
+      "app_delay_ms": 15,
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 4496.2,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=4.5)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:05:00.764045 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-6-67.json Format:json}\n2026/08/01 21:05:00.787338 [Warning] common/errors: The feature HTTPUpgrade transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:05:00.788883 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:05:00.948678 from 127.0.0.1:53854 accepted //www.gstatic.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.16.1.1",
+      "duration_ms": 7509.3,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43110 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.16.1.1",
+        "PATTERN EDGE active 104.16.1.1:443 mode=full20"
+      ],
+      "worker_exit": 2
+    },
+    {
+      "profile": "uacSpoofer 6",
+      "edge": "104.16.1.1",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "app_cut": 17,
+      "app_delay_ms": 1,
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 4505.5,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=4.5)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:05:02.016952 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-6-68.json Format:json}\n2026/08/01 21:05:02.026151 [Warning] common/errors: The feature HTTPUpgrade transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:05:02.027192 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:05:02.152440 from 127.0.0.1:53881 accepted //www.gstatic.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.16.1.1",
+      "duration_ms": 7496.6,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43111 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.16.1.1",
+        "PATTERN EDGE active 104.16.1.1:443 mode=full20"
+      ],
+      "worker_exit": 2
+    },
+    {
+      "profile": "uacSpoofer 6",
+      "edge": "104.16.1.1",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "app_cut": 17,
+      "app_delay_ms": 3,
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 4502.9,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=4.5)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:05:03.438591 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-6-69.json Format:json}\n2026/08/01 21:05:03.449895 [Warning] common/errors: The feature HTTPUpgrade transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:05:03.450928 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:05:03.539889 from 127.0.0.1:53929 accepted //www.gstatic.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.16.1.1",
+      "duration_ms": 7541.2,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43112 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.16.1.1",
+        "PATTERN EDGE active 104.16.1.1:443 mode=full20"
+      ],
+      "worker_exit": 2
+    },
+    {
+      "profile": "uacSpoofer 6",
+      "edge": "104.16.1.1",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "app_cut": 17,
+      "app_delay_ms": 8,
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 4502.5,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=4.5)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:05:04.031347 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-6-70.json Format:json}\n2026/08/01 21:05:04.043403 [Warning] common/errors: The feature HTTPUpgrade transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:05:04.044419 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:05:04.131811 from 127.0.0.1:53941 accepted //www.gstatic.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.16.1.1",
+      "duration_ms": 7271.6,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43113 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.16.1.1",
+        "PATTERN EDGE active 104.16.1.1:443 mode=full20"
+      ],
+      "worker_exit": 2
+    },
+    {
+      "profile": "uacSpoofer 6",
+      "edge": "104.16.1.1",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "app_cut": 17,
+      "app_delay_ms": 15,
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 4504.2,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=4.5)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:05:04.354753 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-6-71.json Format:json}\n2026/08/01 21:05:04.366124 [Warning] common/errors: The feature HTTPUpgrade transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:05:04.367667 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:05:04.536716 from 127.0.0.1:53946 accepted //www.gstatic.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.16.1.1",
+      "duration_ms": 6397.1,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43114 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.16.1.1",
+        "PATTERN EDGE active 104.16.1.1:443 mode=full20"
+      ],
+      "worker_exit": 2
+    },
+    {
+      "profile": "uacSpoofer 6",
+      "edge": "104.16.1.1",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "app_cut": 37,
+      "app_delay_ms": 1,
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 4504.5,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=4.5)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:05:07.498480 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-6-72.json Format:json}\n2026/08/01 21:05:07.510915 [Warning] common/errors: The feature HTTPUpgrade transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:05:07.512972 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:05:07.665545 from 127.0.0.1:53995 accepted //www.gstatic.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.16.1.1",
+      "duration_ms": 7139.4,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43115 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.16.1.1",
+        "PATTERN EDGE active 104.16.1.1:443 mode=full20"
+      ],
+      "worker_exit": 2
+    },
+    {
+      "profile": "uacSpoofer 6",
+      "edge": "104.16.1.1",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "app_cut": 37,
+      "app_delay_ms": 8,
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 4535.8,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=4.5)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:05:07.500062 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-6-74.json Format:json}\n2026/08/01 21:05:07.511427 [Warning] common/errors: The feature HTTPUpgrade transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:05:07.512972 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:05:07.685856 from 127.0.0.1:53994 accepted //www.gstatic.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.16.1.1",
+      "duration_ms": 5379.4,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43117 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.16.1.1",
+        "PATTERN EDGE active 104.16.1.1:443 mode=full20"
+      ],
+      "worker_exit": 2
+    },
+    {
+      "profile": "uacSpoofer 6",
+      "edge": "104.16.1.1",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "app_cut": 37,
+      "app_delay_ms": 3,
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 4528.8,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=4.5)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:05:07.500576 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-6-73.json Format:json}\n2026/08/01 21:05:07.511427 [Warning] common/errors: The feature HTTPUpgrade transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:05:07.512972 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:05:07.701293 from 127.0.0.1:54000 accepted //www.gstatic.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.16.1.1",
+      "duration_ms": 6347.6,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43116 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.16.1.1",
+        "PATTERN EDGE active 104.16.1.1:443 mode=full20"
+      ],
+      "worker_exit": 2
+    },
+    {
+      "profile": "uacSpoofer 6",
+      "edge": "104.16.1.1",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "app_cut": 37,
+      "app_delay_ms": 15,
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 4507.6,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=4.5)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:05:07.996491 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-6-75.json Format:json}\n2026/08/01 21:05:08.004684 [Warning] common/errors: The feature HTTPUpgrade transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:05:08.006212 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:05:08.176039 from 127.0.0.1:54013 accepted //www.gstatic.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.16.1.1",
+      "duration_ms": 4719.1,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43118 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.16.1.1",
+        "PATTERN EDGE active 104.16.1.1:443 mode=full20"
+      ],
+      "worker_exit": 2
+    },
+    {
+      "profile": "uacSpoofer 6",
+      "edge": "104.16.1.1",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "app_cut": 73,
+      "app_delay_ms": 1,
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 4506.8,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=4.5)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:05:08.003154 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-6-76.json Format:json}\n2026/08/01 21:05:08.013468 [Warning] common/errors: The feature HTTPUpgrade transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:05:08.014997 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:05:08.191804 from 127.0.0.1:54018 accepted //www.gstatic.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.16.1.1",
+      "duration_ms": 4727.6,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43119 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.16.1.1",
+        "PATTERN EDGE active 104.16.1.1:443 mode=full20"
+      ],
+      "worker_exit": 2
+    },
+    {
+      "profile": "uacSpoofer 6",
+      "edge": "104.16.1.1",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "app_cut": 73,
+      "app_delay_ms": 3,
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 4500.2,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=4.5)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:05:08.471505 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-6-77.json Format:json}\n2026/08/01 21:05:08.479743 [Warning] common/errors: The feature HTTPUpgrade transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:05:08.480770 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:05:08.667372 from 127.0.0.1:54025 accepted //www.gstatic.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.16.1.1",
+      "duration_ms": 4729.8,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43120 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.16.1.1",
+        "PATTERN EDGE active 104.16.1.1:443 mode=full20"
+      ],
+      "worker_exit": 2
+    },
+    {
+      "profile": "uacSpoofer 6",
+      "edge": "104.16.1.1",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "app_cut": 73,
+      "app_delay_ms": 8,
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 4502.2,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=4.5)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:05:10.021670 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-6-78.json Format:json}\n2026/08/01 21:05:10.029864 [Warning] common/errors: The feature HTTPUpgrade transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:05:10.031396 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:05:10.034788 from 127.0.0.1:54048 accepted //www.gstatic.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.16.1.1",
+      "duration_ms": 5108.7,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43121 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.16.1.1",
+        "PATTERN EDGE active 104.16.1.1:443 mode=full20"
+      ],
+      "worker_exit": 2
+    },
+    {
+      "profile": "uacSpoofer 6",
+      "edge": "104.16.1.1",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "app_cut": 73,
+      "app_delay_ms": 15,
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 4506.1,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=4.5)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:05:11.045471 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-6-79.json Format:json}\n2026/08/01 21:05:11.054267 [Warning] common/errors: The feature HTTPUpgrade transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:05:11.055804 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:05:11.214830 from 127.0.0.1:54074 accepted //www.gstatic.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.16.1.1",
+      "duration_ms": 5985.3,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43122 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.16.1.1",
+        "PATTERN EDGE active 104.16.1.1:443 mode=full20"
+      ],
+      "worker_exit": 2
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+MCI adaptive raw Suggested scan
+Railway used: no
+Raw transport attempts: 528
+Parallel raw workers: 96
+TLS successes: 172
+HTTP 101 routes: 14
+Real Xray winners: 0
+Application-split attempts: 80
+Elevated Fake-SNI attempts: 76
+Google + YouTube verified routes: 0
+Conclusion: The old upstreams accept TLS/WebSocket Upgrade on selected edges, but their authenticated proxy payload produced no usable response on the current MCI path.

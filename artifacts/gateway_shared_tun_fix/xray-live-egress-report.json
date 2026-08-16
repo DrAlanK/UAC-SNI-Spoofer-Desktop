@@ -1,0 +1,79 @@
+{
+  "interface": "Ethernet",
+  "requests": 12,
+  "passed": 12,
+  "results": [
+    {
+      "index": 0,
+      "ok": true,
+      "status": 204,
+      "ms": 781
+    },
+    {
+      "index": 1,
+      "ok": true,
+      "status": 204,
+      "ms": 780
+    },
+    {
+      "index": 2,
+      "ok": true,
+      "status": 204,
+      "ms": 854
+    },
+    {
+      "index": 3,
+      "ok": true,
+      "status": 204,
+      "ms": 925
+    },
+    {
+      "index": 4,
+      "ok": true,
+      "status": 204,
+      "ms": 772
+    },
+    {
+      "index": 5,
+      "ok": true,
+      "status": 204,
+      "ms": 780
+    },
+    {
+      "index": 6,
+      "ok": true,
+      "status": 204,
+      "ms": 922
+    },
+    {
+      "index": 7,
+      "ok": true,
+      "status": 204,
+      "ms": 849
+    },
+    {
+      "index": 8,
+      "ok": true,
+      "status": 204,
+      "ms": 924
+    },
+    {
+      "index": 9,
+      "ok": true,
+      "status": 204,
+      "ms": 766
+    },
+    {
+      "index": 10,
+      "ok": true,
+      "status": 204,
+      "ms": 834
+    },
+    {
+      "index": 11,
+      "ok": true,
+      "status": 204,
+      "ms": 784
+    }
+  ]
+}

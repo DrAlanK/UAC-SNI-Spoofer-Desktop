@@ -165,7 +165,7 @@ def main() -> int:
         pass
     if relaunch_as_admin():
         return 0
-    bootstrap_portable_npcap()
+    # bootstrap_portable_npcap()
     try:
         GatewayManager().recover()
     except Exception:

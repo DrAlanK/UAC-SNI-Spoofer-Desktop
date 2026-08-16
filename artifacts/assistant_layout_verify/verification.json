@@ -1,0 +1,99 @@
+{
+  "normal": {
+    "host": "windowRoot",
+    "assistant": [
+      16,
+      664,
+      211,
+      250
+    ],
+    "bubble": [
+      248,
+      740,
+      280,
+      96
+    ],
+    "tail": "left",
+    "docked": false,
+    "overlap": false,
+    "inside": true
+  },
+  "guiding": {
+    "host": "windowRoot",
+    "assistant": [
+      16,
+      664,
+      229,
+      250
+    ],
+    "bubble": [
+      266,
+      740,
+      402,
+      96
+    ],
+    "tail": "left",
+    "docked": false,
+    "overlap": false,
+    "inside": true
+  },
+  "sad": {
+    "host": "windowRoot",
+    "assistant": [
+      16,
+      664,
+      218,
+      250
+    ],
+    "bubble": [
+      255,
+      740,
+      420,
+      96
+    ],
+    "tail": "left",
+    "docked": false,
+    "overlap": false,
+    "inside": true
+  },
+  "confused": {
+    "host": "windowRoot",
+    "assistant": [
+      16,
+      664,
+      206,
+      250
+    ],
+    "bubble": [
+      243,
+      740,
+      420,
+      96
+    ],
+    "tail": "left",
+    "docked": false,
+    "overlap": false,
+    "inside": true
+  },
+  "dialog": {
+    "host": "advancedDialog",
+    "assistant": [
+      207,
+      439,
+      187,
+      204
+    ],
+    "bubble": [
+      415,
+      489,
+      265,
+      102
+    ],
+    "tail": "left",
+    "docked": false,
+    "overlap": false,
+    "inside": true,
+    "header_overlap": false,
+    "footer_overlap": false
+  }
+}

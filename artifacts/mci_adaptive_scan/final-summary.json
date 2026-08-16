@@ -1,0 +1,40 @@
+{
+  "carrier": "mci",
+  "network": "5G",
+  "railway_used": false,
+  "raw_profiles": 6,
+  "raw_transport": {
+    "attempts": 528,
+    "workers": 96,
+    "duration_s": 74.65,
+    "tls_ok": 172,
+    "websocket_101": 14
+  },
+  "runtime_direct_and_fragment": {
+    "tested_profiles": 4,
+    "winners": 0
+  },
+  "app_data_split": {
+    "attempts": 80,
+    "workers": 8,
+    "duration_s": 78.48,
+    "winners": 0
+  },
+  "elevated_fake_sni": {
+    "attempts": 76,
+    "duration_s": 447.42,
+    "strategies": [
+      "full5",
+      "wrong_seq"
+    ],
+    "fake_snis": [
+      "www.speedtest.net",
+      "community.cloudflare.com",
+      "www.hcaptcha.com",
+      "support.cloudflare.com"
+    ],
+    "winners": 0
+  },
+  "verified_raw_routes": [],
+  "conclusion": "14 routes completed TLS and HTTP 101, but no original Suggested profile carried a real Google/YouTube request through Xray on the current MCI path."
+}

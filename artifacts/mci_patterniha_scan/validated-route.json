@@ -1,0 +1,64 @@
+{
+  "tested_on": "current IPv4/MCI connection",
+  "xray_ab_tested": false,
+  "ipv6_tested": false,
+  "external_upstream_used": false,
+  "production_files_changed": false,
+  "winner": {
+    "profile": "uacSpoofer 3",
+    "edge": "104.18.1.1",
+    "port": 443,
+    "sni": "www.ignitelimit.com",
+    "transport": "ws",
+    "path": "assignment",
+    "fingerprint": "chrome",
+    "alpn": "http/1.1",
+    "fragment": "Patterniha v47 tlshello lengths=[5], delays=[0], maxSplit=2"
+  },
+  "concurrent_full_validation": {
+    "passes": 3,
+    "attempts": 3
+  },
+  "sequential_validation": {
+    "verified": true,
+    "targets": [
+      {
+        "name": "gstatic",
+        "ok": true,
+        "status": 204,
+        "bytes": 0,
+        "ms": 5265.8,
+        "error": ""
+      },
+      {
+        "name": "google",
+        "ok": true,
+        "status": 200,
+        "bytes": 2048,
+        "ms": 5413.8,
+        "error": ""
+      },
+      {
+        "name": "youtube",
+        "ok": true,
+        "status": 204,
+        "bytes": 0,
+        "ms": 5548.2,
+        "error": ""
+      },
+      {
+        "name": "ytimg",
+        "ok": true,
+        "status": 200,
+        "bytes": 2048,
+        "ms": 4065.4,
+        "error": ""
+      }
+    ],
+    "duration_ms": 20612.8
+  },
+  "secondary": {
+    "v48_low_172.66.0.1": "3/3 concurrent full passes; sequential Google+YouTube+ytimg passed, gstatic timed out",
+    "v48_high_172.66.0.1": "3/3 concurrent full passes; sequential YouTube timed out"
+  }
+}

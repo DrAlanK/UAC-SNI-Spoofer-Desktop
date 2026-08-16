@@ -1,0 +1,208 @@
+{
+  "strategy": "full20",
+  "parallel_workers": 4,
+  "railway_used": false,
+  "results": [
+    {
+      "profile": "uacSpoofer 1",
+      "edge": "104.19.230.21",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 10007.5,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=10.0)"
+        },
+        {
+          "name": "google",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 10006.6,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.google.com', port=443): Read timed out. (read timeout=10.0)"
+        },
+        {
+          "name": "youtube",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 10006.2,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.youtube.com', port=443): Read timed out. (read timeout=10.0)"
+        },
+        {
+          "name": "ytimg",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 10005.9,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='i.ytimg.com', port=443): Read timed out. (read timeout=10.0)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:01:57.990513 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-1-0.json Format:json}\n2026/08/01 21:01:57.992054 [Warning] common/errors: The feature WebSocket transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:01:57.992054 [Warning] common/errors: This feature \"host\" in \"headers\" is deprecated, will be removed soon and being migrated to independent \"host\". Please update your config(s) according to release note and documentation before removal.\n2026/08/01 21:01:57.992054 [Warning] common/errors: The feature Trojan (with no Flow, etc.) is deprecated, not recommended for using and might be removed. Please migrate to VLESS with Flow & Seed as soon as possible.\n2026/08/01 21:01:57.993600 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:01:58.179784 from 127.0.0.1:51548 accepted //www.gstatic.com:443 [http-in >> proxy]\n2026/08/01 21:01:58.179784 from 127.0.0.1:51549 accepted //www.google.com:443 [http-in >> proxy]\n2026/08/01 21:01:58.179784 from 127.0.0.1:51550 accepted //www.youtube.com:443 [http-in >> proxy]\n2026/08/01 21:01:58.180839 from 127.0.0.1:51551 accepted //i.ytimg.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.19.230.21",
+      "duration_ms": 13051.4,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43043 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.19.230.21",
+        "PATTERN EDGE active 104.19.230.21:443 mode=full20"
+      ]
+    },
+    {
+      "profile": "uacSpoofer 2",
+      "edge": "104.24.133.30",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 10016.7,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=10.0)"
+        },
+        {
+          "name": "google",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 10016.0,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.google.com', port=443): Read timed out. (read timeout=10.0)"
+        },
+        {
+          "name": "youtube",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 10015.4,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.youtube.com', port=443): Read timed out. (read timeout=10.0)"
+        },
+        {
+          "name": "ytimg",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 10015.0,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='i.ytimg.com', port=443): Read timed out. (read timeout=10.0)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:01:57.994626 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-2-1.json Format:json}\n2026/08/01 21:01:57.996152 [Warning] common/errors: The feature WebSocket transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:01:57.996152 [Warning] common/errors: This feature \"host\" in \"headers\" is deprecated, will be removed soon and being migrated to independent \"host\". Please update your config(s) according to release note and documentation before removal.\n2026/08/01 21:01:57.996152 [Warning] common/errors: The feature Trojan (with no Flow, etc.) is deprecated, not recommended for using and might be removed. Please migrate to VLESS with Flow & Seed as soon as possible.\n2026/08/01 21:01:57.998221 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:01:58.185930 from 127.0.0.1:51558 accepted //www.google.com:443 [http-in >> proxy]\n2026/08/01 21:01:58.186942 from 127.0.0.1:51557 accepted //www.gstatic.com:443 [http-in >> proxy]\n2026/08/01 21:01:58.187463 from 127.0.0.1:51561 accepted //www.youtube.com:443 [http-in >> proxy]\n2026/08/01 21:01:58.187463 from 127.0.0.1:51560 accepted //i.ytimg.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.24.133.30",
+      "duration_ms": 12225.4,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43044 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.24.133.30",
+        "PATTERN EDGE active 104.24.133.30:443 mode=full20"
+      ]
+    },
+    {
+      "profile": "uacSpoofer 3",
+      "edge": "104.18.9.83",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 10007.8,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=10.0)"
+        },
+        {
+          "name": "google",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 10007.0,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.google.com', port=443): Read timed out. (read timeout=10.0)"
+        },
+        {
+          "name": "youtube",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 10006.4,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.youtube.com', port=443): Read timed out. (read timeout=10.0)"
+        },
+        {
+          "name": "ytimg",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 10006.1,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='i.ytimg.com', port=443): Read timed out. (read timeout=10.0)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:01:57.994626 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-3-2.json Format:json}\n2026/08/01 21:01:57.996152 [Warning] common/errors: The feature WebSocket transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:01:57.996152 [Warning] common/errors: This feature \"host\" in \"headers\" is deprecated, will be removed soon and being migrated to independent \"host\". Please update your config(s) according to release note and documentation before removal.\n2026/08/01 21:01:57.996152 [Warning] common/errors: The feature Trojan (with no Flow, etc.) is deprecated, not recommended for using and might be removed. Please migrate to VLESS with Flow & Seed as soon as possible.\n2026/08/01 21:01:57.997198 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:01:58.163995 from 127.0.0.1:51538 accepted //www.gstatic.com:443 [http-in >> proxy]\n2026/08/01 21:01:58.164548 from 127.0.0.1:51539 accepted //www.google.com:443 [http-in >> proxy]\n2026/08/01 21:01:58.165065 from 127.0.0.1:51540 accepted //www.youtube.com:443 [http-in >> proxy]\n2026/08/01 21:01:58.165065 from 127.0.0.1:51543 accepted //i.ytimg.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.18.9.83",
+      "duration_ms": 10853.6,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43045 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.18.9.83",
+        "PATTERN EDGE active 104.18.9.83:443 mode=full20"
+      ]
+    },
+    {
+      "profile": "uacSpoofer 6",
+      "edge": "104.16.1.1",
+      "strategy": "full20",
+      "fake_sni": "www.speedtest.net",
+      "verified": false,
+      "targets": [
+        {
+          "name": "gstatic",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 10009.4,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=10.0)"
+        },
+        {
+          "name": "google",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 10008.7,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.google.com', port=443): Read timed out. (read timeout=10.0)"
+        },
+        {
+          "name": "youtube",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 10008.2,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='www.youtube.com', port=443): Read timed out. (read timeout=10.0)"
+        },
+        {
+          "name": "ytimg",
+          "ok": false,
+          "status": 0,
+          "bytes": 0,
+          "ms": 10007.7,
+          "error": "ReadTimeout: HTTPSConnectionPool(host='i.ytimg.com', port=443): Read timed out. (read timeout=10.0)"
+        }
+      ],
+      "error": "",
+      "xray_tail": "Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:01:58.418903 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-raw-6-3.json Format:json}\n2026/08/01 21:01:58.420434 [Warning] common/errors: The feature HTTPUpgrade transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:01:58.422053 [Warning] core: Xray 26.3.27 started\n2026/08/01 21:01:58.599262 from 127.0.0.1:51596 accepted //www.gstatic.com:443 [http-in >> proxy]\n2026/08/01 21:01:58.599791 from 127.0.0.1:51597 accepted //www.google.com:443 [http-in >> proxy]\n2026/08/01 21:01:58.599791 from 127.0.0.1:51598 accepted //www.youtube.com:443 [http-in >> proxy]\n2026/08/01 21:01:58.600302 from 127.0.0.1:51600 accepted //i.ytimg.com:443 [http-in >> proxy]\n",
+      "active_edge": "104.16.1.1",
+      "duration_ms": 10224.8,
+      "core_tail": [
+        "PATTERN CORE ready 127.0.0.1:43046 full20 fakeSni=www.speedtest.net",
+        "PATTERN QUALITY preset=compatibility relay=256KiB socket=512KiB handshakes=12 edges=104.16.1.1",
+        "PATTERN EDGE active 104.16.1.1:443 mode=full20"
+      ]
+    }
+  ],
+  "winners": []
+}

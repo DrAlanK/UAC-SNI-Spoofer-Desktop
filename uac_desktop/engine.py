@@ -21,6 +21,7 @@ import requests
 
 from . import __version__
 from .gateway import GatewayManager
+from .npcap import ensure_npcap
 from .models import ProxyProfile, Tuning, parse_outbound
 from .pattern_core import PatternSniCore
 from .paths import (BIN, DATA_DIR, SING_BOX_CONFIG, SING_BOX_OWNER_FILE,
@@ -2033,13 +2034,24 @@ class Engine:
                 self._proxy_enabled = True
 
     def enable_gateway(self, cancel_event: threading.Event | None = None,
-                       expected_run_id: int | None = None) -> None:
+                   expected_run_id: int | None = None) -> None:
         with self._lifecycle_lock:
             self._check_run_id(expected_run_id)
             self._check_cancel(cancel_event)
             if not self.running:
                 raise RuntimeError("Cannot enable Mobile Gateway before the engine is running")
             run_id = self._run_id
+
+        npcap_result = ensure_npcap()
+
+        self._check_cancel(cancel_event)
+
+        if not npcap_result.available:
+            raise RuntimeError(
+                "Npcap setup was not completed. "
+                f"Details: {npcap_result.detail}"
+            )
+
         self.gateway.start(
             engine=self,
             health_check=lambda: self.running and self._run_id == run_id,

@@ -1,0 +1,143 @@
+[
+  {
+    "index": 900,
+    "profile": 3,
+    "edge": "104.18.1.1",
+    "port": 443,
+    "variant": "v47",
+    "fingerprint": "chrome",
+    "profile_name": "uacSpoofer 3",
+    "verified": true,
+    "targets": [
+      {
+        "name": "gstatic",
+        "ok": true,
+        "status": 204,
+        "bytes": 0,
+        "ms": 5265.8,
+        "error": ""
+      },
+      {
+        "name": "google",
+        "ok": true,
+        "status": 200,
+        "bytes": 2048,
+        "ms": 5413.8,
+        "error": ""
+      },
+      {
+        "name": "youtube",
+        "ok": true,
+        "status": 204,
+        "bytes": 0,
+        "ms": 5548.2,
+        "error": ""
+      },
+      {
+        "name": "ytimg",
+        "ok": true,
+        "status": 200,
+        "bytes": 2048,
+        "ms": 4065.4,
+        "error": ""
+      }
+    ],
+    "error": "",
+    "xray_tail": "Xray 26.7.28 (Xray, Penetrates Everything.) 5ca6f4b (go1.26.5 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:43:12.351421 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-finalmask-900.json Format:json}\n2026/08/01 21:43:12.361309 [Warning] common/errors: The feature WebSocket transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:43:12.361309 [Warning] common/errors: This feature \"host\" in \"headers\" is deprecated, will be removed soon and being migrated to independent \"host\". Please update your config(s) according to release note and documentation before removal.\n2026/08/01 21:43:12.361309 [Warning] common/errors: The feature Trojan (with no Flow, etc.) is deprecated, not recommended for using and might be removed. Please migrate to VLESS with Flow & Seed as soon as possible.\n2026/08/01 21:43:12.362876 [Warning] core: Xray 26.7.28 started\n2026/08/01 21:43:12.457915 from 127.0.0.1:40646 accepted //www.gstatic.com:443 [http-in >> proxy]\n2026/08/01 21:43:17.724285 from 127.0.0.1:40678 accepted //www.google.com:443 [http-in >> proxy]\n2026/08/01 21:43:23.136958 from 127.0.0.1:40731 accepted //www.youtube.com:443 [http-in >> proxy]\n2026/08/01 21:43:28.707640 from 127.0.0.1:40772 accepted //i.ytimg.com:443 [http-in >> proxy]\n",
+    "duration_ms": 20612.8
+  },
+  {
+    "index": 901,
+    "profile": 3,
+    "edge": "172.66.0.1",
+    "port": 443,
+    "variant": "v48-low",
+    "fingerprint": "chrome",
+    "profile_name": "uacSpoofer 3",
+    "verified": true,
+    "targets": [
+      {
+        "name": "gstatic",
+        "ok": false,
+        "status": 0,
+        "bytes": 0,
+        "ms": 14004.8,
+        "error": "ReadTimeout: HTTPSConnectionPool(host='www.gstatic.com', port=443): Read timed out. (read timeout=14)"
+      },
+      {
+        "name": "google",
+        "ok": true,
+        "status": 200,
+        "bytes": 2048,
+        "ms": 8227.2,
+        "error": ""
+      },
+      {
+        "name": "youtube",
+        "ok": true,
+        "status": 204,
+        "bytes": 0,
+        "ms": 12440.5,
+        "error": ""
+      },
+      {
+        "name": "ytimg",
+        "ok": true,
+        "status": 200,
+        "bytes": 2048,
+        "ms": 8066.6,
+        "error": ""
+      }
+    ],
+    "error": "",
+    "xray_tail": "Xray 26.7.28 (Xray, Penetrates Everything.) 5ca6f4b (go1.26.5 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:43:32.959689 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-finalmask-901.json Format:json}\n2026/08/01 21:43:32.984374 [Warning] common/errors: The feature WebSocket transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:43:32.984374 [Warning] common/errors: This feature \"host\" in \"headers\" is deprecated, will be removed soon and being migrated to independent \"host\". Please update your config(s) according to release note and documentation before removal.\n2026/08/01 21:43:32.984374 [Warning] common/errors: The feature Trojan (with no Flow, etc.) is deprecated, not recommended for using and might be removed. Please migrate to VLESS with Flow & Seed as soon as possible.\n2026/08/01 21:43:32.985919 [Warning] core: Xray 26.7.28 started\n2026/08/01 21:43:33.092870 from 127.0.0.1:20494 accepted //www.gstatic.com:443 [http-in >> proxy]\n2026/08/01 21:43:47.098638 from 127.0.0.1:20644 accepted //www.google.com:443 [http-in >> proxy]\n2026/08/01 21:43:55.325175 from 127.0.0.1:20714 accepted //www.youtube.com:443 [http-in >> proxy]\n2026/08/01 21:44:07.766139 from 127.0.0.1:20807 accepted //i.ytimg.com:443 [http-in >> proxy]\n",
+    "duration_ms": 43082.0
+  },
+  {
+    "index": 902,
+    "profile": 3,
+    "edge": "172.66.0.1",
+    "port": 443,
+    "variant": "v48-high",
+    "fingerprint": "chrome",
+    "profile_name": "uacSpoofer 3",
+    "verified": false,
+    "targets": [
+      {
+        "name": "gstatic",
+        "ok": true,
+        "status": 204,
+        "bytes": 0,
+        "ms": 7650.6,
+        "error": ""
+      },
+      {
+        "name": "google",
+        "ok": true,
+        "status": 200,
+        "bytes": 2048,
+        "ms": 8357.0,
+        "error": ""
+      },
+      {
+        "name": "youtube",
+        "ok": false,
+        "status": 0,
+        "bytes": 0,
+        "ms": 14007.4,
+        "error": "ReadTimeout: HTTPSConnectionPool(host='www.youtube.com', port=443): Read timed out. (read timeout=14)"
+      },
+      {
+        "name": "ytimg",
+        "ok": true,
+        "status": 200,
+        "bytes": 2048,
+        "ms": 12512.3,
+        "error": ""
+      }
+    ],
+    "error": "",
+    "xray_tail": "Xray 26.7.28 (Xray, Penetrates Everything.) 5ca6f4b (go1.26.5 windows/amd64)\nA unified platform for anti-censorship.\n2026/08/01 21:44:16.066034 [Info] infra/conf/serial: Reading config: &{Name:C:\\Users\\RAYANE~1\\AppData\\Local\\Temp\\uac-mci-finalmask-902.json Format:json}\n2026/08/01 21:44:16.075487 [Warning] common/errors: The feature WebSocket transport (with ALPN http/1.1, etc.) is deprecated, not recommended for using and might be removed. Please migrate to XHTTP H2 & H3 as soon as possible.\n2026/08/01 21:44:16.075487 [Warning] common/errors: This feature \"host\" in \"headers\" is deprecated, will be removed soon and being migrated to independent \"host\". Please update your config(s) according to release note and documentation before removal.\n2026/08/01 21:44:16.075487 [Warning] common/errors: The feature Trojan (with no Flow, etc.) is deprecated, not recommended for using and might be removed. Please migrate to VLESS with Flow & Seed as soon as possible.\n2026/08/01 21:44:16.077349 [Warning] core: Xray 26.7.28 started\n2026/08/01 21:44:16.170761 from 127.0.0.1:20880 accepted //www.gstatic.com:443 [http-in >> proxy]\n2026/08/01 21:44:23.821141 from 127.0.0.1:20963 accepted //www.google.com:443 [http-in >> proxy]\n2026/08/01 21:44:32.178233 from 127.0.0.1:21039 accepted //www.youtube.com:443 [http-in >> proxy]\n2026/08/01 21:44:46.185546 from 127.0.0.1:21139 accepted //i.ytimg.com:443 [http-in >> proxy]\n",
+    "duration_ms": 42862.7
+  }
+]

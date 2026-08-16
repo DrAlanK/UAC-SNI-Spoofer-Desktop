@@ -1,0 +1,126 @@
+{
+  "log": {
+    "level": "warn",
+    "timestamp": true
+  },
+  "dns": {
+    "servers": [
+      {
+        "type": "tcp",
+        "tag": "remote-dns",
+        "server": "1.1.1.1",
+        "server_port": 53,
+        "detour": "proxy"
+      }
+    ],
+    "rules": [
+      {
+        "domain_regex": [
+          "(?i)\\.(?:instagram\\.com|facebook\\.com|cdninstagram\\.com|fbcdn\\.net|fbsbx\\.com)\\.(?:home|lan|localdomain)$"
+        ],
+        "action": "predefined",
+        "rcode": "NXDOMAIN"
+      }
+    ],
+    "final": "remote-dns",
+    "strategy": "ipv4_only"
+  },
+  "inbounds": [
+    {
+      "type": "tun",
+      "tag": "tun-in",
+      "interface_name": "UAC-Spoofer",
+      "address": [
+        "172.19.0.1/30",
+        "fdfe:dcba:9876::1/126"
+      ],
+      "mtu": 1400,
+      "auto_route": true,
+      "strict_route": false,
+      "route_exclude_address": [
+        "104.18.1.1/32"
+      ],
+      "stack": "mixed"
+    }
+  ],
+  "outbounds": [
+    {
+      "type": "socks",
+      "tag": "proxy",
+      "server": "127.0.0.1",
+      "server_port": 20808,
+      "version": "5"
+    },
+    {
+      "type": "direct",
+      "tag": "local-direct"
+    },
+    {
+      "type": "direct",
+      "tag": "direct",
+      "bind_interface": "Ethernet"
+    }
+  ],
+  "route": {
+    "auto_detect_interface": true,
+    "rules": [
+      {
+        "process_name": [
+          "python.exe"
+        ],
+        "ip_cidr": [
+          "104.18.1.1/32"
+        ],
+        "action": "route",
+        "outbound": "direct"
+      },
+      {
+        "process_name": [
+          "xray.exe"
+        ],
+        "ip_cidr": [
+          "127.0.0.0/8"
+        ],
+        "action": "route",
+        "outbound": "local-direct"
+      },
+      {
+        "process_name": [
+          "xray.exe"
+        ],
+        "action": "route",
+        "outbound": "direct"
+      },
+      {
+        "source_ip_cidr": [
+          "192.168.70.0/24"
+        ],
+        "port": 53,
+        "action": "hijack-dns"
+      },
+      {
+        "network": "icmp",
+        "action": "route",
+        "outbound": "direct"
+      },
+      {
+        "source_ip_cidr": [
+          "192.168.70.0/24"
+        ],
+        "ip_cidr": [
+          "192.168.70.0/24"
+        ],
+        "action": "route",
+        "outbound": "direct"
+      },
+      {
+        "source_ip_cidr": [
+          "192.168.70.0/24"
+        ],
+        "action": "route",
+        "outbound": "proxy"
+      }
+    ],
+    "final": "proxy"
+  }
+}
