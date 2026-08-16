@@ -2676,7 +2676,22 @@ class Engine:
             self.log(f"WARMUP skipped {type(exc).__name__}")
         finally:
             session.close()
+    def _release_windivert_driver(self) -> None:
+        """Best-effort release of the WinDivert kernel driver after our handles close."""
+        if sys.platform != "win32":
+            return
 
+        try:
+            import pydivert
+
+            if pydivert.WinDivert.is_registered():
+                pydivert.WinDivert.unregister()
+                self.log("WinDivert driver stop requested")
+        except Exception as exc:
+            self.log(
+                f"WinDivert driver cleanup deferred: "
+                f"{type(exc).__name__}: {exc}"
+            )
     def stop(self, notify: bool = True) -> None:
         try:
             self.gateway.before_engine_stop()
@@ -2740,10 +2755,13 @@ class Engine:
                 errors.append(exc)
             finally:
                 self._proxy_enabled = self.system_proxy.has_pending_restore
+        self._release_windivert_driver()
+
         if was_active:
             self.log("VPN stopped")
             if notify:
                 self.state(False)
+
         if errors:
             raise errors[0]
 

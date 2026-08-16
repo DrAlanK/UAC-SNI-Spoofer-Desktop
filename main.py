@@ -24,19 +24,45 @@ def is_admin() -> bool:
 
 
 def relaunch_as_admin() -> bool:
-    """WinDivert requires elevation; keep source and packaged launches consistent."""
+    """Request UAC automatically. Retry on failure/cancel, or exit cleanly."""
     if sys.platform != "win32" or is_admin():
         return False
+
     if getattr(sys, "frozen", False):
         executable = sys.executable
         arguments = subprocess.list2cmdline(sys.argv[1:])
     else:
         executable = sys.executable
-        arguments = subprocess.list2cmdline([os.path.abspath(__file__), *sys.argv[1:]])
-    result = ctypes.windll.shell32.ShellExecuteW(None, "runas", executable, arguments, os.getcwd(), 1)
-    if int(result) <= 32:
-        raise RuntimeError(f"Administrator relaunch failed ({result})")
-    return True
+        arguments = subprocess.list2cmdline(
+            [os.path.abspath(__file__), *sys.argv[1:]]
+        )
+
+    while True:
+        result = ctypes.windll.shell32.ShellExecuteW(
+            None,
+            "runas",
+            executable,
+            arguments,
+            os.getcwd(),
+            1,
+        )
+
+        if int(result) > 32:
+            return True
+
+        choice = ctypes.windll.user32.MessageBoxW(
+            None,
+            "UAC Spoofer requires Administrator access to manage network traffic.\n\n"
+            "Click Retry to request Administrator permission again,\n"
+            "or Cancel to exit the application.",
+            "Administrator permission required",
+            0x00000005 | 0x00000030 | 0x00040000,
+        )
+
+        if choice == 4:
+            continue
+
+        return True
 
 
 def acquire_single_instance() -> bool:

@@ -479,6 +479,7 @@ class ScapyArpBackend:
             conf.verb = 0
             self._api = {
                 "interfaces": get_windows_if_list,
+                "conf": conf,
                 "ARP": ARP,
                 "BOOTP": BOOTP,
                 "DHCP": DHCP,
@@ -663,18 +664,62 @@ class ScapyArpBackend:
     ) -> None:
         self.stop_responder()
         api = self._load()
+
         lan = dict(state["lan"])
         capture = dict(state["capture"])
+
+        responder_iface = str(capture["name"])
+
         gateway = str(ipaddress.IPv4Address(str(lan["gateway"])))
         local_address = str(ipaddress.IPv4Address(str(lan["address"])))
+
         network = ipaddress.ip_network(
             f"{local_address}/{int(lan['prefix'])}",
             strict=False,
         )
+
         pc_mac = _normalize_mac(capture.get("mac", ""))
+
         if not pc_mac:
             raise GatewayError("LAN capture MAC is missing")
+
+        # Keep the original interface name whenever it works.
+        # Only the ARP/DHCP responder gets an Npcap fallback.
+        try:
+            api["conf"].ifaces.dev_from_name(responder_iface)
+
+        except ValueError:
+            try:
+                api["conf"].ifaces.reload()
+            except Exception:
+                pass
+
+            for interface in api["conf"].ifaces.values():
+                try:
+                    ipv4_addresses = list(
+                        getattr(interface, "ips", {}).get(4, [])
+                    )
+                except (AttributeError, TypeError):
+                    ipv4_addresses = []
+
+                interface_mac = _normalize_mac(
+                    getattr(interface, "mac", "")
+                )
+
+                network_name = str(
+                    getattr(interface, "network_name", "") or ""
+                ).strip()
+
+                if (
+                    local_address in ipv4_addresses
+                    and interface_mac == pc_mac
+                    and network_name
+                ):
+                    responder_iface = network_name
+                    break
+
         dhcp_names: dict[str, str] = {}
+
 
         def answer(packet: Any) -> None:
             try:
@@ -716,15 +761,15 @@ class ScapyArpBackend:
                     )
                 )
                 api["sendp"](
-                    response,
-                    iface=str(capture["name"]),
-                    verbose=False,
-                )
+                response,
+                iface=responder_iface,
+                verbose=False,
+            )
             except Exception:
                 return
 
         responder = api["AsyncSniffer"](
-            iface=str(capture["name"]),
+            iface=responder_iface,
             filter="arp or (udp and (port 67 or port 68))",
             prn=answer,
             store=False,

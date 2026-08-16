@@ -1,7 +1,22 @@
 from PyInstaller.utils.hooks import collect_data_files
 
-datas = [('assets', 'assets'), ('bin', 'bin'), ('wizard guider', 'wizard guider'),
-         ('third_party/patterniha_sni_spoofing', 'third_party/patterniha_sni_spoofing')]
+datas = [
+    ('assets', 'assets'),
+
+    ('bin/xray.exe', 'bin'),
+    ('bin/geoip.dat', 'bin'),
+    ('bin/geosite.dat', 'bin'),
+
+    ('bin/sing-box.exe', 'bin'),
+    ('bin/libcronet.dll', 'bin'),
+    ('bin/sing-box-LICENSE', 'bin'),
+
+    ('wizard guider', 'wizard guider'),
+    (
+        'third_party/patterniha_sni_spoofing',
+        'third_party/patterniha_sni_spoofing',
+    ),
+]
 datas += collect_data_files('pydivert.windivert_dll')
 
 a = Analysis(
