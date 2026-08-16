@@ -49,7 +49,7 @@ exe = EXE(
     upx=False,
     console=False,
     icon='assets/icon.png',
-    uac_admin=False,
+    uac_admin=True,
 )
 coll = COLLECT(
     exe,
