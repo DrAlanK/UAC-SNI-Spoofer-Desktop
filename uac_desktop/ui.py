@@ -75,6 +75,13 @@ from .sni_maker_widgets import (
     MakerResultsModel, MakerRoles, normalize_country_code,
 )
 from .storage import Storage
+from .tor_manager import (
+    TorBridge,
+    TorError,
+    TorManager,
+    default_webtunnel_bridges,
+    parse_bridge_line,
+)
 from .icons import icon as cyber_icon, pixmap as cyber_pixmap
 from .update_checker import SemVersion, UpdateInfo, check_latest_release, parse_github_repository
 from .verified_configs import COUNTRIES, VERIFIED_SPOOF_EDGE, VERIFIED_SPOOF_FAKE_SNI
@@ -255,6 +262,17 @@ FA_EN = {
     "ترافیک واقعی اینترنت تایید شد": "Real internet traffic verified",
     "در حال تست مسیر…": "Testing route…", "تست مسیر واقعی تونل": "Live tunnel test",
     "تست سریع لبه": "Quick edge test",
+    "حالت Tor": "Tor Mode",
+    "پیکربندی Tor": "Tor Configuration",
+    "پل‌های Tor": "Tor bridges",
+    "کشور خروجی Tor": "Tor exit country",
+    "هویت جدید": "New Identity",
+    "آی‌پی خروجی Tor": "Tor exit IP",
+    "در حال راه‌اندازی Tor…": "Starting Tor…",
+    "Bootstrap کامل شد": "Bootstrap complete",
+    "هویت جدید ساخته شد": "New identity created",
+    "Tor فعال است": "Tor is enabled",
+    "Tor غیرفعال است": "Tor is disabled",
 }
 EN_FA = {value: key for key, value in FA_EN.items()}
 
@@ -287,6 +305,11 @@ class Bridge(QObject):
     gateway_devices_changed = Signal(object)
     gateway_device_names_changed = Signal(object)
     profile_pings_done = Signal(object, str, int)
+    tor_state = Signal(bool, str)
+    tor_bootstrap = Signal(int)
+    tor_exit_ip = Signal(str)
+    tor_new_identity = Signal(bool, str)
+    tor_exit_country_applied = Signal(str, bool, str) 
 
 
 def _system_motion_enabled() -> bool:
@@ -1827,6 +1850,362 @@ class ProfileDialog(QDialog):
         return out
 
 
+class TorConfigDialog(QDialog):
+    """Tor + WebTunnel configuration dialog.
+
+    Owns bridges, exit-country and NEWNYM actions. All heavy work is
+    delegated to TorManager through signals; the dialog itself never
+    spawns Tor directly.
+    """
+
+    def __init__(self, parent, tuning, language: str = "fa"):
+        super().__init__(parent)
+        self.language = language
+        self.t = lambda fa, en: en if language == "en" else fa
+        self._animated = False
+        self._bridges_lines: list[str] = []
+        self.setObjectName("torConfigDialog")
+        self.setWindowTitle(self.t("پیکربندی Tor", "Tor Configuration"))
+        self.resize(780, 720)
+        self.setMinimumSize(700, 620)
+        self.setLayoutDirection(
+            Qt.LeftToRight if language == "en" else Qt.RightToLeft
+        )
+        self.setAccessibleName("Tor configuration")
+
+        root = QVBoxLayout(self)
+        root.setContentsMargins(0, 0, 0, 0)
+        root.setSpacing(0)
+
+        # ---- Header ----
+        header = QFrame()
+        header.setObjectName("modalHeader")
+        hl = QHBoxLayout(header)
+        hl.setContentsMargins(28, 21, 28, 19)
+        hl.setSpacing(14)
+        header_icon = QLabel()
+        header_icon.setObjectName("modalIcon")
+        header_icon.setFixedSize(46, 46)
+        header_icon.setPixmap(cyber_pixmap("network", "#23f5e0", 25))
+        hl.addWidget(header_icon)
+        header_copy = QVBoxLayout()
+        header_copy.setSpacing(4)
+        title = QLabel(self.t("پیکربندی Tor + WebTunnel",
+                              "Tor + WebTunnel Configuration"))
+        title.setObjectName("modalTitle")
+        subtitle = QLabel(self.t(
+            f"پل‌های {ltr_isolate('WebTunnel')} را وارد کنید تا در شبکه‌های محدود هم تونل باز شود.",
+            "Configure WebTunnel bridges to reach Tor from restricted networks."
+        ))
+        subtitle.setObjectName("modalSubtitle")
+        subtitle.setWordWrap(True)
+        header_copy.addWidget(title)
+        header_copy.addWidget(subtitle)
+        hl.addLayout(header_copy, 1)
+        root.addWidget(header)
+
+        # ---- Scrollable body ----
+        scroll = QScrollArea()
+        scroll.setWidgetResizable(True)
+        scroll.setFrameShape(QFrame.NoFrame)
+        scroll.setObjectName("modalScroll")
+        body = QWidget()
+        body_layout = QVBoxLayout(body)
+        body_layout.setContentsMargins(24, 20, 24, 20)
+        body_layout.setSpacing(14)
+
+        # ==== Section 1: Bridges ====
+        self.bridges_editor = QPlainTextEdit()
+        self.bridges_editor.setObjectName("torBridgesEditor")
+        self.bridges_editor.setProperty("technical", True)
+        self.bridges_editor.setLayoutDirection(Qt.LeftToRight)
+        self.bridges_editor.setPlaceholderText(
+            "webtunnel [2001:db8::1]:443 FINGERPRINT url=https://...\n"
+            "webtunnel 192.0.2.10:443 FINGERPRINT url=https://...\n"
+            "obfs4 1.2.3.4:443 CERT ..."
+        )
+        self.bridges_editor.setMinimumHeight(150)
+        existing = list(getattr(tuning, "tor_bridges", ()) or ())
+        if existing:
+            self.bridges_editor.setPlainText("\n".join(existing))
+        else:
+            defaults = default_webtunnel_bridges()
+            if defaults:
+                self.bridges_editor.setPlainText(
+                    "\n".join(bridge.raw for bridge in defaults)
+                )
+
+        self._bridge_status = QLabel(self.t("—", "—"))
+        self._bridge_status.setObjectName("torBridgeStatus")
+        self._bridge_status.setWordWrap(True)
+        self.bridges_editor.textChanged.connect(self._update_bridge_status)
+
+        body_layout.addWidget(self._section(
+            self.t("پل‌های Tor", "Tor bridges"),
+            self.t(
+                f"هر خط یک پل معتبر. پیشنهاد می‌شود از نوع {ltr_isolate('webtunnel')} استفاده کنید.",
+                "One bridge per line. WebTunnel bridges are recommended for restricted networks."
+            ),
+            [
+                (self.t("لیست پل‌ها", "Bridge list"), self.bridges_editor),
+                (self.t("وضعیت", "Status"), self._bridge_status),
+            ],
+        ))
+
+        # ==== Section 2: Exit country ====
+        self.exit_country = QComboBox()
+        self.exit_country.setObjectName("torExitCountryCombo")
+        self.exit_country.setLayoutDirection(Qt.LeftToRight)
+        self.exit_country.setMinimumHeight(38)
+        self.exit_country.addItem("🌐  " + self.t("هر کشوری", "Any country"), "")
+        for code in sorted(COUNTRIES):
+            flag, english, persian = COUNTRIES[code]
+            label = f"{flag}  {english}" if language == "en" else f"{flag}  {persian}"
+            self.exit_country.addItem(label, code)
+        current = str(getattr(tuning, "tor_exit_country", "") or "").upper()
+        idx = self.exit_country.findData(current)
+        self.exit_country.setCurrentIndex(max(0, idx))
+
+        self.exit_ip_label = QLabel("—")
+        self.exit_ip_label.setObjectName("torExitIpLabel")
+        self.exit_ip_label.setLayoutDirection(Qt.LeftToRight)
+        self.exit_ip_label.setProperty("technical", True)
+        self.exit_ip_label.setTextInteractionFlags(Qt.TextSelectableByMouse)
+
+        self.new_identity_btn = QPushButton(
+            self.t("هویت جدید (New Identity)", "New Identity")
+        )
+        self.new_identity_btn.setObjectName("torNewIdentityButton")
+        self.new_identity_btn.setIcon(cyber_icon("refresh", "#bfefff", 17))
+        self.new_identity_btn.clicked.connect(self._request_new_identity)
+
+        self._exit_status = QLabel(self.t("—", "—"))
+        self._exit_status.setObjectName("torExitStatus")
+        self._exit_status.setWordWrap(True)
+
+        body_layout.addWidget(self._section(
+            self.t("کشور خروجی", "Exit country"),
+            self.t(
+                "کشور خروجی را مشخص کنید یا روی «هویت جدید» بزنید تا Tor مدار تازه بسازد.",
+                "Pin an exit country or click New Identity to build a fresh circuit."
+            ),
+            [
+                (self.t("کشور خروجی", "Exit country"), self.exit_country),
+                (self.t("آی‌پی خروجی فعلی", "Current exit IP"), self.exit_ip_label),
+                (self.t("عملیات", "Action"), self.new_identity_btn),
+                (self.t("پیام", "Message"), self._exit_status),
+            ],
+        ))
+
+        # ==== Section 3: Runtime ====
+        self.bootstrap_bar = CyberProgressBar()
+        self.bootstrap_bar.setMaximum(100)
+        self.bootstrap_bar.setValue(0)
+        self.bootstrap_label = QLabel(self.t("در انتظار راه‌اندازی", "Idle"))
+        self.bootstrap_label.setObjectName("torBootstrapLabel")
+
+        self.runtime_status = QLabel(self.t("غیرفعال", "Disabled"))
+        self.runtime_status.setObjectName("torRuntimeStatus")
+
+        body_layout.addWidget(self._section(
+            self.t("وضعیت زمان اجرا", "Runtime status"),
+            self.t(
+                "پیشرفت Bootstrap و وضعیت فعال/غیرفعال بودن Tor.",
+                "Bootstrap progress and Tor enabled/disabled state."
+            ),
+            [
+                (self.t("وضعیت", "State"), self.runtime_status),
+                (self.t("پیشرفت", "Progress"), self.bootstrap_bar),
+                (self.t("پیام", "Message"), self.bootstrap_label),
+            ],
+        ))
+
+        body_layout.addStretch()
+        scroll.setWidget(body)
+        root.addWidget(scroll, 1)
+
+        # ---- Footer ----
+        footer = QFrame()
+        footer.setObjectName("modalFooter")
+        fl = QHBoxLayout(footer)
+        fl.setContentsMargins(24, 16, 24, 18)
+
+        restore = QPushButton(self.t("بازگردانی پل‌های پیش‌فرض",
+                                     "Restore Default Bridges"))
+        restore.setObjectName("modalSecondary")
+        restore.setIcon(cyber_icon("refresh", "#b7cce0", 18))
+        restore.clicked.connect(self._restore_default_bridges)
+        fl.addWidget(restore)
+        fl.addStretch()
+
+        cancel = QPushButton(self.t("بستن", "Close"))
+        cancel.setObjectName("modalSecondary")
+        cancel.setIcon(cyber_icon("x-circle", "#b7cce0", 18))
+        cancel.clicked.connect(self.reject)
+
+        save = QPushButton(self.t("ذخیره", "Save"))
+        save.setObjectName("modalPrimary")
+        save.setIcon(cyber_icon("check-circle", "#031422", 18))
+        save.setDefault(True)
+        save.clicked.connect(self.accept)
+
+        fl.addWidget(cancel)
+        fl.addWidget(save)
+        root.addWidget(footer)
+
+        self._update_bridge_status()
+
+    # ---------- helpers ----------
+    def _section(self, title_text, subtitle_text, rows):
+        frame = QFrame()
+        frame.setObjectName("settingsSection")
+        layout = QVBoxLayout(frame)
+        layout.setContentsMargins(18, 16, 18, 17)
+        layout.setSpacing(12)
+        title = QLabel(title_text)
+        title.setObjectName("settingsTitle")
+        subtitle = QLabel(subtitle_text)
+        subtitle.setObjectName("settingsSubtitle")
+        subtitle.setWordWrap(True)
+        layout.addWidget(title)
+        layout.addWidget(subtitle)
+        grid = QGridLayout()
+        grid.setHorizontalSpacing(18)
+        grid.setVerticalSpacing(12)
+        grid.setColumnMinimumWidth(0, 185)
+        grid.setColumnStretch(1, 1)
+        for row, (label_text, widget) in enumerate(rows):
+            label = QLabel(label_text)
+            label.setObjectName("fieldLabel")
+            label.setWordWrap(False)
+            label.setMinimumWidth(145)
+            label.setAlignment(
+                (Qt.AlignRight if self.language == "fa" else Qt.AlignLeft)
+                | Qt.AlignVCenter
+            )
+            grid.addWidget(label, row, 0, Qt.AlignVCenter)
+            grid.addWidget(widget, row, 1)
+        layout.addLayout(grid)
+        return frame
+
+    def _update_bridge_status(self):
+        lines = self.bridges()
+        valid = []
+        invalid = []
+        for line in lines:
+            bridge = parse_bridge_line(line)
+            if bridge is None:
+                invalid.append(line)
+            else:
+                valid.append(bridge)
+        parts = [self.t(f"{len(valid)} پل معتبر", f"{len(valid)} valid bridges")]
+        if invalid:
+            parts.append(self.t(f"{len(invalid)} نامعتبر", f"{len(invalid)} invalid"))
+        self._bridge_status.setText(" · ".join(parts))
+        self._bridge_status.setProperty(
+            "state", "error" if invalid else "ok"
+        )
+        _restyle(self._bridge_status)
+
+    def _restore_default_bridges(self):
+        defaults = default_webtunnel_bridges()
+        self.bridges_editor.setPlainText(
+            "\n".join(bridge.raw for bridge in defaults)
+        )
+
+    def _request_new_identity(self):
+        parent = self.parent()
+        controller = getattr(parent, "_tor_new_identity", None)
+        if callable(controller):
+            controller()
+        else:
+            self._exit_status.setText(
+                self.t("اتصال به Tor فعال نیست", "Tor is not running")
+            )
+
+    # ---------- public API ----------
+    def bridges(self) -> list[str]:
+        return [
+            line.strip()
+            for line in self.bridges_editor.toPlainText().splitlines()
+            if line.strip() and not line.lstrip().startswith("#")
+        ]
+
+    def exit_country_code(self) -> str:
+        return str(self.exit_country.currentData() or "").upper()
+
+    def apply_to(self, tuning) -> None:
+        """Mutate a Tuning instance with the dialog values."""
+        tuning.tor_bridges = tuple(self.bridges())
+        tuning.tor_exit_country = self.exit_country_code()
+
+    # ---------- runtime updates ----------
+    def update_bootstrap(self, percent: int):
+        value = max(0, min(100, int(percent)))
+        self.bootstrap_bar.setValue(value)
+        if value >= 100:
+            self.bootstrap_label.setText(
+                self.t("Bootstrap کامل شد", "Bootstrap complete")
+            )
+        else:
+            self.bootstrap_label.setText(
+                self.t(f"Bootstrap: {value}%", f"Bootstrap: {value}%")
+            )
+
+    def update_exit_ip(self, exit_ip: str):
+        self.exit_ip_label.setText(exit_ip or "—")
+
+    def update_runtime(self, enabled: bool, message: str = ""):
+        self.runtime_status.setText(
+            self.t("فعال", "Enabled") if enabled
+            else self.t("غیرفعال", "Disabled")
+        )
+        self.runtime_status.setProperty(
+            "state", "enabled" if enabled else "disabled"
+        )
+        _restyle(self.runtime_status)
+        if message:
+            self.bootstrap_label.setText(message)
+
+    def update_new_identity_result(self, success: bool, error: str = ""):
+        if success:
+            self._exit_status.setText(
+                self.t("هویت جدید ساخته شد", "New identity created")
+            )
+            self._exit_status.setProperty("state", "ok")
+        else:
+            self._exit_status.setText(error or self.t("خطا", "Error"))
+            self._exit_status.setProperty("state", "error")
+        _restyle(self._exit_status)
+
+    def update_exit_country_result(self, code: str, success: bool,
+                                   error: str = ""):
+        if success:
+            self._exit_status.setText(
+                self.t(f"کشور خروجی روی {code or 'هر'}"
+                       f" تنظیم شد",
+                       f"Exit country set to {code or 'any'}")
+            )
+            self._exit_status.setProperty("state", "ok")
+        else:
+            self._exit_status.setText(error or self.t("خطا", "Error"))
+            self._exit_status.setProperty("state", "error")
+        _restyle(self._exit_status)
+
+    def showEvent(self, event):
+        super().showEvent(event)
+        if self._animated or not _animations_enabled():
+            return
+        self._animated = True
+        self.setWindowOpacity(0.0)
+        animation = QPropertyAnimation(self, b"windowOpacity", self)
+        animation.setDuration(220)
+        animation.setStartValue(0.0)
+        animation.setEndValue(1.0)
+        animation.setEasingCurve(QEasingCurve.OutCubic)
+        self._show_animation = animation
+        animation.start()
+
 class TuningDialog(QDialog):
     def __init__(self, parent, tuning: Tuning, language: str = "fa",
                  update_repo_url: str = DEFAULT_UPDATE_REPO_URL,
@@ -2196,6 +2575,19 @@ class MainWindow(QMainWindow):
         )
         self.assistant_controller = None
         self.engine = Engine(self.bridge.log.emit, self.bridge.state.emit, self.bridge.traffic.emit)
+                # ---- Tor state ----
+        self._tor_requested = False 
+        self._tor_apply_target = None
+        self._tor_apply_generation = 0
+        self._tor_apply_cancel = threading.Event()
+        self._tor_runtime_state = "inactive"
+        self._tor_bootstrap = 0
+        self._tor_last_exit_ip = ""
+        self._tor_last_bootstrap_at = 0.0
+        self._tor_bootstrap_timer = QTimer(self)
+        self._tor_bootstrap_timer.setInterval(500)
+        self._tor_bootstrap_timer.timeout.connect(self._poll_tor_bootstrap)
+        self._tor_bootstrap_timer.start()
         gateway = getattr(self.engine, "gateway", None)
         if gateway is not None:
             gateway.state_changed = (
@@ -2301,6 +2693,26 @@ class MainWindow(QMainWindow):
         layout.addWidget(toggle); layout.addWidget(label); layout.addStretch()
         toggle.setAccessibleName(english)
         return wrapper
+
+    def _poll_tor_bootstrap(self):
+        """Poll TorManager.bootstrap while Tor is starting or active."""
+        if not self._tor_requested and self._tor_runtime_state != "active":
+            return
+        tor = getattr(self.engine, "tor", None)
+        if tor is None:
+            return
+        try:
+            value = int(getattr(tor, "bootstrapped", 0) or 0)
+        except (TypeError, ValueError):
+            value = 0
+        if value != self._tor_bootstrap:
+            self._tor_bootstrap = value
+            self._tor_bootstrap_changed(value)
+        # Refresh exit IP once bootstrapped
+        if (value >= 100
+                and self._tor_runtime_active()
+                and not self._tor_last_exit_ip):
+            QTimer.singleShot(0, self._tor_refresh_exit_ip)
 
     def _build(self):
         root = CyberRoot(); self.setCentralWidget(root); layout = QHBoxLayout(root); layout.setContentsMargins(0, 0, 0, 0); layout.setSpacing(0)
@@ -2444,6 +2856,40 @@ class MainWindow(QMainWindow):
         self.gateway_devices_badge.clicked.connect(
             self._toggle_gateway_devices_popup
         )
+        
+        self.tor_mode = ToggleSwitch()
+        self.tor_mode.setChecked(False)
+        self.tor_option = self._toggle_option(
+            self.tor_mode, "حالت Tor", "Tor Mode", row_click_enabled=False
+        )
+        self.tor_option.setObjectName("torModeOption")
+        self.tor_option.setProperty("state", "off")
+        self.tor_mode.setToolTip(self.tr(
+            "اتصال از طریق شبکه Tor با پشتیبانی WebTunnel؛ مناسب شبکه‌های محدود.",
+            "Route traffic through the Tor network with WebTunnel support."
+        ))
+        self.tor_settings_btn = QToolButton()
+        self.tor_settings_btn.setObjectName("torSettingsButton")
+        self.tor_settings_btn.setText(self.tr("تنظیمات", "Settings"))
+        self.tor_settings_btn.setIcon(cyber_icon("settings", "#72eee7", 14))
+        self.tor_settings_btn.setIconSize(QSize(14, 14))
+        self.tor_settings_btn.setToolButtonStyle(Qt.ToolButtonTextBesideIcon)
+        self.tor_settings_btn.setCursor(Qt.PointingHandCursor)
+        self.tor_settings_btn.setFixedHeight(26)
+        self.tor_settings_btn.setMinimumWidth(96)
+        self.tor_settings_btn.setMaximumWidth(140)
+        self.tor_settings_btn.setAccessibleName("Tor settings")
+        self.tor_settings_btn.clicked.connect(self._open_tor_settings)
+        self.tor_option.layout().addWidget(
+            self.tor_settings_btn, 0, Qt.AlignVCenter
+        )
+        self.tor_bootstrap_badge = QLabel("—")
+        self.tor_bootstrap_badge.setObjectName("torBootstrapBadge")
+        self.tor_bootstrap_badge.setLayoutDirection(Qt.LeftToRight)
+        self.tor_bootstrap_badge.setVisible(False)
+        self.tor_option.layout().addWidget(
+            self.tor_bootstrap_badge, 0, Qt.AlignVCenter
+        )
         self.gateway_mode.setToolTip(self.tr(
             "با یک کلیک، اینترنت موبایل را از درگاه شبکه این رایانه به تونل تأییدشده هدایت می‌کند.",
             "One click routes mobile internet through this computer and the verified tunnel.",
@@ -2492,9 +2938,10 @@ class MainWindow(QMainWindow):
         self._controls_compact = compact
         while self.controls_layout.count():
             self.controls_layout.takeAt(0)
-        for column in range(8):
+        for column in range(9):
             self.controls_layout.setColumnStretch(column, 0)
-        for option in (self.auto_option, self.manual_option, self.proxy_option, self.tun_option, self.gateway_option):
+        for option in (self.auto_option, self.manual_option, self.proxy_option,
+                       self.tun_option, self.gateway_option, self.tor_option):
             option.layout().setContentsMargins(7, 5, 7, 5)
             option.layout().setSpacing(7)
         if compact:
@@ -2504,7 +2951,8 @@ class MainWindow(QMainWindow):
             self.controls_layout.addWidget(self.proxy_option, 1, 0)
             self.controls_layout.addWidget(self.tun_option, 1, 1)
             self.controls_layout.addWidget(self.carrier_control, 1, 2)
-            self.controls_layout.addWidget(self.tune_button, 1, 3)
+            self.controls_layout.addWidget(self.tor_option, 2, 0, 1, 3)
+            self.controls_layout.addWidget(self.tune_button, 2, 3)
             self.controls_layout.setColumnStretch(0, 1)
             self.controls_layout.setColumnStretch(1, 1)
             self.controls_layout.setColumnStretch(2, 1)
@@ -2516,11 +2964,11 @@ class MainWindow(QMainWindow):
             self.controls_layout.addWidget(self.proxy_option, 0, 2)
             self.controls_layout.addWidget(self.tun_option, 0, 3)
             self.controls_layout.addWidget(self.gateway_option, 0, 4)
-            self.controls_layout.addWidget(self.carrier_control, 0, 5)
-            self.controls_layout.setColumnStretch(6, 1)
-            self.controls_layout.addWidget(self.tune_button, 0, 7)
+            self.controls_layout.addWidget(self.tor_option, 0, 5)
+            self.controls_layout.addWidget(self.carrier_control, 0, 6)
+            self.controls_layout.setColumnStretch(7, 1)
+            self.controls_layout.addWidget(self.tune_button, 0, 8)
             self.tune_button.setMaximumWidth(230)
-
     def _layout_home_dashboard(self, narrow=None, dense=None):
         if not hasattr(self, "home_root"):
             return
@@ -2535,7 +2983,7 @@ class MainWindow(QMainWindow):
         header_height = 88 if dense else 100
         country_height = 104
         metric_height = 116 if dense or narrow else 142
-        controls_height = 106
+        controls_height = 148 if compact else 106
         fixed = header_height + country_height + metric_height + controls_height + margins[1] + margins[3] + spacing * 4
         hero_height = max(178, min(318, stack_height - fixed))
         compact_hero = dense or hero_height < 250
@@ -3041,6 +3489,14 @@ class MainWindow(QMainWindow):
         self.assistant_warnings_toggle.toggled.connect(self._assistant_warnings_changed)
         self.assistant_replay_button.clicked.connect(self._replay_assistant_guide)
         self.bridge.log.connect(self._append_log); self.bridge.state.connect(self._set_state); self.bridge.traffic.connect(self._set_traffic); self.bridge.latency.connect(self._set_latency); self.bridge.target_latency.connect(self._target_latency_finished); self.bridge.maker_imported.connect(self._maker_import_finished); self.bridge.maker_batch.connect(self._maker_test_batch); self.bridge.maker_done.connect(self._maker_test_done); self.bridge.maker_failed.connect(self._maker_failed); self.bridge.scan_progress.connect(self._scan_progress); self.bridge.scan_done.connect(self._scan_done); self.bridge.scan_failed.connect(self._scan_failed); self.bridge.error.connect(self._handle_error); self.bridge.profiles_changed.connect(self.refresh_profiles); self.bridge.profile_pings_done.connect(self._profile_pings_finished); self.bridge.ip.connect(self._ip_checked); self.bridge.hint.connect(self.connection_hint.setText); self.bridge.activity.connect(self.activity_bar.set_activity); self.bridge.processes.connect(self._populate_processes); self.bridge.update_checked.connect(self._update_checked); self.bridge.update_failed.connect(self._update_failed); self.bridge.proxy_mode_applied.connect(self._proxy_mode_apply_finished); self.bridge.tun_mode_applied.connect(self._tun_mode_apply_finished); self.bridge.gateway_mode_applied.connect(self._gateway_mode_apply_finished); self.bridge.gateway_runtime_state.connect(self._gateway_runtime_state_changed); self.bridge.gateway_devices_changed.connect(self._gateway_devices_updated); self.bridge.gateway_device_names_changed.connect(self._gateway_device_names_updated)
+        self.tor_mode.toggled.connect(self._tor_mode_changed)
+        self.bridge.tor_state.connect(self._tor_state_changed)
+        self.bridge.tor_bootstrap.connect(self._tor_bootstrap_changed)
+        self.bridge.tor_exit_ip.connect(self._tor_exit_ip_received)
+        self.bridge.tor_new_identity.connect(self._tor_new_identity_result)
+        self.bridge.tor_exit_country_applied.connect(
+            self._tor_exit_country_applied
+        )
         self._traffic_interface = None
         self._traffic_base_up = None
         self._traffic_base_down = None
@@ -3120,6 +3576,13 @@ class MainWindow(QMainWindow):
         self._tray.setContextMenu(self._tray_menu)
         self._tray.activated.connect(self._tray_activated)
         self._update_tray_text()
+        if hasattr(self, "tor_settings_btn"):
+            self.tor_settings_btn.setText(self.tr("تنظیمات", "Settings"))
+        if hasattr(self, "tor_mode"):
+            self.tor_mode.setToolTip(self.tr(
+                "اتصال از طریق شبکه Tor با پشتیبانی WebTunnel؛ مناسب شبکه‌های محدود.",
+                "Route traffic through the Tor network with WebTunnel support."
+            ))
         self._tray.setVisible(False)
 
     def _update_tray_text(self):
@@ -4653,6 +5116,312 @@ class MainWindow(QMainWindow):
             self._handle_error(message)
         else:
             self._append_log(f"Mobile Gateway cleanup pending: {message}")
+
+
+    def _tor_runtime_active(self) -> bool:
+        tor = getattr(self.engine, "tor", None)
+        return bool(tor is not None and getattr(tor, "running", False))
+
+    def _open_tor_settings(self):
+        tuning = self.storage.tuning
+        dialog = TorConfigDialog(self, tuning, self.language)
+        if dialog.exec():
+            bridges = dialog.bridges()
+            exit_country = dialog.exit_country_code()
+            self.storage.settings["tor_bridges"] = list(bridges)
+            self.storage.settings["tor_exit_country"] = exit_country
+            self.storage.save_settings()
+            self._set_activity(
+                "تنظیمات Tor ذخیره شد.", "Tor settings saved.",
+                "success", False,
+            )
+
+            if self._tor_runtime_active() and exit_country is not None:
+                self._apply_tor_exit_country(exit_country)
+    def _tor_mode_changed(self, enabled: bool):
+        enabled = bool(enabled)
+        self._tor_requested = enabled
+
+        # Mirror into Tuning so Engine.start sees the right mode
+        tuning = self.storage.tuning
+        tuning.tunnel_mode = "tor" if enabled else "sni"
+        tuning.tor_bridges = list(
+            self.storage.settings.get("tor_bridges", []) or []
+        )
+        tuning.tor_exit_country = str(
+            self.storage.settings.get("tor_exit_country", "") or ""
+        )
+        self.storage.set_tuning(tuning)
+
+        self.tor_option.setProperty(
+            "state", "requested" if enabled else "off"
+        )
+        _restyle(self.tor_option)
+
+        if self.engine.running:
+            self._set_activity(
+                "حالت اتصال تغییر کرد؛ اتصال فعلی قطع می‌شود.",
+                "Connection mode changed; current session will be disconnected.",
+                "warning", False,
+            )
+            self._cancel_connect_attempt(notify=True)
+            self._set_state(False)
+        else:
+            self._set_activity(
+                "حالت Tor برای اتصال بعدی فعال است." if enabled
+                else "حالت Tor غیرفعال شد.",
+                "Tor mode will be used on the next connection." if enabled
+                else "Tor mode disabled.",
+                "success", False,
+            )
+
+    def _set_tor_toggle(self, checked: bool):
+        toggle = getattr(self, "tor_mode", None)
+        if toggle is None:
+            return
+        checked = bool(checked)
+        toggle.blockSignals(True)
+        toggle.setChecked(checked)
+        toggle.blockSignals(False)
+        animation = getattr(toggle, "_thumb_animation", None)
+        if animation is not None:
+            animation.stop()
+        setter = getattr(toggle, "_set_thumb_position", None)
+        if callable(setter):
+            setter(1.0 if checked else 0.0)
+
+    def _cancel_tor_apply(self):
+        cancel = getattr(self, "_tor_apply_cancel", None)
+        if cancel is not None:
+            cancel.set()
+        self._tor_apply_generation = int(
+            getattr(self, "_tor_apply_generation", 0)
+        ) + 1
+        self._tor_apply_target = None
+
+    def _queue_tor_mode_apply(self, enabled: bool, reason: str = "user"):
+        if not self.engine.running or not getattr(self, "_ui_running", False):
+            return
+        if enabled and self._tor_runtime_active():
+            return
+        if not enabled and not self._tor_runtime_active():
+            return
+        if self._tor_apply_target is enabled:
+            return
+        self._cancel_tor_apply()
+        self._tor_apply_cancel = threading.Event()
+        self._tor_apply_target = bool(enabled)
+        generation = self._tor_apply_generation
+        cancel = self._tor_apply_cancel
+        run_id = int(getattr(self.engine, "run_id", 0))
+
+        self._set_tor_toggle(enabled)
+        self.tor_option.setProperty(
+            "state", "starting" if enabled else "stopping"
+        )
+        _restyle(self.tor_option)
+
+        def work():
+            success = False
+            error = ""
+            try:
+                if enabled:
+                    self.bridge.activity.emit(self.tr(
+                        "در حال راه‌اندازی Tor…",
+                        "Starting Tor…",
+                    ), "running", True)
+                    tor = self._ensure_tor_manager()
+                    bridges = list(self.storage.settings.get("tor_bridges", []) or [])
+                    exit_country = str(
+                        self.storage.settings.get("tor_exit_country", "") or ""
+                    )
+                    tor.start(
+                        bridges=bridges or None,
+                        exit_country=exit_country,
+                    )
+                    success = tor.running
+                    # route Windows proxy through Tor's SOCKS5
+                    try:
+                        self.engine.system_proxy.enable_tor_mode(
+                            socks_host="127.0.0.1",
+                            socks_port=tor.socks_port,
+                        )
+                    except Exception as exc:
+                        error = f"Windows proxy: {exc}"
+                else:
+                    tor = getattr(self.engine, "tor", None)
+                    if tor is not None:
+                        try:
+                            tor.stop()
+                        except Exception as exc:
+                            error = str(exc)
+                    # Restore previous Windows proxy state
+                    try:
+                        if self.engine.system_proxy.has_pending_restore:
+                            self.engine.system_proxy.disable()
+                    except Exception as exc:
+                        error = error or f"Proxy restore: {exc}"
+                    success = True
+            except Exception as exc:
+                error = str(exc)
+                success = False
+            if generation == self._tor_apply_generation:
+                self.bridge.tor_state.emit(bool(success), error or "")
+                QTimer.singleShot(
+                    0,
+                    lambda: self._tor_mode_apply_finished(
+                        enabled, success, error, generation, run_id
+                    ),
+                )
+
+        threading.Thread(
+            target=work, name=f"tor-mode-{generation}", daemon=True
+        ).start()
+
+    def _ensure_tor_manager(self) -> TorManager:
+        tor = getattr(self.engine, "tor", None)
+        if tor is None:
+            tor = TorManager(log=self.bridge.log.emit)
+            self.engine.tor = tor
+        return tor
+
+    def _tor_mode_apply_finished(self, enabled: bool, success: bool,
+                                 error: str, generation: int, run_id: int):
+        if generation != self._tor_apply_generation:
+            return
+        self._tor_apply_target = None
+        if success:
+            self._tor_runtime_state = "active" if enabled else "inactive"
+            self.tor_option.setProperty(
+                "state", "active" if enabled else "off"
+            )
+            _restyle(self.tor_option)
+            self.tor_bootstrap_badge.setVisible(enabled)
+            self._set_activity(
+                "اتصال Tor برقرار شد." if enabled else
+                "اتصال Tor قطع و پروکسی سیستم بازگردانی شد.",
+                "Tor connection established." if enabled else
+                "Tor connection closed and system proxy restored.",
+                "success", False,
+            )
+            if enabled:
+                # verify exit IP in background
+                threading.Thread(
+                    target=self._tor_refresh_exit_ip,
+                    name="tor-exit-ip", daemon=True,
+                ).start()
+        else:
+            self.tor_option.setProperty("state", "error")
+            _restyle(self.tor_option)
+            self._tor_requested = False
+            self._set_tor_toggle(False)
+            self.storage.settings["tor_enabled"] = False
+            self.storage.save_settings()
+            if error:
+                self._handle_error(error)
+
+    def _tor_state_changed(self, enabled: bool, message: str):
+        self._tor_runtime_state = "active" if enabled else "inactive"
+        self.tor_bootstrap_badge.setVisible(enabled)
+        if enabled:
+            self._tor_bootstrap = 0
+            self.tor_bootstrap_badge.setText("0%")
+        else:
+            self.tor_bootstrap_badge.setText("—")
+
+    def _tor_bootstrap_changed(self, percent: int):
+        percent = max(0, min(100, int(percent)))
+        self._tor_bootstrap = percent
+        self._tor_last_bootstrap_at = time.time()
+        if percent < 100:
+            self.tor_bootstrap_badge.setText(f"{percent}%")
+        else:
+            self.tor_bootstrap_badge.setText(self.tr("آماده", "Ready"))
+
+    def _tor_exit_ip_received(self, exit_ip: str):
+        self._tor_last_exit_ip = str(exit_ip or "")
+        if self._tor_last_exit_ip:
+            self.tor_bootstrap_badge.setToolTip(
+                self.tr(f"آی‌پی خروجی: {self._tor_last_exit_ip}",
+                        f"Exit IP: {self._tor_last_exit_ip}")
+            )
+
+    def _tor_refresh_exit_ip(self):
+        tor = getattr(self.engine, "tor", None)
+        if tor is None or not tor.running:
+            return
+        try:
+            exit_ip = tor.current_exit_ip()
+        except Exception as exc:
+            self.bridge.log.emit(f"TOR exit-ip check failed: {exc}")
+            return
+        if exit_ip:
+            self.bridge.tor_exit_ip.emit(exit_ip)
+
+    def _tor_new_identity(self):
+        tor = getattr(self.engine, "tor", None)
+        if tor is None or not tor.running:
+            self.bridge.tor_new_identity.emit(
+                False, self.tr("اتصال Tor فعال نیست", "Tor is not running")
+            )
+            return
+
+        def work():
+            try:
+                tor.new_identity()
+                time.sleep(1.5)
+                exit_ip = tor.current_exit_ip()
+                if exit_ip:
+                    self.bridge.tor_exit_ip.emit(exit_ip)
+                self.bridge.tor_new_identity.emit(True, "")
+            except Exception as exc:
+                self.bridge.tor_new_identity.emit(False, str(exc))
+
+        threading.Thread(
+            target=work, name="tor-newnym", daemon=True
+        ).start()
+
+    def _tor_new_identity_result(self, success: bool, error: str):
+        if success:
+            self.show_toast(
+                self.tr("هویت جدید Tor ساخته شد", "New Tor identity created"),
+                "success",
+            )
+        else:
+            self.show_toast(error or "NEWNYM failed", "danger")
+
+    def _apply_tor_exit_country(self, code: str):
+        tor = getattr(self.engine, "tor", None)
+        if tor is None or not tor.running:
+            return
+
+        def work():
+            try:
+                tor.set_exit_country(code)
+                self.bridge.tor_exit_country_applied.emit(code, True, "")
+                time.sleep(1.0)
+                exit_ip = tor.current_exit_ip()
+                if exit_ip:
+                    self.bridge.tor_exit_ip.emit(exit_ip)
+            except Exception as exc:
+                self.bridge.tor_exit_country_applied.emit(
+                    code, False, str(exc)
+                )
+
+        threading.Thread(
+            target=work, name="tor-exit-country", daemon=True
+        ).start()
+
+    def _tor_exit_country_applied(self, code: str, success: bool, error: str):
+        if success:
+            label = code or self.tr("هر کشوری", "Any country")
+            self._set_activity(
+                f"کشور خروجی Tor روی {label} تنظیم شد.",
+                f"Tor exit country set to {label}.",
+                "success", False,
+            )
+        elif error:
+            self._handle_error(error)
 
     def _apply_connection_mode_after_probe(self, cancel=None) -> str:
         expected_run_id = getattr(self.engine, "run_id", None)
@@ -7182,8 +7951,79 @@ class MainWindow(QMainWindow):
                 return
         threading.Thread(target=work, name=f"mci-quality-{generation}", daemon=True).start()
         return True
-
     def toggle_connection(self):
+        # ================= Tor mode branch =================
+        tor_mode = (
+            str(getattr(self.storage.tuning, "tunnel_mode", "sni")).lower() == "tor"
+        )
+        if tor_mode:
+            # Cancel an in-flight Tor attempt
+            if self.connecting:
+                self.connecting = False
+                self.connection_error = ""
+                self._set_connection_visual("disconnecting")
+                self._cancel_connect_attempt(notify=True)
+                self._set_state(False)
+                self._set_activity(
+                    "عملیات اتصال Tor لغو شد.",
+                    "Tor connect attempt cancelled.",
+                    "warning", False,
+                )
+                return
+
+            # Disconnect active Tor session
+            if self.engine.running:
+                self.connecting = False
+                self.connection_error = ""
+                self._set_connection_visual("disconnecting")
+                self._set_activity(
+                    "در حال قطع اتصال Tor…",
+                    "Stopping Tor…",
+                )
+                self._cancel_connect_attempt(notify=True)
+                self._set_state(False)
+                return
+
+            # Connect through Tor
+            generation, cancel = self._begin_connect_attempt()
+            self.connecting = True
+            self.connection_error = ""
+            self._set_connection_visual("connecting")
+            self._set_latency(0.0, "testing")
+            self._set_activity(
+                "در حال راه‌اندازی Tor…",
+                "Starting Tor…",
+            )
+            tuning = self.storage.tuning
+
+            def tor_work():
+                try:
+                    self.engine.start(
+                        None, tuning,
+                        bypass_processes=None,
+                        notify=True,
+                        enable_system_proxy=False,
+                        strategy_override=None,
+                        cancel_event=cancel,
+                    )
+                except EngineCancelled:
+                    return
+                except Exception as exc:
+                    if not self._attempt_cancelled(generation, cancel):
+                        self.bridge.error.emit(str(exc))
+                        self.bridge.state.emit(False)
+                finally:
+                    if (not self.engine.running
+                            and not self._attempt_cancelled(generation, cancel)):
+                        self.engine.stop(notify=False)
+
+            self._connect_thread = threading.Thread(
+                target=tor_work, name=f"connect-tor-{generation}", daemon=True
+            )
+            self._connect_thread.start()
+            return
+
+        # ================= Existing Xray/SNI branch =================
         if getattr(self, "_maker_running", False) and not self.engine.running and not self.connecting:
             self.show_toast(self.tr(
                 "ابتدا تست زنده سازنده SNI را متوقف کنید",
@@ -7674,7 +8514,6 @@ class MainWindow(QMainWindow):
 
         self._connect_thread = threading.Thread(target=work, name=f"connect-{generation}", daemon=True)
         self._connect_thread.start()
-
     def _set_connection_visual(self, state):
         states = {
             "disconnected": (f"{ltr_isolate('VPN')} خاموش است", "VPN is OFF", "اتصال امن فعال نیست", "Your connection is not active", "اتصال", "Connect", "play", "idle", True),
@@ -7708,25 +8547,42 @@ class MainWindow(QMainWindow):
         self.tun_mode.setEnabled(True)
         self.tun_option.setEnabled(True)
         self.proxy_option.setEnabled(not self._tun_mode_enabled())
+        tor_active = self._tor_runtime_active()
+        tor_pending = self._tor_apply_target is not None
+        if tor_active or tor_pending:
+            self.proxy_mode.setEnabled(False)
+            self.proxy_option.setEnabled(False)
+            self.tun_mode.setEnabled(False)
+            self.tun_option.setEnabled(False)
+            self.gateway_mode.setEnabled(False)
+            self.gateway_option.setEnabled(False)
+        else:
+            self.proxy_mode.setEnabled(True)
+            self.tun_mode.setEnabled(True)
+            self.tun_option.setEnabled(True)
+            self.gateway_mode.setEnabled(True)
+            self.gateway_option.setEnabled(True)
         sync_gateway = getattr(self, "_sync_gateway_controls", None)
         if callable(sync_gateway):
             sync_gateway()
         if running:
             self.connection_error = ""; self._set_connection_visual("connected")
             self._set_activity("اتصال امن برقرار شد.", "Connection established.", "success", False)
-            if self._tun_mode_enabled() and not self.engine.tun_running:
-                QTimer.singleShot(0, self._queue_tun_mode_apply)
-            elif not self._tun_mode_enabled():
-                QTimer.singleShot(0, self._queue_proxy_mode_apply)
-            gateway_runtime = getattr(self, "_gateway_runtime_active", None)
-            if (getattr(self, "_gateway_requested", False)
-                    and callable(gateway_runtime)
-                    and not gateway_runtime()):
-                QTimer.singleShot(
-                    0, lambda: self._queue_gateway_mode_apply(
-                        True, reason="user"
+            tor_active = bool(getattr(self.engine, "_tor_enabled", False))
+            if not tor_active:
+                if self._tun_mode_enabled() and not self.engine.tun_running:
+                    QTimer.singleShot(0, self._queue_tun_mode_apply)
+                elif not self._tun_mode_enabled():
+                    QTimer.singleShot(0, self._queue_proxy_mode_apply)
+                gateway_runtime = getattr(self, "_gateway_runtime_active", None)
+                if (getattr(self, "_gateway_requested", False)
+                        and callable(gateway_runtime)
+                        and not gateway_runtime()):
+                    QTimer.singleShot(
+                        0, lambda: self._queue_gateway_mode_apply(
+                            True, reason="user"
+                        )
                     )
-                )
         elif self.connection_error:
             self._set_connection_visual("error")
         else:
@@ -8661,6 +9517,27 @@ class MainWindow(QMainWindow):
         self._cancel_gateway_apply()
         self._set_gateway_toggle(False)
         self._sync_gateway_controls()
+        if hasattr(self, "_tor_bootstrap_timer"):
+            self._tor_bootstrap_timer.stop()
+        self._tor_requested = False
+        tor = getattr(getattr(self, "engine", None), "tor", None)
+        if tor is not None:
+            try:
+                tor.stop()
+            except Exception as exc:
+                self._pending_file_log_lines.append(
+                    f"Tor shutdown pending: {exc}"
+                )
+        self._tor_requested = False
+        self._cancel_tor_apply()
+        tor = getattr(getattr(self, "engine", None), "tor", None)
+        if tor is not None:
+            try:
+                tor.stop()
+            except Exception as exc:
+                self._pending_file_log_lines.append(
+                    f"Tor shutdown pending: {exc}"
+                )
         try:
             disable_gateway = getattr(self.engine, "disable_gateway", None)
             if callable(disable_gateway):
@@ -9043,6 +9920,35 @@ QScrollBar:horizontal { background: rgba(5,15,30,0.72); height: 10px; margin: 2p
 QScrollBar::handle:horizontal { background: #27516d; border-radius: 5px; min-width: 36px; }
 QScrollBar::handle:horizontal:hover { background: #387b93; }
 QScrollBar::add-line, QScrollBar::sub-line, QScrollBar::add-page, QScrollBar::sub-page { width: 0; height: 0; background: transparent; }
+QFrame#torModeOption { background: rgba(8,24,47,0.74); border: 1px solid rgba(54,211,255,0.13); border-radius: 12px; }
+QFrame#torModeOption:hover { border-color: rgba(54,211,255,0.35); background: rgba(12,36,61,0.82); }
+QFrame#torModeOption[state="off"] { border-color: rgba(111,145,181,0.24); background: rgba(8,21,40,0.72); }
+QFrame#torModeOption[state="requested"] { border-color: rgba(255,209,102,0.64); background: qlineargradient(x1:0,y1:0,x2:1,y2:0,stop:0 rgba(74,56,24,0.9),stop:1 rgba(16,46,68,0.9)); }
+QFrame#torModeOption[state="starting"] { border-color: rgba(97,220,255,0.62); background: qlineargradient(x1:0,y1:0,x2:1,y2:0,stop:0 rgba(8,60,78,0.92),stop:1 rgba(28,39,91,0.88)); }
+QFrame#torModeOption[state="stopping"] { border-color: rgba(255,118,145,0.58); background: qlineargradient(x1:0,y1:0,x2:1,y2:0,stop:0 rgba(69,26,48,0.9),stop:1 rgba(16,39,65,0.9)); }
+QFrame#torModeOption[state="active"] { border-color: rgba(140,90,255,0.72); background: qlineargradient(x1:0,y1:0,x2:1,y2:0,stop:0 rgba(54,30,108,0.94),stop:0.55 rgba(38,40,96,0.94),stop:1 rgba(8,68,86,0.94)); }
+QFrame#torModeOption[state="error"] { border-color: rgba(255,92,124,0.55); background: rgba(55,14,37,0.66); }
+QToolButton#torSettingsButton { min-width: 90px; max-width: 140px; min-height: 22px; max-height: 22px; padding: 0 8px; color: #cfd9ec; background: #0a2038; border: 1px solid rgba(91,143,183,0.48); border-radius: 9px; font-size: 10px; font-weight: 800; }
+QToolButton#torSettingsButton:hover, QToolButton#torSettingsButton:focus { color: #f2ffff; background: rgba(12,61,75,0.94); border-color: rgba(140,90,255,0.76); }
+QLabel#torBootstrapBadge { color: #d9c8ff; background: rgba(48,28,92,0.62); border: 1px solid rgba(140,90,255,0.42); border-radius: 9px; padding: 2px 8px; font-size: 10px; font-weight: 850; min-width: 38px; }
+QLabel#torBootstrapBadge:disabled { color: #6e6a8a; }
+
+QDialog#torConfigDialog { background: #071225; border: 1px solid rgba(140,90,255,0.42); }
+QPlainTextEdit#torBridgesEditor { font-family: "Cascadia Mono", "Consolas"; font-size: 12px; background: qlineargradient(x1:0,y1:0,x2:0,y2:1,stop:0 rgba(3,15,31,0.98),stop:1 rgba(5,21,40,0.98)); border: 1px solid rgba(140,90,255,0.38); border-radius: 12px; padding: 10px; color: #e6ddff; }
+QComboBox#torExitCountryCombo { min-height: 30px; }
+QLabel#torExitIpLabel { font-family: "Cascadia Mono", "Consolas"; font-size: 13px; color: #a9e0ff; background: rgba(5,26,48,0.7); border: 1px solid rgba(54,211,255,0.28); border-radius: 9px; padding: 8px 10px; }
+QLabel#torBridgeStatus { color: #d0ddff; font-size: 11px; font-weight: 700; }
+QLabel#torBridgeStatus[state="ok"] { color: #8ff8bc; }
+QLabel#torBridgeStatus[state="error"] { color: #ffadbc; }
+QLabel#torExitStatus { color: #d0ddff; font-size: 11px; font-weight: 700; }
+QLabel#torExitStatus[state="ok"] { color: #8ff8bc; }
+QLabel#torExitStatus[state="error"] { color: #ffadbc; }
+QLabel#torRuntimeStatus { color: #c4d7e9; font-size: 12px; font-weight: 800; }
+QLabel#torRuntimeStatus[state="enabled"] { color: #c8b6ff; }
+QLabel#torRuntimeStatus[state="disabled"] { color: #8da6bf; }
+QLabel#torBootstrapLabel { color: #b8c6de; font-size: 11px; }
+QPushButton#torNewIdentityButton { min-height: 32px; padding: 5px 14px; color: #f0ebff; background: qlineargradient(x1:0,y1:0,x2:1,y2:0,stop:0 rgba(77,44,146,0.72),stop:1 rgba(48,76,140,0.82)); border: 1px solid rgba(158,115,255,0.52); border-radius: 10px; font-weight: 800; }
+QPushButton#torNewIdentityButton:hover { background: qlineargradient(x1:0,y1:0,x2:1,y2:0,stop:0 rgba(105,60,200,0.82),stop:1 rgba(70,110,200,0.88)); border-color: #b89bff; color: #ffffff; }
 """
 for _name, _value in sorted(COLOR_TOKENS.items(), key=lambda item: -len(item[0])):
     STYLE = STYLE.replace(f"${_name}", _value)

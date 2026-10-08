@@ -22,6 +22,10 @@ PORTABLE_RUNTIME_FILES = (
     Path("_internal/bin/sing-box.exe"),
     Path("_internal/bin/libcronet.dll"),
     Path("_internal/bin/sing-box-LICENSE"),
+    Path("_internal/bin/tor/tor.exe"),
+    Path("_internal/bin/tor/geoip"),
+    Path("_internal/bin/tor/geoip6"),
+    Path("_internal/bin/tor/pluggable_transports/webtunnel-client.exe"),
 )
 ASSISTANT_ASSET_FILES = tuple(
     Path("_internal/wizard guider") / f"wizard_{index:02d}_{state}.png" for index, state in enumerate((
@@ -172,6 +176,9 @@ def main() -> None:
         ROOT / "bin" / "sing-box-LICENSE",
         licenses / "sing-box-LICENSE.txt",
     )
+    tor_license = ROOT / "bin" / "tor" / "LICENSE"
+    if tor_license.is_file():
+        copy_item(tor_license, licenses / "Tor-LICENSE.txt")
 
     version = {}
     exec((stage_source / "uac_desktop" / "__init__.py").read_text(encoding="utf-8"), version)

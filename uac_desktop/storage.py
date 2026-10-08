@@ -58,6 +58,7 @@ def _write(path: Path, value) -> None:
 class Storage:
     def __init__(self) -> None:
         self.settings = _read(SETTINGS_FILE, {})
+        self._migrate_tor_settings()
         preferences_changed = False
         if "proxy_mode" not in self.settings:
 
@@ -101,6 +102,46 @@ class Storage:
         self._migrate_speed_core()
         self._migrate_pattern_core()
         self._migrate_carrier_tunings()
+
+    def _migrate_tor_settings(self) -> None:
+        """Ensure Tor-related settings exist without breaking old installs."""
+        changed = False
+        defaults = {
+            "tor_enabled": False,
+            "tor_exit_country": "",
+            "tor_bridges": [],
+            "tor_new_identity_on_connect": True,
+        }
+        for key, value in defaults.items():
+            if key not in self.settings:
+                self.settings[key] = value
+                changed = True
+        if changed:
+            self.save_settings()
+
+    def tor_settings(self) -> dict:
+        return {
+            "enabled": bool(self.settings.get("tor_enabled", False)),
+            "exit_country": str(self.settings.get("tor_exit_country", "") or ""),
+            "bridges": list(self.settings.get("tor_bridges", []) or []),
+            "new_identity_on_connect": bool(
+                self.settings.get("tor_new_identity_on_connect", True)
+            ),
+        }
+
+    def set_tor_settings(
+        self,
+        enabled: bool | None = None,
+        exit_country: str | None = None,
+        bridges: list[str] | None = None,
+    ) -> None:
+        if enabled is not None:
+            self.settings["tor_enabled"] = bool(enabled)
+        if exit_country is not None:
+            self.settings["tor_exit_country"] = str(exit_country)
+        if bridges is not None:
+            self.settings["tor_bridges"] = [str(line) for line in bridges if line]
+        self.save_settings()
 
     @staticmethod
     def _normalized_repository_url(value: object) -> str:

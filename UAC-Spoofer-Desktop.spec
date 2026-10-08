@@ -1,3 +1,5 @@
+# -*- mode: python ; coding: utf-8 -*-
+
 from PyInstaller.utils.hooks import collect_data_files
 
 datas = [
@@ -10,6 +12,14 @@ datas = [
     ('bin/sing-box.exe', 'bin'),
     ('bin/libcronet.dll', 'bin'),
     ('bin/sing-box-LICENSE', 'bin'),
+
+    # ---- Tor Expert Bundle + WebTunnel client ----
+    ('bin/tor/tor.exe', 'bin/tor'),
+    ('bin/tor/geoip', 'bin/tor'),
+    ('bin/tor/geoip6', 'bin/tor'),
+    ('bin/tor/LICENSE', 'bin/tor'),
+    ('bin/tor/pluggable_transports/webtunnel-client.exe',
+     'bin/tor/pluggable_transports'),
 
     ('wizard guider', 'wizard guider'),
     (
@@ -24,7 +34,13 @@ a = Analysis(
     pathex=[],
     binaries=[],
     datas=datas,
-    hiddenimports=[],
+    hiddenimports=[
+        'stem',
+        'stem.control',
+        'stem.connection',
+        'stem.socket',
+        'socks',
+    ],
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],

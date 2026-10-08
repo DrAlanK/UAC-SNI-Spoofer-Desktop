@@ -132,6 +132,10 @@ class Tuning:
     startup_boost: str = "fast"
     warm_tcp_pool_enabled: bool = True
     warm_tcp_pool_size: int = 2
+    tunnel_mode: str = "sni"   
+    tor_exit_country: str = ""     
+    tor_bridges: tuple[str, ...] = ()
+    tor_new_identity_on_connect: bool = True
 
 
 
@@ -159,6 +163,10 @@ class Tuning:
     pattern_keepalive_interval_s: int = 3
     pattern_keepalive_count: int = 3
     pattern_upload_optimized: bool = True
+    tunnel_mode: str = "sni"
+    tor_exit_country: str = "" 
+    tor_bridges: list[str] = field(default_factory=list)
+    tor_new_identity_on_connect: bool = True
 
     @classmethod
     def preset(cls, mode: str) -> "Tuning":

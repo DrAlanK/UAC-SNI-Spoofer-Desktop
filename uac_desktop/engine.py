@@ -21,6 +21,7 @@ import requests
 
 from . import __version__
 from .gateway import GatewayManager
+from .tor_manager import TorManager, TorError, parse_bridge_line
 from .npcap import npcap_available
 from .models import ProxyProfile, Tuning, parse_outbound
 from .pattern_core import PatternSniCore
@@ -315,7 +316,6 @@ class WindowsProxy:
 
     _NAMES = ("ProxyEnable", "ProxyServer", "ProxyOverride")
     _STATE_VERSION = 2
-
     def __init__(self, log: Callable[[str], None]) -> None:
         self.log = log
         self._previous: dict[str, object] = {}
@@ -328,6 +328,62 @@ class WindowsProxy:
                 return winreg.QueryValueEx(key, name)[0]
         except OSError:
             return default
+    
+    def enable_tor_mode(
+        self,
+        socks_host: str = "127.0.0.1",
+        socks_port: int = 9150,
+        bypass: str = "<local>;localhost;127.*",
+    ) -> None:
+        """Route WinINET through Tor's SOCKS5 instead of the local HTTP proxy."""
+        with _proxy_state_guard():
+            existing = self._load_state()
+            if existing is not None:
+                owner = existing.get("owner", {})
+                if owner and self._owner_is_alive(owner):
+                    raise RuntimeError(
+                        "Windows proxy snapshot is owned by a running app instance"
+                    )
+                if not self.recover_stale(self.log):
+                    raise RuntimeError(
+                        "Could not recover the previous Windows proxy snapshot"
+                    )
+            token = uuid.uuid4().hex
+            owner = self.process_identity(token)
+            state = {
+                "version": self._STATE_VERSION,
+                "owner": owner,
+                "values": {name: self._read_entry(name) for name in self._NAMES},
+            }
+            self._write_state(state)
+            self._previous = state
+            self._state_token = token
+            try:
+                with winreg.OpenKey(
+                    winreg.HKEY_CURRENT_USER,
+                    INTERNET_SETTINGS,
+                    0,
+                    winreg.KEY_SET_VALUE,
+                ) as key:
+                    winreg.SetValueEx(key, "ProxyEnable", 0, winreg.REG_DWORD, 0)
+                    winreg.SetValueEx(
+                        key, "ProxyServer", 0, winreg.REG_SZ,
+                        f"socks={socks_host}:{socks_port}",
+                    )
+                    winreg.SetValueEx(
+                        key, "ProxyOverride", 0, winreg.REG_SZ, bypass
+                    )
+                    winreg.SetValueEx(key, "ProxyEnable", 0, winreg.REG_DWORD, 1)
+                self._refresh()
+            except BaseException:
+                try:
+                    self.disable()
+                except Exception as rollback_error:
+                    self.log(f"Tor proxy rollback pending: {rollback_error}")
+                raise
+            self.log(f"Windows system proxy routed through Tor SOCKS {socks_host}:{socks_port}")
+
+
 
     @staticmethod
     def _read_entry(name: str) -> dict[str, object]:
@@ -1103,9 +1159,15 @@ class Engine:
         self.last_upload_mbps: float = 0.0
         self.last_upload_speed_valid: bool = False
         self.last_upload_ms: float | None = None
+        self.tor = TorManager(log=log)
+        self._tor_enabled = False
 
     @property
     def running(self) -> bool:
+        # Tor mode has no Xray process; TorManager owns the runtime
+        if getattr(self, "_tor_enabled", False):
+            tor = getattr(self, "tor", None)
+            return bool(tor is not None and tor.running and self._active)
         xray_running = (
             self._active
             and self.process is not None
@@ -1118,7 +1180,6 @@ class Engine:
                 or bool(getattr(getattr(self, "fragment", None), "running", False))
             )
         )
-
     @property
     def tun_running(self) -> bool:
         return self.tun_process is not None and self.tun_process.poll() is None
@@ -1641,13 +1702,17 @@ class Engine:
             raise RuntimeError("Local proxy port conflict: " + "; ".join(details))
         return list(dict.fromkeys(reclaimed))
 
-    def start(self, profile: ProxyProfile, tuning: Tuning, bypass_processes: list[str] | None = None,
+    def start(self, profile: ProxyProfile | None, tuning: Tuning,
+              bypass_processes: list[str] | None = None,
               notify: bool = True, enable_system_proxy: bool = True,
               strategy_override: str | None = None,
               cancel_event: threading.Event | None = None) -> None:
         with self._lifecycle_lock:
             self._check_cancel(cancel_event)
             self._stop_locked(notify=False)
+            if str(getattr(tuning, "tunnel_mode", "sni")).lower() == "tor":
+                self._start_tor_mode(tuning, cancel_event, notify=notify)
+                return
             self._check_cancel(cancel_event)
             self.reclaim_stale_listeners()
             self._check_cancel(cancel_event)
@@ -1742,6 +1807,43 @@ class Engine:
             except Exception:
                 self._stop_locked(notify=False)
                 raise
+
+    def _start_tor_mode(self, tuning: Tuning, cancel_event,
+                        notify: bool = True) -> None:
+        """Alternative start path: Tor + WebTunnel only."""
+        self._check_cancel(cancel_event)
+        bridges = list(tuning.tor_bridges) or None
+        self.tor.start(bridges=bridges, exit_country=tuning.tor_exit_country)
+        self._check_cancel(cancel_event)
+        # Verify Tor exit is actually reachable
+        exit_ip = self.tor.current_exit_ip()
+        if not exit_ip:
+            self.tor.stop()
+            raise RuntimeError(
+                "Tor bootstrap finished but exit IP could not be verified. "
+                "Check bridge lines or try NEWNYM."
+            )
+        self.log(f"TOR verified exit IP={exit_ip}")
+        self._active = True
+        self._run_id += 1
+        self._tor_enabled = True
+        # Route Windows proxy through Tor's SOCKS5
+        self.system_proxy.enable_tor_mode(
+            socks_host="127.0.0.1", socks_port=self.tor.socks_port
+        )
+        self._proxy_enabled = True
+        self._fragment_required = False
+        if notify:
+            self.state(True)
+
+    def _stop_tor_mode(self) -> None:
+        if self._tor_enabled:
+            try:
+                self.tor.stop()
+            except Exception as exc:
+                self.log(f"TOR stop error: {exc}")
+            self._tor_enabled = False
+
 
     def enable_system_proxy(self, cancel_event: threading.Event | None = None,
                             expected_run_id: int | None = None) -> None:
@@ -2128,8 +2230,15 @@ class Engine:
         """Verify usable page traffic through the newly started local proxy."""
         self.last_probe_ms = None
         self.last_probe_url = ""
-        proxies = {"http": f"http://127.0.0.1:{HTTP_PORT}",
-                   "https": f"http://127.0.0.1:{HTTP_PORT}"}
+        if getattr(self, "_tor_enabled", False):
+            tor = getattr(self, "tor", None)
+            if tor is None or not tor.running:
+                return False, "Tor is not running"
+            endpoint = f"socks5h://127.0.0.1:{int(tor.socks_port)}"
+            proxies = {"http": endpoint, "https": endpoint}
+        else:
+            proxies = {"http": f"http://127.0.0.1:{HTTP_PORT}",
+                       "https": f"http://127.0.0.1:{HTTP_PORT}"}
         urls = ("https://www.gstatic.com/generate_204",
                 "https://www.cloudflare.com/cdn-cgi/trace",
                 "https://api.ipify.org?format=json")
@@ -2183,10 +2292,17 @@ class Engine:
             url: str = "https://www.gstatic.com/generate_204") -> float | None:
         if not self.running:
             return None
-        proxies = {
-            "http": f"http://127.0.0.1:{HTTP_PORT}",
-            "https": f"http://127.0.0.1:{HTTP_PORT}",
-        }
+        if getattr(self, "_tor_enabled", False):
+            tor = getattr(self, "tor", None)
+            if tor is None or not tor.running:
+                return None
+            endpoint = f"socks5h://127.0.0.1:{int(tor.socks_port)}"
+            proxies = {"http": endpoint, "https": endpoint}
+        else:
+            proxies = {
+                "http": f"http://127.0.0.1:{HTTP_PORT}",
+                "https": f"http://127.0.0.1:{HTTP_PORT}",
+            }
         session = requests.Session()
         session.trust_env = False
         response = None
@@ -2644,6 +2760,8 @@ class Engine:
             self._stop_locked(notify)
 
     def _stop_locked(self, notify: bool = True) -> None:
+        if getattr(self, "_tor_enabled", False):
+            self._stop_tor_mode()
         was_active = self._active
         errors: list[Exception] = []
         try:
