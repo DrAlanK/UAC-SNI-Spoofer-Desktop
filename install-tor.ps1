@@ -83,42 +83,15 @@ if (-not (Test-Path (Join-Path $dest 'tor.exe'))) {
     throw "tor.exe not found after extraction. Check the tarball layout."
 }
 Write-Host "       tor.exe ready: $(Join-Path $dest 'tor.exe')" -ForegroundColor Green
-
 # ---------------------------------------------------------------------------
-# 4. Locate webtunnel-client.exe
+# 4. Verify modern pluggable transports (lyrebird.exe)
 # ---------------------------------------------------------------------------
-Write-Host "[4/4] Locating webtunnel-client.exe"
-$webtunnelDest = Join-Path $transportsDir 'webtunnel-client.exe'
-
-$candidatePaths = @()
-if ($TorBrowserPath) {
-    $candidatePaths += Join-Path $TorBrowserPath 'PluggableTransports\webtunnel-client.exe'
-    $candidatePaths += Join-Path $TorBrowserPath 'webtunnel-client.exe'
-}
-# Common install locations
-$candidatePaths += @(
-    "$env:ProgramFiles\Tor Browser\Browser\TorBrowser\Tor\PluggableTransports\webtunnel-client.exe",
-    "$env:LOCALAPPDATA\Tor Browser\Browser\TorBrowser\Tor\PluggableTransports\webtunnel-client.exe",
-    "$env:USERPROFILE\Desktop\Tor Browser\Browser\TorBrowser\Tor\PluggableTransports\webtunnel-client.exe"
-)
-
-$found = $candidatePaths | Where-Object { Test-Path $_ } | Select-Object -First 1
-if ($found) {
-    Copy-Item -Path $found -Destination $webtunnelDest -Force
-    Write-Host "       Copied from: $found" -ForegroundColor Green
-} elseif (Test-Path $webtunnelDest) {
-    Write-Host "       Already present in bin/tor/pluggable_transports/" -ForegroundColor Green
+Write-Host "[4/4] Verifying pluggable transports"
+$lyrebird = Join-Path $transportsDir 'lyrebird.exe'
+if (Test-Path $lyrebird) {
+    Write-Host "       lyrebird.exe ready (webtunnel/obfs4/snowflake/meek_lite)" -ForegroundColor Green
 } else {
-    Write-Host ""
-    Write-Warning "webtunnel-client.exe was not found."
-    Write-Warning "Install Tor Browser, then either:"
-    Write-Warning "  a) Re-run this script (it will auto-detect), OR"
-    Write-Warning "  b) Manually copy:"
-    Write-Warning "       Tor Browser\Browser\TorBrowser\Tor\PluggableTransports\webtunnel-client.exe"
-    Write-Warning "     into:"
-    Write-Warning "       $webtunnelDest"
-    Write-Host ""
-    Write-Host "Get Tor Browser from: https://www.torproject.org/download/" -ForegroundColor Yellow
+    Write-Warning "lyrebird.exe not found. Tor will start but bridges will fail."
 }
 
 # ---------------------------------------------------------------------------
@@ -132,10 +105,4 @@ Write-Host "=== Tor bundle ready ===" -ForegroundColor Cyan
 Get-ChildItem -Path $dest -Recurse -File |
     Select-Object FullName, Length |
     Format-Table -AutoSize
-
-if (-not (Test-Path $webtunnelDest)) {
-    Write-Host "Reminder: webtunnel-client.exe is still missing." -ForegroundColor Yellow
-    Write-Host "Tor mode will start but bridges may not connect without it." -ForegroundColor Yellow
-    exit 2
-}
 Write-Host "All set." -ForegroundColor Green

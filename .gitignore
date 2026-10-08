@@ -14,6 +14,11 @@ github_release_stage/
 *.zip
 
 bin/
+!bin/
+!bin/tor/
+!bin/tor/**
+!bin/tor/pluggable_transports/
+!bin/tor/pluggable_transports/**
 
 qa_artifacts*/
 codex_backups/

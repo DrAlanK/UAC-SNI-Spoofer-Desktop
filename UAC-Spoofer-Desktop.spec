@@ -13,12 +13,14 @@ datas = [
     ('bin/libcronet.dll', 'bin'),
     ('bin/sing-box-LICENSE', 'bin'),
 
-    # ---- Tor Expert Bundle + WebTunnel client ----
+    # ---- Tor Expert Bundle + pluggable transports ----
     ('bin/tor/tor.exe', 'bin/tor'),
-    ('bin/tor/geoip', 'bin/tor'),
-    ('bin/tor/geoip6', 'bin/tor'),
-    ('bin/tor/LICENSE', 'bin/tor'),
-    ('bin/tor/pluggable_transports/webtunnel-client.exe',
+    ('bin/tor/tor-gencert.exe', 'bin/tor'),
+    ('bin/tor/pluggable_transports/lyrebird.exe',
+     'bin/tor/pluggable_transports'),
+    ('bin/tor/pluggable_transports/conjure-client.exe',
+     'bin/tor/pluggable_transports'),
+    ('bin/tor/pluggable_transports/pt_config.json',
      'bin/tor/pluggable_transports'),
 
     ('wizard guider', 'wizard guider'),

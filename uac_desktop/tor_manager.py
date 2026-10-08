@@ -56,10 +56,17 @@ COUNTRY_RE = re.compile(r"^[A-Za-z]{2}$")
 
 # Known pluggable transport client executables shipped with Tor Browser.
 TRANSPORT_BINARIES = {
-    "webtunnel": "webtunnel-client.exe",
-    "obfs4": "obfs4proxy.exe",
-    "snowflake": "snowflake-client.exe",
-    "meek_lite": "meek-client.exe",
+    # Modern Tor uses lyrebird (renamed obfs4proxy) which handles
+    # obfs4, meek_lite, snowflake and webtunnel in a single binary.
+    "webtunnel": "lyrebird.exe",
+    "obfs4": "lyrebird.exe",
+    "snowflake": "lyrebird.exe",
+    "meek_lite": "lyrebird.exe",
+    # Legacy: dedicated binaries for older Tor bundles.
+    "_legacy_webtunnel": "webtunnel-client.exe",
+    "_legacy_obfs4": "obfs4proxy.exe",
+    "_legacy_snowflake": "snowflake-client.exe",
+    "_legacy_meek_lite": "meek-client.exe",
 }
 
 
@@ -236,15 +243,34 @@ class TorManager:
                 "into the project's bin/tor/ directory."
             )
         return path
-
     def _discover_pluggable_transports(self) -> dict[str, str]:
+        """Return a mapping of transport-kind -> client executable path.
+
+        Prefers the modern single-binary ``lyrebird.exe`` (Tor >= 0.4.8)
+        and falls back to legacy per-transport clients.
+        """
         found: dict[str, str] = {}
-        for kind, filename in TRANSPORT_BINARIES.items():
-            candidate = self.bundle_dir / "pluggable_transports" / filename
+        transports_dir = self.bundle_dir / "pluggable_transports"
+
+        # Modern unified binary
+        unified = transports_dir / "lyrebird.exe"
+        if unified.is_file():
+            for kind in ("webtunnel", "obfs4", "snowflake", "meek_lite"):
+                found[kind] = str(unified)
+            return found
+
+        # Legacy per-transport binaries
+        legacy_map = {
+            "webtunnel": "webtunnel-client.exe",
+            "obfs4": "obfs4proxy.exe",
+            "snowflake": "snowflake-client.exe",
+            "meek_lite": "meek-client.exe",
+        }
+        for kind, filename in legacy_map.items():
+            candidate = transports_dir / filename
             if candidate.is_file():
                 found[kind] = str(candidate)
         return found
-
     # ------------------------------------------------------------------
     # torrc generation
     # ------------------------------------------------------------------

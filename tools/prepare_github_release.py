@@ -23,9 +23,8 @@ PORTABLE_RUNTIME_FILES = (
     Path("_internal/bin/libcronet.dll"),
     Path("_internal/bin/sing-box-LICENSE"),
     Path("_internal/bin/tor/tor.exe"),
-    Path("_internal/bin/tor/geoip"),
-    Path("_internal/bin/tor/geoip6"),
-    Path("_internal/bin/tor/pluggable_transports/webtunnel-client.exe"),
+    Path("_internal/bin/tor/pluggable_transports/lyrebird.exe"),
+    Path("_internal/bin/tor/pluggable_transports/pt_config.json"),
 )
 ASSISTANT_ASSET_FILES = tuple(
     Path("_internal/wizard guider") / f"wizard_{index:02d}_{state}.png" for index, state in enumerate((

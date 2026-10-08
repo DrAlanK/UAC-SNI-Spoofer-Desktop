@@ -198,11 +198,12 @@ def main() -> int:
     except Exception as exc:
         log(f"ERROR expert bundle: {exc}")
         return 1
-    try:
-        fetch_webtunnel(version)
-    except Exception as exc:
-        warn(f"webtunnel unavailable: {exc}")
-        warn("Tor mode will start but bridges may fail to connect.")
+    # Modern Tor Expert Bundle already ships lyrebird.exe which handles
+    # webtunnel, obfs4, snowflake and meek_lite. Verify it is present.
+    lyrebird = DEST / "pluggable_transports" / "lyrebird.exe"
+    if not lyrebird.is_file():
+        warn("lyrebird.exe is missing from the expert bundle.")
+        warn("Tor mode will start but bridges will not connect.")
     ensure_python_deps()
     print()
     log("done. final layout under bin/tor/:")
