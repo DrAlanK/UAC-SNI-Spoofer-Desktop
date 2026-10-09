@@ -1929,11 +1929,14 @@ class TorConfigDialog(QDialog):
         if existing:
             self.bridges_editor.setPlainText("\n".join(existing))
         else:
-            defaults = default_webtunnel_bridges()
-            if defaults:
-                self.bridges_editor.setPlainText(
-                    "\n".join(bridge.raw for bridge in defaults)
-                )
+            self.bridges_editor.setPlaceholderText(
+                "# Paste real WebTunnel bridges here, one per line.\n"
+                "# Get them from: https://bridges.torproject.org/\n"
+                "#\n"
+                "# Example format:\n"
+                "#   webtunnel 192.0.2.10:443 FINGERPRINT "
+                "url=https://real-domain.example/path"
+            )
 
         self._bridge_status = QLabel(self.t("—", "—"))
         self._bridge_status.setObjectName("torBridgeStatus")
@@ -2030,12 +2033,7 @@ class TorConfigDialog(QDialog):
         fl = QHBoxLayout(footer)
         fl.setContentsMargins(24, 16, 24, 18)
 
-        restore = QPushButton(self.t("بازگردانی پل‌های پیش‌فرض",
-                                     "Restore Default Bridges"))
-        restore.setObjectName("modalSecondary")
-        restore.setIcon(cyber_icon("refresh", "#b7cce0", 18))
-        restore.clicked.connect(self._restore_default_bridges)
-        fl.addWidget(restore)
+ 
         fl.addStretch()
 
         cancel = QPushButton(self.t("بستن", "Close"))
@@ -2983,7 +2981,7 @@ class MainWindow(QMainWindow):
         header_height = 88 if dense else 100
         country_height = 104
         metric_height = 116 if dense or narrow else 142
-        controls_height = 148 if compact else 106
+        controls_height = 148
         fixed = header_height + country_height + metric_height + controls_height + margins[1] + margins[3] + spacing * 4
         hero_height = max(178, min(318, stack_height - fixed))
         compact_hero = dense or hero_height < 250
