@@ -16,6 +16,8 @@ datas = [
     # ---- Tor Expert Bundle + pluggable transports ----
     ('bin/tor/tor.exe', 'bin/tor'),
     ('bin/tor/tor-gencert.exe', 'bin/tor'),
+    ('bin/tor/geoip', 'bin/tor'),
+    ('bin/tor/geoip6', 'bin/tor'),   
     ('bin/tor/pluggable_transports/lyrebird.exe',
      'bin/tor/pluggable_transports'),
     ('bin/tor/pluggable_transports/conjure-client.exe',

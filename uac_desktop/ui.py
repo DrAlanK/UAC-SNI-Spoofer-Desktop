@@ -310,6 +310,7 @@ class Bridge(QObject):
     tor_exit_ip = Signal(str)
     tor_new_identity = Signal(bool, str)
     tor_exit_country_applied = Signal(str, bool, str) 
+    tor_exit_country_detected = Signal(str, str) 
 
 
 def _system_motion_enabled() -> bool:
@@ -1849,25 +1850,18 @@ class ProfileDialog(QDialog):
             out.country_source = ""
         return out
 
-
 class TorConfigDialog(QDialog):
-    """Tor + WebTunnel configuration dialog.
-
-    Owns bridges, exit-country and NEWNYM actions. All heavy work is
-    delegated to TorManager through signals; the dialog itself never
-    spawns Tor directly.
-    """
+    """Tor + WebTunnel configuration dialog with live updates."""
 
     def __init__(self, parent, tuning, language: str = "fa"):
         super().__init__(parent)
         self.language = language
         self.t = lambda fa, en: en if language == "en" else fa
         self._animated = False
-        self._bridges_lines: list[str] = []
         self.setObjectName("torConfigDialog")
         self.setWindowTitle(self.t("پیکربندی Tor", "Tor Configuration"))
-        self.resize(780, 720)
-        self.setMinimumSize(700, 620)
+        self.resize(780, 760)
+        self.setMinimumSize(700, 640)
         self.setLayoutDirection(
             Qt.LeftToRight if language == "en" else Qt.RightToLeft
         )
@@ -1894,8 +1888,8 @@ class TorConfigDialog(QDialog):
                               "Tor + WebTunnel Configuration"))
         title.setObjectName("modalTitle")
         subtitle = QLabel(self.t(
-            f"پل‌های {ltr_isolate('WebTunnel')} را وارد کنید تا در شبکه‌های محدود هم تونل باز شود.",
-            "Configure WebTunnel bridges to reach Tor from restricted networks."
+            f"پل‌های {ltr_isolate('WebTunnel')} را وارد کنید یا از BridgeDB دریافت کنید.",
+            "Paste WebTunnel bridges or fetch them from BridgeDB."
         ))
         subtitle.setObjectName("modalSubtitle")
         subtitle.setWordWrap(True)
@@ -1914,48 +1908,53 @@ class TorConfigDialog(QDialog):
         body_layout.setContentsMargins(24, 20, 24, 20)
         body_layout.setSpacing(14)
 
-        # ==== Section 1: Bridges ====
+        # ==== Bridges section ====
         self.bridges_editor = QPlainTextEdit()
         self.bridges_editor.setObjectName("torBridgesEditor")
         self.bridges_editor.setProperty("technical", True)
         self.bridges_editor.setLayoutDirection(Qt.LeftToRight)
         self.bridges_editor.setPlaceholderText(
-            "webtunnel [2001:db8::1]:443 FINGERPRINT url=https://...\n"
-            "webtunnel 192.0.2.10:443 FINGERPRINT url=https://...\n"
-            "obfs4 1.2.3.4:443 CERT ..."
+            "webtunnel [2001:db8::1]:443 FINGERPRINT url=https://... ver=0.0.4\n"
+            "webtunnel 192.0.2.10:443 FINGERPRINT url=https://... ver=0.0.6"
         )
-        self.bridges_editor.setMinimumHeight(150)
+        self.bridges_editor.setMinimumHeight(160)
         existing = list(getattr(tuning, "tor_bridges", ()) or ())
         if existing:
             self.bridges_editor.setPlainText("\n".join(existing))
-        else:
-            self.bridges_editor.setPlaceholderText(
-                "# Paste real WebTunnel bridges here, one per line.\n"
-                "# Get them from: https://bridges.torproject.org/\n"
-                "#\n"
-                "# Example format:\n"
-                "#   webtunnel 192.0.2.10:443 FINGERPRINT "
-                "url=https://real-domain.example/path"
-            )
 
         self._bridge_status = QLabel(self.t("—", "—"))
         self._bridge_status.setObjectName("torBridgeStatus")
         self._bridge_status.setWordWrap(True)
         self.bridges_editor.textChanged.connect(self._update_bridge_status)
 
+        # Fetch button
+        self.fetch_btn = QPushButton(
+            self.t("دریافت خودکار از BridgeDB", "Fetch from BridgeDB")
+        )
+        self.fetch_btn.setObjectName("torFetchBridgesButton")
+        self.fetch_btn.setIcon(cyber_icon("download", "#bfefff", 17))
+        self.fetch_btn.setMinimumHeight(34)
+        self.fetch_btn.clicked.connect(self._fetch_bridges)
+
+        bridges_row = QVBoxLayout()
+        bridges_row.setSpacing(6)
+        bridges_row.addWidget(self.bridges_editor)
+        bridges_row.addWidget(self.fetch_btn)
+
         body_layout.addWidget(self._section(
             self.t("پل‌های Tor", "Tor bridges"),
             self.t(
-                f"هر خط یک پل معتبر. پیشنهاد می‌شود از نوع {ltr_isolate('webtunnel')} استفاده کنید.",
-                "One bridge per line. WebTunnel bridges are recommended for restricted networks."
+                "هر خط یک پل. اگر نمی‌دونی از کجا بگیری، دکمه‌ی زیر را بزن.",
+                "One bridge per line. If unsure, use the button below."
             ),
             [
                 (self.t("لیست پل‌ها", "Bridge list"), self.bridges_editor),
+                (self.t("دریافت خودکار", "Auto-fetch"), self.fetch_btn),
                 (self.t("وضعیت", "Status"), self._bridge_status),
             ],
         ))
 
-        # ==== Section 2: Exit country ====
+        # ==== Exit country ====
         self.exit_country = QComboBox()
         self.exit_country.setObjectName("torExitCountryCombo")
         self.exit_country.setLayoutDirection(Qt.LeftToRight)
@@ -1968,6 +1967,8 @@ class TorConfigDialog(QDialog):
         current = str(getattr(tuning, "tor_exit_country", "") or "").upper()
         idx = self.exit_country.findData(current)
         self.exit_country.setCurrentIndex(max(0, idx))
+        # Live apply on change
+        self.exit_country.currentIndexChanged.connect(self._exit_country_changed)
 
         self.exit_ip_label = QLabel("—")
         self.exit_ip_label.setObjectName("torExitIpLabel")
@@ -1989,8 +1990,8 @@ class TorConfigDialog(QDialog):
         body_layout.addWidget(self._section(
             self.t("کشور خروجی", "Exit country"),
             self.t(
-                "کشور خروجی را مشخص کنید یا روی «هویت جدید» بزنید تا Tor مدار تازه بسازد.",
-                "Pin an exit country or click New Identity to build a fresh circuit."
+                "تغییر کشور در حالت متصل، بلافاصله اعمال می‌شود.",
+                "Changing country while connected applies immediately."
             ),
             [
                 (self.t("کشور خروجی", "Exit country"), self.exit_country),
@@ -2000,7 +2001,7 @@ class TorConfigDialog(QDialog):
             ],
         ))
 
-        # ==== Section 3: Runtime ====
+        # ==== Runtime ====
         self.bootstrap_bar = CyberProgressBar()
         self.bootstrap_bar.setMaximum(100)
         self.bootstrap_bar.setValue(0)
@@ -2033,7 +2034,11 @@ class TorConfigDialog(QDialog):
         fl = QHBoxLayout(footer)
         fl.setContentsMargins(24, 16, 24, 18)
 
- 
+        open_site = QPushButton(self.t("راهنما", "Help"))
+        open_site.setObjectName("modalSecondary")
+        open_site.setIcon(cyber_icon("external-link", "#b7cce0", 18))
+        open_site.clicked.connect(self._open_bridge_site)
+        fl.addWidget(open_site)
         fl.addStretch()
 
         cancel = QPushButton(self.t("بستن", "Close"))
@@ -2100,16 +2105,8 @@ class TorConfigDialog(QDialog):
         if invalid:
             parts.append(self.t(f"{len(invalid)} نامعتبر", f"{len(invalid)} invalid"))
         self._bridge_status.setText(" · ".join(parts))
-        self._bridge_status.setProperty(
-            "state", "error" if invalid else "ok"
-        )
+        self._bridge_status.setProperty("state", "error" if invalid else "ok")
         _restyle(self._bridge_status)
-
-    def _restore_default_bridges(self):
-        defaults = default_webtunnel_bridges()
-        self.bridges_editor.setPlainText(
-            "\n".join(bridge.raw for bridge in defaults)
-        )
 
     def _request_new_identity(self):
         parent = self.parent()
@@ -2120,6 +2117,62 @@ class TorConfigDialog(QDialog):
             self._exit_status.setText(
                 self.t("اتصال به Tor فعال نیست", "Tor is not running")
             )
+
+    def _open_bridge_site(self):
+        import webbrowser
+        webbrowser.open("https://bridges.torproject.org/")
+
+    def _fetch_bridges(self):
+        """Fetch fresh WebTunnel bridges from BridgeDB in the background."""
+        self.fetch_btn.setEnabled(False)
+        self.fetch_btn.setText(self.t("در حال دریافت…", "Fetching…"))
+        self._bridge_status.setText(
+            self.t("در حال دریافت از BridgeDB…", "Fetching from BridgeDB…")
+        )
+        self._bridge_status.setProperty("state", "ok")
+        _restyle(self._bridge_status)
+
+        def work():
+            try:
+                from .tor_manager import fetch_webtunnel_bridges
+                bridges = fetch_webtunnel_bridges()
+                QTimer.singleShot(0, lambda: self._fetch_done(bridges, ""))
+            except Exception as exc:
+                QTimer.singleShot(0, lambda: self._fetch_done([], str(exc)))
+
+        threading.Thread(target=work, name="bridge-fetch", daemon=True).start()
+
+    def _fetch_done(self, bridges: list, error: str):
+        self.fetch_btn.setEnabled(True)
+        self.fetch_btn.setText(self.t("دریافت خودکار از BridgeDB", "Fetch from BridgeDB"))
+        if error or not bridges:
+            self._bridge_status.setText(
+                self.t(f"دریافت ناموفق: {error}", f"Fetch failed: {error}")
+            )
+            self._bridge_status.setProperty("state", "error")
+            _restyle(self._bridge_status)
+            return
+        self.bridges_editor.setPlainText("\n".join(bridges))
+        self._update_bridge_status()
+        self._exit_status.setText(
+            self.t(f"{len(bridges)} پل جدید دریافت شد",
+                   f"Fetched {len(bridges)} fresh bridges")
+        )
+        self._exit_status.setProperty("state", "ok")
+        _restyle(self._exit_status)
+
+    def _exit_country_changed(self, _index: int):
+        """Apply exit country live if Tor is running."""
+        parent = self.parent()
+        if parent is None:
+            return
+        engine = getattr(parent, "engine", None)
+        tor = getattr(engine, "tor", None) if engine is not None else None
+        if tor is None or not getattr(tor, "running", False):
+            return
+        controller = getattr(parent, "_apply_tor_exit_country", None)
+        if callable(controller):
+            controller(self.exit_country_code())
 
     # ---------- public API ----------
     def bridges(self) -> list[str]:
@@ -2132,12 +2185,7 @@ class TorConfigDialog(QDialog):
     def exit_country_code(self) -> str:
         return str(self.exit_country.currentData() or "").upper()
 
-    def apply_to(self, tuning) -> None:
-        """Mutate a Tuning instance with the dialog values."""
-        tuning.tor_bridges = tuple(self.bridges())
-        tuning.tor_exit_country = self.exit_country_code()
-
-    # ---------- runtime updates ----------
+    # ---------- runtime updates (called from MainWindow) ----------
     def update_bootstrap(self, percent: int):
         value = max(0, min(100, int(percent)))
         self.bootstrap_bar.setValue(value)
@@ -2145,10 +2193,12 @@ class TorConfigDialog(QDialog):
             self.bootstrap_label.setText(
                 self.t("Bootstrap کامل شد", "Bootstrap complete")
             )
-        else:
+        elif value > 0:
             self.bootstrap_label.setText(
                 self.t(f"Bootstrap: {value}%", f"Bootstrap: {value}%")
             )
+        else:
+            self.bootstrap_label.setText(self.t("در انتظار…", "Waiting…"))
 
     def update_exit_ip(self, exit_ip: str):
         self.exit_ip_label.setText(exit_ip or "—")
@@ -2179,10 +2229,10 @@ class TorConfigDialog(QDialog):
     def update_exit_country_result(self, code: str, success: bool,
                                    error: str = ""):
         if success:
+            label = code or self.t("هر کشوری", "Any country")
             self._exit_status.setText(
-                self.t(f"کشور خروجی روی {code or 'هر'}"
-                       f" تنظیم شد",
-                       f"Exit country set to {code or 'any'}")
+                self.t(f"کشور خروجی روی {label} تنظیم شد",
+                       f"Exit country set to {label}")
             )
             self._exit_status.setProperty("state", "ok")
         else:
@@ -2203,7 +2253,6 @@ class TorConfigDialog(QDialog):
         animation.setEasingCurve(QEasingCurve.OutCubic)
         self._show_animation = animation
         animation.start()
-
 class TuningDialog(QDialog):
     def __init__(self, parent, tuning: Tuning, language: str = "fa",
                  update_repo_url: str = DEFAULT_UPDATE_REPO_URL,
@@ -2582,6 +2631,14 @@ class MainWindow(QMainWindow):
         self._tor_bootstrap = 0
         self._tor_last_exit_ip = ""
         self._tor_last_bootstrap_at = 0.0
+        self._tor_dialog = None
+        self._tor_exit_country_code = ""
+        self._tor_exit_country_lookup_ip = ""
+        self._tor_exit_lookup_inflight = False
+        self._tor_exit_watch_timer = QTimer(self)
+        self._tor_exit_watch_timer.setInterval(15000)  # every 15s
+        self._tor_exit_watch_timer.timeout.connect(self._poll_tor_exit_country)
+        self._tor_exit_watch_timer.start()
         self._tor_bootstrap_timer = QTimer(self)
         self._tor_bootstrap_timer.setInterval(500)
         self._tor_bootstrap_timer.timeout.connect(self._poll_tor_bootstrap)
@@ -2711,6 +2768,13 @@ class MainWindow(QMainWindow):
                 and self._tor_runtime_active()
                 and not self._tor_last_exit_ip):
             QTimer.singleShot(0, self._tor_refresh_exit_ip)
+            
+        dialog = getattr(self, "_tor_dialog", None)
+        if dialog is not None and value != 0:
+            try:
+                dialog.update_bootstrap(value)
+            except Exception:
+                pass
 
     def _build(self):
         root = CyberRoot(); self.setCentralWidget(root); layout = QHBoxLayout(root); layout.setContentsMargins(0, 0, 0, 0); layout.setSpacing(0)
@@ -2887,6 +2951,17 @@ class MainWindow(QMainWindow):
         self.tor_bootstrap_badge.setVisible(False)
         self.tor_option.layout().addWidget(
             self.tor_bootstrap_badge, 0, Qt.AlignVCenter
+        )
+        self.tor_flag_label = QLabel()
+        self.tor_flag_label.setObjectName("torFlagLabel")
+        self.tor_flag_label.setFixedSize(32, 22)
+        self.tor_flag_label.setAlignment(Qt.AlignCenter)
+        self.tor_flag_label.setVisible(False)
+        self.tor_flag_label.setToolTip(
+            self.tr("کشور خروجی Tor", "Tor exit country")
+        )
+        self.tor_option.layout().addWidget(
+            self.tor_flag_label, 0, Qt.AlignVCenter
         )
         self.gateway_mode.setToolTip(self.tr(
             "با یک کلیک، اینترنت موبایل را از درگاه شبکه این رایانه به تونل تأییدشده هدایت می‌کند.",
@@ -3494,6 +3569,9 @@ class MainWindow(QMainWindow):
         self.bridge.tor_new_identity.connect(self._tor_new_identity_result)
         self.bridge.tor_exit_country_applied.connect(
             self._tor_exit_country_applied
+        )
+        self.bridge.tor_exit_country_detected.connect(
+            self._tor_exit_country_detected
         )
         self._traffic_interface = None
         self._traffic_base_up = None
@@ -5119,28 +5197,93 @@ class MainWindow(QMainWindow):
     def _tor_runtime_active(self) -> bool:
         tor = getattr(self.engine, "tor", None)
         return bool(tor is not None and getattr(tor, "running", False))
-
     def _open_tor_settings(self):
+        existing = getattr(self, "_tor_dialog", None)
+        if existing is not None:
+            try:
+                existing.close()
+                existing.deleteLater()
+            except Exception:
+                pass
+            self._tor_dialog = None
+
         tuning = self.storage.tuning
         dialog = TorConfigDialog(self, tuning, self.language)
-        if dialog.exec():
+        self._tor_dialog = dialog
+        dialog.finished.connect(self._on_tor_dialog_finished)
+
+        # Apply live state
+        tor = getattr(self.engine, "tor", None)
+        if tor is not None:
+            try:
+                dialog.update_bootstrap(int(getattr(tor, "bootstrapped", 0) or 0))
+                dialog.update_runtime(bool(getattr(tor, "running", False)), "")
+            except Exception:
+                pass
+        if self._tor_last_exit_ip:
+            dialog.update_exit_ip(self._tor_last_exit_ip)
+
+        dialog.show()
+        dialog.raise_()
+        dialog.activateWindow()
+
+    def _on_tor_dialog_finished(self, result: int):
+        dialog = getattr(self, "_tor_dialog", None)
+        self._tor_dialog = None
+        if dialog is None:
+            return
+        if result:  # Save was pressed
             bridges = dialog.bridges()
             exit_country = dialog.exit_country_code()
             self.storage.settings["tor_bridges"] = list(bridges)
             self.storage.settings["tor_exit_country"] = exit_country
+            tuning = self.storage.tuning
+            tuning.tor_bridges = list(bridges)
+            tuning.tor_exit_country = exit_country
+            self.storage.set_tuning(tuning)
             self.storage.save_settings()
             self._set_activity(
                 "تنظیمات Tor ذخیره شد.", "Tor settings saved.",
                 "success", False,
             )
-
+            # If Tor is running, apply exit country live
             if self._tor_runtime_active() and exit_country is not None:
                 self._apply_tor_exit_country(exit_country)
+        try:
+            dialog.deleteLater()
+        except Exception:
+            pass
+    
     def _tor_mode_changed(self, enabled: bool):
         enabled = bool(enabled)
         self._tor_requested = enabled
 
-        # Mirror into Tuning so Engine.start sees the right mode
+        # ---- Auto-disable mutually exclusive modes ----
+        if enabled:
+            if self.tun_mode.isChecked():
+                self.tun_mode.blockSignals(True)
+                self.tun_mode.setChecked(False)
+                self.tun_mode.blockSignals(False)
+                self._save_flag("tun_mode", False)
+                self.tun_option.setProperty("active", False)
+                _restyle(self.tun_option)
+            if self.proxy_mode.isChecked():
+                self.proxy_mode.blockSignals(True)
+                self.proxy_mode.setChecked(False)
+                self.proxy_mode.blockSignals(False)
+                self._save_flag("proxy_mode", False)
+                self.proxy_option.setProperty("active", False)
+                _restyle(self.proxy_option)
+
+        # ---- Lock TUN/Proxy/Gateway while Tor is on ----
+        self.tun_mode.setEnabled(not enabled)
+        self.tun_option.setEnabled(not enabled)
+        self.proxy_mode.setEnabled(not enabled)
+        self.proxy_option.setEnabled(not enabled)
+        self.gateway_mode.setEnabled(not enabled)
+        self.gateway_option.setEnabled(not enabled)
+
+        # ---- Mirror into Tuning ----
         tuning = self.storage.tuning
         tuning.tunnel_mode = "tor" if enabled else "sni"
         tuning.tor_bridges = list(
@@ -5151,9 +5294,7 @@ class MainWindow(QMainWindow):
         )
         self.storage.set_tuning(tuning)
 
-        self.tor_option.setProperty(
-            "state", "requested" if enabled else "off"
-        )
+        self.tor_option.setProperty("state", "requested" if enabled else "off")
         _restyle(self.tor_option)
 
         if self.engine.running:
@@ -5166,13 +5307,14 @@ class MainWindow(QMainWindow):
             self._set_state(False)
         else:
             self._set_activity(
-                "حالت Tor برای اتصال بعدی فعال است." if enabled
+                "حالت Tor فعال شد. برای شروع، روی «اتصال» بزنید."
+                if enabled
                 else "حالت Tor غیرفعال شد.",
-                "Tor mode will be used on the next connection." if enabled
+                "Tor mode enabled. Press Connect to start."
+                if enabled
                 else "Tor mode disabled.",
                 "success", False,
             )
-
     def _set_tor_toggle(self, checked: bool):
         toggle = getattr(self, "tor_mode", None)
         if toggle is None:
@@ -5317,16 +5459,26 @@ class MainWindow(QMainWindow):
             self.storage.save_settings()
             if error:
                 self._handle_error(error)
-
     def _tor_state_changed(self, enabled: bool, message: str):
         self._tor_runtime_state = "active" if enabled else "inactive"
         self.tor_bootstrap_badge.setVisible(enabled)
         if enabled:
             self._tor_bootstrap = 0
             self.tor_bootstrap_badge.setText("0%")
+            # Immediately kick off a country lookup
+            QTimer.singleShot(2000, self._poll_tor_exit_country)
         else:
+            self._tor_bootstrap = 0
+            self._tor_last_exit_ip = ""
             self.tor_bootstrap_badge.setText("—")
-
+            self._reset_tor_flag()
+        # Push to dialog
+        dialog = getattr(self, "_tor_dialog", None)
+        if dialog is not None:
+            try:
+                dialog.update_runtime(enabled, message)
+            except Exception:
+                pass
     def _tor_bootstrap_changed(self, percent: int):
         percent = max(0, min(100, int(percent)))
         self._tor_bootstrap = percent
@@ -5335,15 +5487,35 @@ class MainWindow(QMainWindow):
             self.tor_bootstrap_badge.setText(f"{percent}%")
         else:
             self.tor_bootstrap_badge.setText(self.tr("آماده", "Ready"))
-
+        dialog = getattr(self, "_tor_dialog", None)
+        if dialog is not None:
+            try:
+                dialog.update_bootstrap(percent)
+            except Exception:
+                pass
     def _tor_exit_ip_received(self, exit_ip: str):
         self._tor_last_exit_ip = str(exit_ip or "")
-        if self._tor_last_exit_ip:
-            self.tor_bootstrap_badge.setToolTip(
-                self.tr(f"آی‌پی خروجی: {self._tor_last_exit_ip}",
-                        f"Exit IP: {self._tor_last_exit_ip}")
-            )
-
+        badge = self.tor_bootstrap_badge
+        if not self._tor_last_exit_ip:
+            badge.setText("—")
+            badge.setToolTip("")
+            return
+        # Show short version on the badge
+        parts = self._tor_last_exit_ip.split(".")
+        short = ".".join(parts[-2:]) if len(parts) == 4 else self._tor_last_exit_ip
+        badge.setText(f"🌐 {short}")
+        badge.setToolTip(
+            self.tr(f"آی‌پی خروجی Tor: {self._tor_last_exit_ip}",
+                    f"Tor exit IP: {self._tor_last_exit_ip}")
+        )
+        badge.setVisible(True)
+        # Push to open dialog
+        dialog = getattr(self, "_tor_dialog", None)
+        if dialog is not None:
+            try:
+                dialog.update_exit_ip(self._tor_last_exit_ip)
+            except Exception:
+                pass
     def _tor_refresh_exit_ip(self):
         tor = getattr(self.engine, "tor", None)
         if tor is None or not tor.running:
@@ -5364,22 +5536,28 @@ class MainWindow(QMainWindow):
             )
             return
 
-        def work():
-            try:
-                tor.new_identity()
-                time.sleep(1.5)
-                exit_ip = tor.current_exit_ip()
-                if exit_ip:
-                    self.bridge.tor_exit_ip.emit(exit_ip)
-                self.bridge.tor_new_identity.emit(True, "")
-            except Exception as exc:
-                self.bridge.tor_new_identity.emit(False, str(exc))
+    def work():
+        try:
+            tor.new_identity()
+            time.sleep(3.0)   # ← از 1.5 به 3.0
+            exit_ip = tor.current_exit_ip()
+            if exit_ip:
+                self.bridge.tor_exit_ip.emit(exit_ip)
+            self.bridge.tor_new_identity.emit(True, "")
+        except Exception as exc:
+            self.bridge.tor_new_identity.emit(False, str(exc))
 
         threading.Thread(
             target=work, name="tor-newnym", daemon=True
         ).start()
 
     def _tor_new_identity_result(self, success: bool, error: str):
+        dialog = getattr(self, "_tor_dialog", None)
+        if dialog is not None:
+            try:
+                dialog.update_new_identity_result(success, error)
+            except Exception:
+                pass
         if success:
             self.show_toast(
                 self.tr("هویت جدید Tor ساخته شد", "New Tor identity created"),
@@ -5387,7 +5565,6 @@ class MainWindow(QMainWindow):
             )
         else:
             self.show_toast(error or "NEWNYM failed", "danger")
-
     def _apply_tor_exit_country(self, code: str):
         tor = getattr(self.engine, "tor", None)
         if tor is None or not tor.running:
@@ -5396,21 +5573,29 @@ class MainWindow(QMainWindow):
         def work():
             try:
                 tor.set_exit_country(code)
-                self.bridge.tor_exit_country_applied.emit(code, True, "")
-                time.sleep(1.0)
+                # Request a fresh circuit so the new country takes effect
+                try:
+                    tor.new_identity()
+                    time.sleep(3.0)
+                except Exception as exc:
+                    self.bridge.log.emit(f"TOR NEWNYM after exit change: {exc}")
                 exit_ip = tor.current_exit_ip()
                 if exit_ip:
                     self.bridge.tor_exit_ip.emit(exit_ip)
+                self.bridge.tor_exit_country_applied.emit(code, True, "")
             except Exception as exc:
-                self.bridge.tor_exit_country_applied.emit(
-                    code, False, str(exc)
-                )
+                self.bridge.tor_exit_country_applied.emit(code, False, str(exc))
 
         threading.Thread(
             target=work, name="tor-exit-country", daemon=True
         ).start()
-
     def _tor_exit_country_applied(self, code: str, success: bool, error: str):
+        dialog = getattr(self, "_tor_dialog", None)
+        if dialog is not None:
+            try:
+                dialog.update_exit_country_result(code, success, error)
+            except Exception:
+                pass
         if success:
             label = code or self.tr("هر کشوری", "Any country")
             self._set_activity(
@@ -5420,6 +5605,117 @@ class MainWindow(QMainWindow):
             )
         elif error:
             self._handle_error(error)
+
+    def _poll_tor_exit_country(self):
+        """Periodically detect the Tor exit country and update the flag.
+
+        Runs every 15s while Tor is active. Refreshes the flag only when
+        the exit IP has changed, so we do not hammer the geo-IP endpoint.
+        """
+        if not self._tor_runtime_active():
+            return
+        if self._tor_exit_lookup_inflight:
+            return
+        tor = getattr(self.engine, "tor", None)
+        if tor is None or not getattr(tor, "running", False):
+            return
+
+        self._tor_exit_lookup_inflight = True
+        socks_port = int(getattr(tor, "socks_port", 9150))
+
+        def work():
+            exit_ip = ""
+            country_code = ""
+            try:
+                import requests
+                session = requests.Session()
+                session.trust_env = False
+                proxies = {
+                    "http": f"socks5h://127.0.0.1:{socks_port}",
+                    "https": f"socks5h://127.0.0.1:{socks_port}",
+                }
+                response = session.get(
+                    "https://ipwho.is/",
+                    proxies=proxies,
+                    timeout=8.0,
+                    headers={"User-Agent": "UAC-Spoofer-Desktop/Tor"},
+                )
+                data = response.json()
+                if data.get("success") is not False:
+                    exit_ip = str(data.get("ip", "") or "").strip()
+                    country_code = str(
+                        data.get("country_code", "") or ""
+                    ).strip().upper()
+            except Exception as exc:
+                self.bridge.log.emit(
+                    f"TOR exit country lookup failed: "
+                    f"{type(exc).__name__}: {exc}"
+                )
+            finally:
+                try:
+                    session.close()
+                except Exception:
+                    pass
+                self._tor_exit_lookup_inflight = False
+
+            # Skip if the exit IP hasn't changed
+            if not exit_ip:
+                return
+            if exit_ip == self._tor_exit_country_lookup_ip:
+                return
+            self.bridge.tor_exit_country_detected.emit(
+                exit_ip, country_code
+            )
+
+        threading.Thread(
+            target=work, name="tor-exit-country-watch", daemon=True
+        ).start()
+
+    def _tor_exit_country_detected(self, exit_ip: str, country_code: str):
+        """Update the flag pill next to the Tor toggle."""
+        self._tor_exit_country_lookup_ip = str(exit_ip or "")
+        code = str(country_code or "").upper()
+        if len(code) != 2 or not code.isalpha():
+            code = ""
+
+        if code == self._tor_exit_country_code:
+            return
+        self._tor_exit_country_code = code
+
+        label = getattr(self, "tor_flag_label", None)
+        if label is None:
+            return
+
+        if not code:
+            label.clear()
+            label.setVisible(False)
+            return
+
+        icon = country_flag_icon(code, 30, 20)
+        label.setPixmap(icon.pixmap(30, 20))
+        label.setVisible(True)
+        label.setToolTip(
+            self.tr(
+                f"کشور خروجی Tor: {code}",
+                f"Tor exit country: {code}",
+            )
+        )
+        # Also push into the open Tor settings dialog if present
+        dialog = getattr(self, "_tor_dialog", None)
+        if dialog is not None:
+            try:
+                dialog.update_exit_ip(self._tor_exit_country_lookup_ip)
+            except Exception:
+                pass
+
+    def _reset_tor_flag(self):
+        """Hide the flag when Tor is off or restarting."""
+        self._tor_exit_country_code = ""
+        self._tor_exit_country_lookup_ip = ""
+        label = getattr(self, "tor_flag_label", None)
+        if label is not None:
+            label.clear()
+            label.setVisible(False)
 
     def _apply_connection_mode_after_probe(self, cancel=None) -> str:
         expected_run_id = getattr(self.engine, "run_id", None)
@@ -9518,6 +9814,14 @@ class MainWindow(QMainWindow):
         if hasattr(self, "_tor_bootstrap_timer"):
             self._tor_bootstrap_timer.stop()
         self._tor_requested = False
+        dialog = getattr(self, "_tor_dialog", None)
+        if dialog is not None:
+            try:
+                dialog.close()
+                dialog.deleteLater()
+            except Exception:
+                pass
+            self._tor_dialog = None
         tor = getattr(getattr(self, "engine", None), "tor", None)
         if tor is not None:
             try:
@@ -9526,6 +9830,11 @@ class MainWindow(QMainWindow):
                 self._pending_file_log_lines.append(
                     f"Tor shutdown pending: {exc}"
                 )
+            # Belt-and-braces: force-kill any stragglers on Windows
+            try:
+                self.engine._release_windivert_driver()
+            except Exception:
+                pass
         self._tor_requested = False
         self._cancel_tor_apply()
         tor = getattr(getattr(self, "engine", None), "tor", None)
@@ -9947,6 +10256,13 @@ QLabel#torRuntimeStatus[state="disabled"] { color: #8da6bf; }
 QLabel#torBootstrapLabel { color: #b8c6de; font-size: 11px; }
 QPushButton#torNewIdentityButton { min-height: 32px; padding: 5px 14px; color: #f0ebff; background: qlineargradient(x1:0,y1:0,x2:1,y2:0,stop:0 rgba(77,44,146,0.72),stop:1 rgba(48,76,140,0.82)); border: 1px solid rgba(158,115,255,0.52); border-radius: 10px; font-weight: 800; }
 QPushButton#torNewIdentityButton:hover { background: qlineargradient(x1:0,y1:0,x2:1,y2:0,stop:0 rgba(105,60,200,0.82),stop:1 rgba(70,110,200,0.88)); border-color: #b89bff; color: #ffffff; }
+
+QPushButton#torFetchBridgesButton { min-height: 32px; padding: 5px 14px; color: #eaf9ff; background: qlineargradient(x1:0,y1:0,x2:1,y2:0,stop:0 rgba(15,90,110,0.72),stop:1 rgba(20,60,120,0.82)); border: 1px solid rgba(70,220,240,0.52); border-radius: 10px; font-weight: 800; }
+QPushButton#torFetchBridgesButton:hover { background: qlineargradient(x1:0,y1:0,x2:1,y2:0,stop:0 rgba(20,120,140,0.85),stop:1 rgba(30,90,170,0.88)); border-color: #6effe8; color: #ffffff; }
+QPushButton#torFetchBridgesButton:disabled { color: #6f8fa0; background: rgba(10,30,55,0.7); border-color: rgba(70,130,160,0.3); }
+QLabel#torBootstrapBadge[state="ready"] { color: #d0f6ff; background: rgba(20,90,110,0.62); border-color: rgba(70,220,240,0.62); }
+
+QLabel#torFlagLabel { background: rgba(5,22,42,0.75); border: 1px solid rgba(140,90,255,0.38); border-radius: 5px; }
 """
 for _name, _value in sorted(COLOR_TOKENS.items(), key=lambda item: -len(item[0])):
     STYLE = STYLE.replace(f"${_name}", _value)

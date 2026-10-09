@@ -9,11 +9,8 @@ Public API
 TorManager            - owns a Tor process, exposes SOCKS5 endpoint
 TorBridge             - dataclass for one parsed bridge line
 parse_bridge_line()   - parse "webtunnel host:port FP url=..." lines
-default_webtunnel_bridges() - built-in bridges for Iran operators
+default_webtunnel_bridges() - built-in bridges (empty, see docstring)
 TorError              - raised on start/control failures
-
-The manager is Windows-first; the same code works on Linux/macOS if
-the Tor Expert Bundle layout is preserved under ``bin/tor/``.
 """
 
 from __future__ import annotations
@@ -50,25 +47,89 @@ DEFAULT_SOCKS_PORT = 9150
 DEFAULT_CONTROL_PORT = 9151
 DEFAULT_DNS_PORT = 9153
 
-START_TIMEOUT_S = 60.0
+# Timeouts
+SOCKS_TIMEOUT_S = 20.0            # how long to wait for SOCKS listener
+BOOTSTRAP_TIMEOUT_S = 120.0       # how long to wait for full bootstrap
+EXIT_IP_TIMEOUT_S = 15.0          # how long to wait for exit IP lookup
+
 BOOTSTRAP_RE = re.compile(r"Bootstrapped\s+(\d+)%")
 COUNTRY_RE = re.compile(r"^[A-Za-z]{2}$")
 
-# Known pluggable transport client executables shipped with Tor Browser.
+# Known pluggable transport client executables.
+# Modern Tor (0.4.8+) ships a single lyrebird.exe that handles webtunnel,
+# obfs4, snowflake and meek_lite in one process.
 TRANSPORT_BINARIES = {
-    # Modern Tor uses lyrebird (renamed obfs4proxy) which handles
-    # obfs4, meek_lite, snowflake and webtunnel in a single binary.
     "webtunnel": "lyrebird.exe",
     "obfs4": "lyrebird.exe",
     "snowflake": "lyrebird.exe",
     "meek_lite": "lyrebird.exe",
-    # Legacy: dedicated binaries for older Tor bundles.
-    "_legacy_webtunnel": "webtunnel-client.exe",
-    "_legacy_obfs4": "obfs4proxy.exe",
-    "_legacy_snowflake": "snowflake-client.exe",
-    "_legacy_meek_lite": "meek-client.exe",
 }
 
+# Legacy per-transport clients shipped with older Tor bundles.
+LEGACY_TRANSPORT_BINARIES = {
+    "webtunnel": "webtunnel-client.exe",
+    "obfs4": "obfs4proxy.exe",
+    "snowflake": "snowflake-client.exe",
+    "meek_lite": "meek-client.exe",
+}
+
+def fetch_webtunnel_bridges(
+    country: str = "",
+    timeout: float = 30.0,
+) -> list[str]:
+    """Fetch fresh WebTunnel bridges from the Tor Project moat API.
+
+    Returns a list of validated bridge line strings.
+    Raises TorError on network or parsing failures.
+    """
+    import requests
+
+    url = "https://bridges.torproject.org/moat/circumvention/settings"
+    payload = {
+        "country": (country or "ir").lower()[:2],
+        "transport": "webtunnel",
+    }
+    headers = {
+        "Content-Type": "application/vnd.api+json",
+        "Accept": "application/vnd.api+json",
+        "User-Agent": "UAC-Spoofer-Desktop/Tor",
+    }
+    try:
+        response = requests.post(
+            url, json=payload, headers=headers, timeout=timeout
+        )
+    except requests.RequestException as exc:
+        raise TorError(f"BridgeDB unreachable: {exc}") from exc
+
+    if response.status_code != 200:
+        raise TorError(f"BridgeDB returned HTTP {response.status_code}")
+
+    try:
+        data = response.json()
+    except (ValueError, TypeError) as exc:
+        raise TorError(f"BridgeDB returned malformed JSON: {exc}") from exc
+
+    bridges: list[str] = []
+    for setting in (data.get("settings") or []):
+        if not isinstance(setting, dict):
+            continue
+        bridge_set = setting.get("bridges")
+        if not isinstance(bridge_set, dict):
+            continue
+        kind = str(bridge_set.get("type") or "").lower()
+        if kind != "webtunnel":
+            continue
+        for raw in (bridge_set.get("bridge_strings") or []):
+            line = str(raw).strip()
+            if line and parse_bridge_line(line) is not None:
+                bridges.append(line)
+
+    if not bridges:
+        raise TorError(
+            "BridgeDB returned no WebTunnel bridges. "
+            "Try again later, or use the email / Telegram methods."
+        )
+    return bridges
 
 class TorError(RuntimeError):
     """Raised when Tor fails to start, bootstrap or accept a control command."""
@@ -147,24 +208,19 @@ def parse_bridge_line(line: str) -> TorBridge | None:
 
 
 def default_webtunnel_bridges() -> list[TorBridge]:
-    """Return the built-in WebTunnel bridges used as a fallback.
+    """Return built-in WebTunnel bridges.
 
-    These are the bridges published by Tor Project's BridgeDB for
-    restricted environments. Replace them with your own bridge lines
-    for maximum reliability inside Iran.
+    IMPORTANT: WebTunnel bridges are short-lived and country-specific.
+    There is NO useful set of defaults we could ship - any cached list
+    would be stale within days. The user must fetch fresh bridges from
+    https://bridges.torproject.org/ (choose "WebTunnel" transport) and
+    paste them into Tor Settings inside the app.
+
+    This function exists so callers can safely fall back to an empty
+    list rather than crash, and so the error path can point the user
+    at the correct URL.
     """
-    raw_lines = (
-        # Placeholder lines - replace with fresh bridges from
-        # https://bridges.torproject.org/ (webtunnel, IPv4/IPv6)
-        "webtunnel [2001:db8:aaaa::1]:443 "
-        "0123456789ABCDEF0123456789ABCDEF01234567 "
-        "url=https://bridge.example.org/very-secret-path",
-        "webtunnel 192.0.2.10:443 "
-        "89ABCDEF0123456789ABCDEF0123456789ABCDEF "
-        "url=https://cdn.example.net/tunnel-entry",
-    )
-    parsed = [parse_bridge_line(line) for line in raw_lines]
-    return [bridge for bridge in parsed if bridge is not None]
+    return []
 
 
 class TorManager:
@@ -206,6 +262,7 @@ class TorManager:
         self._exit_country = ""
         self._bridges: list[TorBridge] = []
         self._pluggable_transports: dict[str, str] = {}
+        self._last_bootstrap_line = ""
 
     # ------------------------------------------------------------------
     # Read-only properties
@@ -243,6 +300,7 @@ class TorManager:
                 "into the project's bin/tor/ directory."
             )
         return path
+
     def _discover_pluggable_transports(self) -> dict[str, str]:
         """Return a mapping of transport-kind -> client executable path.
 
@@ -255,22 +313,20 @@ class TorManager:
         # Modern unified binary
         unified = transports_dir / "lyrebird.exe"
         if unified.is_file():
-            for kind in ("webtunnel", "obfs4", "snowflake", "meek_lite"):
+            for kind in TRANSPORT_BINARIES:
                 found[kind] = str(unified)
+            self.log("TOR transports: lyrebird.exe (webtunnel/obfs4/snowflake/meek_lite)")
             return found
 
         # Legacy per-transport binaries
-        legacy_map = {
-            "webtunnel": "webtunnel-client.exe",
-            "obfs4": "obfs4proxy.exe",
-            "snowflake": "snowflake-client.exe",
-            "meek_lite": "meek-client.exe",
-        }
-        for kind, filename in legacy_map.items():
+        for kind, filename in LEGACY_TRANSPORT_BINARIES.items():
             candidate = transports_dir / filename
             if candidate.is_file():
                 found[kind] = str(candidate)
+        if found:
+            self.log("TOR transports: legacy clients " + ", ".join(sorted(found)))
         return found
+
     # ------------------------------------------------------------------
     # torrc generation
     # ------------------------------------------------------------------
@@ -286,14 +342,20 @@ class TorManager:
             f"ControlPort {DEFAULT_SOCKS_HOST}:{self.control_port}",
             "CookieAuthentication 1",
             f"DataDirectory {data_dir}",
-            "Log notice file "
-            + str(data_dir / "notices.log"),
+            "Log notice file " + str(data_dir / "notices.log"),
             "Log notice stdout",
             "AvoidDiskWrites 1",
             "ClientOnly 1",
-            "GeoIPFile " + str(self.bundle_dir / "geoip"),
-            "GeoIPv6File " + str(self.bundle_dir / "geoip6"),
         ]
+        # Modern Tor embeds GeoIP data inside tor.exe, but older bundles
+        # ship it as separate files. Only reference them if present.
+        geoip = self.bundle_dir / "geoip"
+        geoip6 = self.bundle_dir / "geoip6"
+        if geoip.is_file():
+            lines.append("GeoIPFile " + str(geoip))
+        if geoip6.is_file():
+            lines.append("GeoIPv6File " + str(geoip6))
+
         # WebTunnel / obfs4 / snowflake client registration
         registered: set[str] = set()
         for bridge in bridges:
@@ -303,16 +365,19 @@ class TorManager:
                     f"{self._pluggable_transports[bridge.kind]}"
                 )
                 registered.add(bridge.kind)
+
         if bridges:
             lines.append("UseBridges 1")
             for bridge in bridges:
                 lines.append(bridge.to_torrc())
+
         if exit_country:
             code = exit_country.lower()
             if not COUNTRY_RE.fullmatch(code):
                 raise TorError(f"Invalid exit country code: {exit_country!r}")
             lines.append(f"ExitNodes {{{code}}}")
             lines.append("StrictNodes 1")
+
         torrc = data_dir / "torrc"
         torrc.write_text("\n".join(lines) + "\n", encoding="utf-8")
         return torrc
@@ -331,11 +396,12 @@ class TorManager:
             match = BOOTSTRAP_RE.search(text)
             if match:
                 self._bootstrap = int(match.group(1))
+                self._last_bootstrap_line = text
             self.log("TOR " + text)
             if self._stop_event.is_set():
                 break
 
-    def _wait_for_socks(self, timeout: float = START_TIMEOUT_S) -> bool:
+    def _wait_for_socks(self, timeout: float = SOCKS_TIMEOUT_S) -> bool:
         deadline = time.monotonic() + timeout
         while time.monotonic() < deadline:
             if self._stop_event.is_set():
@@ -354,24 +420,111 @@ class TorManager:
                 time.sleep(0.15)
         return False
 
+    def _wait_for_bootstrap(self, timeout: float = BOOTSTRAP_TIMEOUT_S) -> bool:
+        """Wait until Tor reports 'Bootstrapped 100%' or times out.
+
+        Modern Tor first opens SOCKS/Control listeners and THEN bootstraps
+        through the bridge. We must wait for full bootstrap before trying
+        to route any traffic - otherwise exit IP lookups fail with
+        ConnectTimeout.
+        """
+        deadline = time.monotonic() + timeout
+        last_reported = -1
+        while time.monotonic() < deadline:
+            if self._stop_event.is_set():
+                return False
+            if self._process is not None and self._process.poll() is not None:
+                return False
+            current = self._bootstrap
+            if current >= 100:
+                return True
+            if current != last_reported:
+                self.log(f"TOR bootstrap {current}%")
+                last_reported = current
+            time.sleep(0.25)
+        return False
+
+    def _kill_stale_tor(self) -> int:
+        """Terminate leftover tor.exe holding our SOCKS/Control ports.
+
+        A crash or Ctrl+C in tools/test_tor.py can leave Tor running.
+        Without this check, every subsequent start() fails with
+        'Address already in use'.
+        """
+        if sys.platform != "win32":
+            return 0
+        try:
+            import psutil
+        except ImportError:
+            return 0
+
+        current_pid = os.getpid()
+        try:
+            target_binary = self._tor_binary().resolve()
+        except Exception:
+            target_binary = None
+
+        killed = 0
+        for process in psutil.process_iter(["pid", "name", "exe"]):
+            try:
+                info = process.info
+                if int(info.get("pid", -1)) == current_pid:
+                    continue
+                if str(info.get("name") or "").lower() != "tor.exe":
+                    continue
+                exe_path = info.get("exe")
+                if target_binary is not None and exe_path:
+                    try:
+                        if Path(exe_path).resolve() != target_binary:
+                            continue
+                    except (OSError, ValueError):
+                        pass
+                self.log(f"TOR killing stale tor.exe pid={info.get('pid')}")
+                self._force_kill_process(process)
+                killed += 1
+            except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.Error):
+                continue
+        if killed:
+            self.log(f"TOR cleaned up {killed} stale process(es)")
+            time.sleep(0.5)
+        return killed
+
+    @staticmethod
+    def _force_kill_process(process) -> None:
+        """Terminate, then forcibly kill if needed."""
+        try:
+            process.terminate()
+            try:
+                process.wait(timeout=2)
+                return
+            except Exception:
+                pass
+        except Exception:
+            pass
+        # Fallback to taskkill on Windows for stubborn processes
+        if sys.platform == "win32":
+            try:
+                subprocess.run(
+                    ["taskkill", "/F", "/T", "/PID", str(process.pid)],
+                    capture_output=True,
+                    timeout=5,
+                    creationflags=subprocess.CREATE_NO_WINDOW,
+                )
+                return
+            except Exception:
+                pass
+        try:
+            process.kill()
+        except Exception:
+            pass
+    
     def _connect_controller(self) -> "Controller":
         if not _STEM_AVAILABLE:
-            raise TorError(
-                "stem is not installed. Run: pip install stem"
-            )
-        cookie_path = self._data_dir / "control_auth_cookie" if self._data_dir else None
+            raise TorError("stem is not installed. Run: pip install stem")
         controller = Controller.from_port(
             address=DEFAULT_SOCKS_HOST, port=self.control_port
         )
-        if cookie_path and cookie_path.is_file():
-            try:
-                controller.authenticate()
-            except (_StemProtocolError, _StemSocketError, OSError):
-                controller.authenticate()
-        else:
-            # Password-less or cookie auth; Tor writes the cookie when
-            # CookieAuthentication is on.
-            controller.authenticate()
+        controller.authenticate()
         return controller
 
     # ------------------------------------------------------------------
@@ -385,30 +538,41 @@ class TorManager:
         with self._lock:
             if self.running:
                 return
+
             parsed: list[TorBridge] = []
-            for item in bridges or default_webtunnel_bridges():
+            raw_bridges = list(bridges) if bridges else default_webtunnel_bridges()
+            for item in raw_bridges:
                 bridge = item if isinstance(item, TorBridge) else parse_bridge_line(item)
                 if bridge is not None:
                     parsed.append(bridge)
             if not parsed:
-                raise TorError("Tor start requires at least one valid bridge line")
+                raise TorError(
+                    "No valid Tor bridges configured.\n\n"
+                    "Get fresh WebTunnel bridges from:\n"
+                    "  https://bridges.torproject.org/\n\n"
+                    "Choose the 'WebTunnel' transport, copy the lines, "
+                    "then open Tor Settings in the app and paste them "
+                    "(one bridge per line)."
+                )
+
             self._bridges = parsed
             self._stop_event.clear()
             self._bootstrap = 0
+            self._last_bootstrap_line = ""
 
+            self._kill_stale_tor()
             data_dir = Path(tempfile.mkdtemp(prefix="uac-tor-"))
             self._data_dir = data_dir
             torrc = self._write_torrc(parsed, exit_country, data_dir)
             self._torrc_path = torrc
 
-            creation = (
-                subprocess.CREATE_NO_WINDOW if sys.platform == "win32" else 0
-            )
+            creation = subprocess.CREATE_NO_WINDOW if sys.platform == "win32" else 0
             binary = self._tor_binary()
             self.log(
                 f"TOR starting bundle={binary} bridges={len(parsed)} "
                 f"exit={exit_country or 'auto'}"
             )
+
             self._process = subprocess.Popen(
                 [str(binary), "-f", str(torrc)],
                 cwd=str(self.bundle_dir),
@@ -424,17 +588,38 @@ class TorManager:
             )
             self._log_thread.start()
 
+            # ---- Step 1: wait for SOCKS listener ----
             if not self._wait_for_socks():
                 self.stop()
                 raise TorError("Tor did not open its SOCKS port in time")
+
+            # ---- Step 2: connect to ControlPort ----
             try:
                 self._controller = self._connect_controller()
             except Exception as exc:
                 self.stop()
                 raise TorError(f"Tor ControlPort authentication failed: {exc}") from exc
 
+            # ---- Step 3: wait for full bootstrap ----
+            self.log("TOR waiting for bootstrap...")
+            if not self._wait_for_bootstrap():
+                # Kill it and report the last known state
+                last = self._last_bootstrap_line or f"{self._bootstrap}%"
+                self.stop()
+                raise TorError(
+                    "Tor failed to bootstrap through the bridge.\n\n"
+                    f"Last status: {last}\n\n"
+                    "The bridge may be stale or unreachable. Get a fresh "
+                    "WebTunnel bridge from https://bridges.torproject.org/"
+                )
+
+            # ---- Step 4: apply exit country if requested ----
             if exit_country:
-                self.set_exit_country(exit_country)
+                try:
+                    self.set_exit_country(exit_country)
+                except Exception as exc:
+                    self.log(f"TOR exit country could not be set: {exc}")
+
             self._exit_country = exit_country.lower()
             self.log(
                 f"TOR ready socks={DEFAULT_SOCKS_HOST}:{self.socks_port} "
@@ -455,14 +640,19 @@ class TorManager:
             self._process = None
             if process is not None and process.poll() is None:
                 try:
-                    process.terminate()
-                    process.wait(timeout=3)
-                except subprocess.TimeoutExpired:
-                    process.kill()
+                    import psutil
+                    wrapper = psutil.Process(process.pid)
+                    TorManager._force_kill_process(wrapper)
+                except Exception:
                     try:
-                        process.wait(timeout=1)
+                        process.terminate()
+                        process.wait(timeout=3)
                     except subprocess.TimeoutExpired:
-                        pass
+                        try:
+                            process.kill()
+                            process.wait(timeout=1)
+                        except subprocess.TimeoutExpired:
+                            pass
             thread = self._log_thread
             self._log_thread = None
             if thread is not None and thread is not threading.current_thread():
@@ -519,7 +709,7 @@ class TorManager:
             raise TorError(f"NEWNYM failed: {exc}") from exc
         self.log("TOR NEWNYM requested")
 
-    def current_exit_ip(self) -> str:
+    def current_exit_ip(self, timeout: float = EXIT_IP_TIMEOUT_S) -> str:
         """Query the exit relay's IP through the SOCKS proxy.
 
         Uses Tor's own ``check.torproject.org`` endpoint so the answer
@@ -539,7 +729,7 @@ class TorManager:
             response = session.get(
                 "https://check.torproject.org/api/ip",
                 proxies=proxies,
-                timeout=8,
+                timeout=timeout,
                 headers={"User-Agent": "UAC-Spoofer-Desktop/Tor"},
             )
             value = response.json()
@@ -560,4 +750,5 @@ __all__ = [
     "TorManager",
     "default_webtunnel_bridges",
     "parse_bridge_line",
+    "fetch_webtunnel_bridges",
 ]
